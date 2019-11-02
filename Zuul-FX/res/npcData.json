@@ -1,0 +1,9 @@
+{
+	"Barry" : {
+		"location" : "entrance",
+		"validItem" : "notebook",
+		"dialogOptions" : ["Hi Barry, how are you?", "Would you like a notebook?", "What's the meaning of life?"],
+		"dialogResponses" : ["I'm great, thanks for asking!", "I would love one!", "42"],
+		"movementPath" : ["lecture", "pub", "entrance"]
+	}
+}

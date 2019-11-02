@@ -7,6 +7,7 @@
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.SeparatorMenuItem?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
@@ -55,31 +56,56 @@
         </Menu>
       </menus>
     </MenuBar>
-      <TextField id="game-text" prefHeight="394.0" prefWidth="900.0" />
-      <TextField id="sentence-builder" alignment="CENTER" layoutX="10.0" layoutY="39.0" prefHeight="40.0" prefWidth="900.0" text="Give Something Barry" />
+      <TextArea fx:id="gameText" prefHeight="481.0" prefWidth="900.0" />
+      <TextField id="sentence-builder" alignment="CENTER" layoutX="10.0" layoutY="39.0" prefHeight="40.0" prefWidth="900.0" text="Hello" />
       <HBox alignment="TOP_CENTER" prefHeight="100.0" prefWidth="200.0">
          <children>
-            <Button mnemonicParsing="false" text="Go" textAlignment="CENTER">
+            <Button id="go" fx:id="buttonStart" mnemonicParsing="false" onMouseClicked="#startClicked" text="Start" textAlignment="CENTER">
                <font>
                   <Font size="18.0" />
                </font>
             </Button>
-            <Button layoutX="10.0" layoutY="10.0" mnemonicParsing="false" text="Look" textAlignment="CENTER">
+            <Button id="west" fx:id="buttonGoWest" mnemonicParsing="false" onMouseClicked="#goClicked" text="West" textAlignment="CENTER">
                <font>
                   <Font size="18.0" />
                </font>
             </Button>
-            <Button layoutX="10.0" layoutY="10.0" mnemonicParsing="false" text="Take" textAlignment="CENTER">
+            <Button id="east" fx:id="buttonGoEast" mnemonicParsing="false" onMouseClicked="#goClicked" text="East" textAlignment="CENTER">
                <font>
                   <Font size="18.0" />
                </font>
             </Button>
-            <Button layoutX="10.0" layoutY="10.0" mnemonicParsing="false" text="Drop" textAlignment="CENTER">
+            <Button id="north" fx:id="buttonGoNorth" mnemonicParsing="false" onMouseClicked="#goClicked" text="North" textAlignment="CENTER">
                <font>
                   <Font size="18.0" />
                </font>
             </Button>
-            <Button layoutX="10.0" layoutY="10.0" mnemonicParsing="false" text="Give" textAlignment="CENTER">
+            <Button id="south" fx:id="buttonGoSouth" mnemonicParsing="false" onMouseClicked="#goClicked" text="South" textAlignment="CENTER">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Button>
+            <Button fx:id="buttonLook" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onMouseClicked="#lookClicked" text="Look" textAlignment="CENTER">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Button>
+            <Button fx:id="buttonTake" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" text="Take" textAlignment="CENTER">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Button>
+            <Button fx:id="buttonDrop" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" text="Drop" textAlignment="CENTER">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Button>
+            <Button fx:id="buttonGive" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" text="Give" textAlignment="CENTER">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Button>
+            <Button fx:id="buttonLook1" layoutX="360.0" layoutY="10.0" mnemonicParsing="false" onMouseClicked="#lookClicked" text="Look" textAlignment="CENTER">
                <font>
                   <Font size="18.0" />
                </font>
