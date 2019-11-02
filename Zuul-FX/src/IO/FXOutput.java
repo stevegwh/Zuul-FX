@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
 import javafx.scene.input.MouseEvent;
 import zuul.GameController;
@@ -15,6 +16,8 @@ public class FXOutput implements Output {
 
 	@FXML
 	private TextArea gameText;
+	@FXML
+	private ListView<String> inventory;
 	@FXML
 	private Button buttonGoWest;
 	@FXML
@@ -40,6 +43,8 @@ public class FXOutput implements Output {
 	public void startClicked() {
 		GameController.start();
 		setDirectionButtons();
+		gameText.setDisable(true);
+		gameText.setStyle("-fx-opacity: 1;");
 	}
 	
 	public void lookClicked() {
