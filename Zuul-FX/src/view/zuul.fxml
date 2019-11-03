@@ -60,7 +60,7 @@
       <HBox prefHeight="567.0" prefWidth="900.0">
          <children>
             <TextArea fx:id="gameText" prefHeight="100.0" prefWidth="726.0" />
-            <ListView id="inventory" prefHeight="200.0" prefWidth="200.0" />
+            <ListView id="inventory" fx:id="inventory" onMouseClicked="#inventoryClicked" prefHeight="200.0" prefWidth="200.0" />
          </children>
       </HBox>
       <TextField id="sentence-builder" alignment="CENTER" layoutX="10.0" layoutY="39.0" prefHeight="0.0" prefWidth="900.0" text="Hello" />
@@ -96,22 +96,17 @@
                   <Font size="18.0" />
                </font>
             </Button>
-            <Button fx:id="buttonTake" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" text="Take" textAlignment="CENTER">
+            <Button fx:id="buttonTake" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onMouseClicked="#takeClicked" text="Take" textAlignment="CENTER">
                <font>
                   <Font size="18.0" />
                </font>
             </Button>
-            <Button fx:id="buttonDrop" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" text="Drop" textAlignment="CENTER">
+            <Button fx:id="buttonDrop" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onMouseClicked="#dropClicked" text="Drop" textAlignment="CENTER">
                <font>
                   <Font size="18.0" />
                </font>
             </Button>
             <Button fx:id="buttonGive" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" text="Give" textAlignment="CENTER">
-               <font>
-                  <Font size="18.0" />
-               </font>
-            </Button>
-            <Button fx:id="buttonLook1" layoutX="360.0" layoutY="10.0" mnemonicParsing="false" onMouseClicked="#lookClicked" text="Look" textAlignment="CENTER">
                <font>
                   <Font size="18.0" />
                </font>

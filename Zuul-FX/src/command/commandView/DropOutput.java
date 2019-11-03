@@ -3,6 +3,7 @@ package command.commandView;
 import IO.IOHandler;
 import command.ICommandOutput;
 import command.commandController.DropController;
+import zuul.GameController;
 
 public class DropOutput extends DropController implements ICommandOutput {
 	public void init(String[] inputArray) {
@@ -13,6 +14,8 @@ public class DropOutput extends DropController implements ICommandOutput {
 		}
 		if (execute(inputArray)) {
 			IOHandler.output.println("You dropped " + toDrop);
+			IOHandler.output.removeInvItem(toDrop);
+//			GameController.getCurrentPlayer().getInvModel().setLastEdited();
 		}
 	}
 

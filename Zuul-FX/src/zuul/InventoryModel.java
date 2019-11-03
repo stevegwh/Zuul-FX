@@ -1,11 +1,18 @@
 package zuul;
 
+//import java.time.Instant;
 import java.util.ArrayList;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import zuulutils.EditLogArrayList;
+
 public class InventoryModel {
+//	private long lastEdited;
 	private int totalWeight;
 	private final int WEIGHT_LIMIT = 10;
-	private ArrayList<TakeableItem> inventory = new ArrayList<TakeableItem>();
+//	private ArrayList<TakeableItem> inventory = new ArrayList<TakeableItem>();
+	private EditLogArrayList<TakeableItem> inventory = new EditLogArrayList<>();
 
 	public int getWeight() {
 		return totalWeight;
@@ -14,10 +21,27 @@ public class InventoryModel {
 	public void setWeight(int weight) {
 		totalWeight += weight;
 	}
+	
+//	public long getLastEdited() {
+//		return lastEdited;
+//	}
+//	
+//	public void setLastEdited() {
+//		lastEdited = Instant.now().getEpochSecond();
+//	}
 
-	@SuppressWarnings("unchecked")
-	public ArrayList<TakeableItem> getInventory() {
-		return (ArrayList<TakeableItem>) inventory.clone();
+	public EditLogArrayList<TakeableItem> getInventory() {
+		// TODO: unsafe. Can be edited when you don't want it.
+		return inventory;
+	}
+	
+	/**
+	 * @return a list of all the names of the items in the inventory.
+	 */
+	public ObservableList<String> getInventoryStrings() {
+		ObservableList<String> observableInvList = FXCollections.observableArrayList();
+		inventory.forEach(e -> observableInvList.add(e.getName()));
+		return observableInvList;
 	}
 
 	public void addItem(TakeableItem item) {

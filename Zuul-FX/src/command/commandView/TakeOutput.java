@@ -3,6 +3,7 @@ package command.commandView;
 import IO.IOHandler;
 import command.ICommandOutput;
 import command.commandController.TakeController;
+import zuul.GameController;
 
 public class TakeOutput extends TakeController implements ICommandOutput {
 	public void init(String[] inputArray) {
@@ -13,6 +14,8 @@ public class TakeOutput extends TakeController implements ICommandOutput {
 		}
 		if (super.execute(inputArray)) {
 			IOHandler.output.println("You picked up " + toTake);
+//			IOHandler.output.addInvItem(toTake);
+//			GameController.getCurrentPlayer().getInvModel().setLastEdited();
 		}
 	}
 }
