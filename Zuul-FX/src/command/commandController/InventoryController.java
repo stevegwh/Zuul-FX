@@ -1,10 +1,9 @@
 package command.commandController;
 
-import java.util.ArrayList;
-
 import command.CommandController;
 import zuul.GameController;
 import zuul.TakeableItem;
+import zuulutils.EditLogArrayList;
 
 /**
  * Prints the active player's inventory.
@@ -13,7 +12,7 @@ import zuul.TakeableItem;
  *
  */
 public class InventoryController extends CommandController {
-	protected ArrayList<TakeableItem> inventory = new ArrayList<>();
+	protected EditLogArrayList<TakeableItem> inventory = new EditLogArrayList<>();
 	private int COMMAND_LENGTH = 1;
 
 	protected String validateUserInput(String[] inputArray) {
