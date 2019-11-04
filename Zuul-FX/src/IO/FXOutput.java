@@ -2,6 +2,7 @@ package IO;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.stream.Collectors;
 
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
@@ -20,7 +21,6 @@ public class FXOutput implements Output {
 	private CommandHandler commandHandler;
 	private boolean takeClicked = false;
 	private boolean dropClicked = true;
-	private long invLastEdited = 0;
 	private HashMap<String, Long> lastEdited = new HashMap<>();
 
 	@FXML
@@ -51,21 +51,16 @@ public class FXOutput implements Output {
 	 * Updates the view if things have changed
 	 */
 	public void updateView() {
-		if (lastEdited.get("inventory") < GameController.getCurrentPlayer().getInvModel().getInventory().getLastEdit()) {
+		long lastEdit = GameController.getCurrentPlayer().getInvModel().getInventory().getLastEdit();
+		System.out.println("Array: " + lastEdit);
+		System.out.println("View: " + lastEdited.get("inventory"));
+		if (lastEdited.get("inventory") < lastEdit) {
 			ObservableList<String> arr = FXCollections.observableArrayList();
 			GameController.getCurrentPlayer().getInvModel().getInventory().forEach(e -> arr.add(e.getName()));
 			inventory.getItems().removeAll();
 			inventory.setItems(arr);
-			invLastEdited = GameController.getCurrentPlayer().getInvModel().getInventory().getLastEdit();
+			lastEdited.put("inventory", lastEdit);
 		}
-	}
-
-	public void removeInvItem(String toRemove) {
-		inventory.getItems().remove(toRemove);
-	}
-
-	public void addInvItem(String toAdd) {
-		inventory.getItems().add(toAdd);
 	}
 
 	public void startClicked() {
@@ -78,8 +73,8 @@ public class FXOutput implements Output {
 
 	public void inventoryClicked() {
 		if (dropClicked) {
-			String t1 = (String) inventory.getSelectionModel().getSelectedItem();
-			commandHandler.handleCommand(new String[] { "Drop", t1 });
+			String toDrop = (String) inventory.getSelectionModel().getSelectedItem();
+			commandHandler.handleCommand(new String[] { "Drop", toDrop });
 			updateView();
 			dropClicked = false;
 		}
@@ -103,7 +98,7 @@ public class FXOutput implements Output {
 		Platform.runLater(() -> commandHandler.handleCommand(new String[] { "Go", direction }));
 		Platform.runLater(() -> setDirectionButtons());
 	}
-	
+
 	public void init() {
 		GameController.start();
 		setDirectionButtons();
@@ -137,8 +132,8 @@ public class FXOutput implements Output {
 
 	@Override
 	public void printError(String error) {
-		Alert a = new Alert(AlertType.ERROR); 
-		a.setContentText(error); 
+		Alert a = new Alert(AlertType.ERROR);
+		a.setContentText(error);
 		a.show();
 
 	}

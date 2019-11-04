@@ -32,6 +32,11 @@ public class EditLogArrayList<E> extends ArrayList<E> {
 		return super.remove(index);
 	}
 
+	@Override
+    public boolean remove(Object o) {
+		lastEdit = Instant.now().getEpochSecond();
+    	return super.remove(o);
+    }
 	/**
 	 * @return the time this array was last edited in unix time.
 	 */
