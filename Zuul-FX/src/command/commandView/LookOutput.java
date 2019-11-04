@@ -18,7 +18,6 @@ public class LookOutput extends LookController implements ICommandOutput {
 
 	public void init(String[] inputArray) {
 		if (super.execute(inputArray)) {
-			IOHandler.output.println("---------");
 			IOHandler.output.println(description);
 			IOHandler.output.printf("People in room: ");
 			actors.forEach((e) -> IOHandler.output.printf((String) e + ", "));
@@ -31,10 +30,6 @@ public class LookOutput extends LookController implements ICommandOutput {
 				IOHandler.output.printf("No items in room");
 			}
 			IOHandler.output.println(" ");
-			IOHandler.output.printf("Exits: ");
-			exits.forEach((k) -> IOHandler.output.printf(ZuulTools.capitalize((String) k) + ", "));
-			IOHandler.output.println(" ");
-			IOHandler.output.println("---------");
 		}
 	}
 }

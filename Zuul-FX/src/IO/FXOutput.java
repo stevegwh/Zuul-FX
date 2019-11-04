@@ -7,6 +7,8 @@ import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
@@ -83,6 +85,7 @@ public class FXOutput implements Output {
 		}
 	}
 
+	// TODO: Need to select an item. Not hard code to sword.
 	public void takeClicked() {
 		String toTake = "sword";
 		commandHandler.handleCommand(new String[] { "Take", toTake });
@@ -134,7 +137,9 @@ public class FXOutput implements Output {
 
 	@Override
 	public void printError(String error) {
-		gameText.setText(error);
+		Alert a = new Alert(AlertType.ERROR); 
+		a.setContentText(error); 
+		a.show();
 
 	}
 

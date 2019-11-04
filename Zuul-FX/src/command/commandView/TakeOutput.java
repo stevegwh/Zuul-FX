@@ -14,8 +14,6 @@ public class TakeOutput extends TakeController implements ICommandOutput {
 		}
 		if (super.execute(inputArray)) {
 			IOHandler.output.println("You picked up " + toTake);
-//			IOHandler.output.addInvItem(toTake);
-//			GameController.getCurrentPlayer().getInvModel().setLastEdited();
 		}
 	}
 }
