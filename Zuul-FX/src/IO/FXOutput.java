@@ -19,7 +19,7 @@ import zuul.CommandHandler;
 public class FXOutput implements Output {
 	private CommandHandler commandHandler;
 	private boolean takeClicked = false;
-	private boolean dropClicked = true;
+	private boolean dropClicked = false;
 	private HashMap<String, Long> lastEdited = new HashMap<>();
 
 	@FXML
@@ -49,14 +49,14 @@ public class FXOutput implements Output {
 	 * Updates the view if things have changed
 	 */
 	public void updateView() {
-		if (lastEdited.get("inventory") < GameController.getCurrentPlayer().getInvModel().getInventory().getLastEdit()) {
-			ObservableList<String> arr = FXCollections.observableArrayList();
-			GameController.getCurrentPlayer().getInvModel().getInventory().forEach(e -> arr.add(e.getName()));
-			inventory.getItems().removeAll();
-			inventory.setItems(arr);
-			lastEdited.put("inventory", GameController.getCurrentPlayer().getInvModel().getInventory().getLastEdit());
-		} else if (lastEdited.get("itemsInRoom") < GameController.getCurrentRoom().getTakeableItems().getLastEdit()) {
-		}
+		ObservableList<String> arr = FXCollections.observableArrayList();
+		GameController.getCurrentPlayer().getInvModel().getInventory().forEach(e -> arr.add(e.getName()));
+		inventory.getItems().removeAll();
+		inventory.setItems(arr);
+		ObservableList<String> arr1 = FXCollections.observableArrayList();
+		GameController.getCurrentRoom().getTakeableItems().forEach(e -> arr1.add(e.getName()));
+		itemsInRoom.getItems().removeAll();
+		itemsInRoom.setItems(arr1);
 	}
 
 	public void startClicked() {
@@ -76,11 +76,17 @@ public class FXOutput implements Output {
 		}
 	}
 
-	// TODO: Need to select an item. Not hard code to sword.
+	public void itemsClicked() {
+		if (takeClicked) {
+			String toTake = (String) itemsInRoom.getSelectionModel().getSelectedItem();
+			commandHandler.handleCommand(new String[] { "Take", toTake });
+			updateView();
+			takeClicked = false;
+		}
+	}
+
 	public void takeClicked() {
-		String toTake = "sword";
-		commandHandler.handleCommand(new String[] { "Take", toTake });
-		updateView();
+		takeClicked = true;
 	}
 
 	public void dropClicked() {
@@ -93,6 +99,7 @@ public class FXOutput implements Output {
 		gameText.setText("");
 		Platform.runLater(() -> commandHandler.handleCommand(new String[] { "Go", direction }));
 		Platform.runLater(() -> setDirectionButtons());
+		Platform.runLater(() -> updateView());
 	}
 
 	public void init() {
@@ -103,6 +110,7 @@ public class FXOutput implements Output {
 		lastEdited.put("inventory", (long) 0);
 		lastEdited.put("itemsInRoom", (long) 0);
 		lastEdited.put("actorsInRoom", (long) 0);
+		updateView();
 	}
 
 	@Override

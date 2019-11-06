@@ -6,13 +6,12 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import npc.NPC;
-import zuulutils.EditLogArrayList;
 
 public class Room {
 	private String name;
 	private String description;
-	private EditLogArrayList<TakeableItem> takeableItems = new EditLogArrayList<>();
-	private EditLogArrayList<NPC> actorsInRoom = new EditLogArrayList<>();
+	private ArrayList<TakeableItem> takeableItems = new ArrayList<>();
+	private ArrayList<NPC> actorsInRoom = new ArrayList<>();
 	private HashMap<String, String> exits = new HashMap<>();
 
 	public String getDescription() {
@@ -23,19 +22,19 @@ public class Room {
 		this.description = description;
 	}
 
-	public EditLogArrayList<TakeableItem> getTakeableItems() {
+	public ArrayList<TakeableItem> getTakeableItems() {
 		return takeableItems;
 	}
 
-	public void setTakeableItems(EditLogArrayList<TakeableItem> takeableItems) {
+	public void setTakeableItems(ArrayList<TakeableItem> takeableItems) {
 		this.takeableItems = takeableItems;
 	}
 
-	public EditLogArrayList<NPC> getActorsInRoom() {
+	public ArrayList<NPC> getActorsInRoom() {
 		return actorsInRoom;
 	}
 
-	public void setActorsInRoom(EditLogArrayList<NPC> actorsInRoom) {
+	public void setActorsInRoom(ArrayList<NPC> actorsInRoom) {
 		this.actorsInRoom = actorsInRoom;
 	}
 

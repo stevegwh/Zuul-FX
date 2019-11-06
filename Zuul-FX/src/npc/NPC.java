@@ -10,7 +10,7 @@ import com.github.cliftonlabs.json_simple.JsonObject;
 
 import IO.IOHandler;
 import command.game.eventOutput.AnnounceEntranceOutput;
-import jsonDataHandler.JSONDataHandler;
+//import jsonDataHandler.JSONDataHandler;
 
 public abstract class NPC {
 	private JsonObject json;

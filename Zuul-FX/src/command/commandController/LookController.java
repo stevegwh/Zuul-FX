@@ -2,11 +2,12 @@ package command.commandController;
 
 
 
+import java.util.ArrayList;
+
 import command.CommandController;
 import npc.NPC;
 import zuul.GameController;
 import zuul.TakeableItem;
-import zuulutils.EditLogArrayList;
 
 /**
  * Prints the description, actors, items and exits of the current room. Called
@@ -17,8 +18,8 @@ import zuulutils.EditLogArrayList;
  */
 public class LookController extends CommandController {
 	protected String description;
-	protected EditLogArrayList<NPC> actors;
-	protected EditLogArrayList<TakeableItem> items;
+	protected ArrayList<NPC> actors;
+	protected ArrayList<TakeableItem> items;
 	private int COMMAND_LENGTH = 1;
 
 	@Override
@@ -35,7 +36,6 @@ public class LookController extends CommandController {
 	public boolean execute(String[] inputArray) {
 		description = GameController.getCurrentRoom().getDescription();
 		actors = GameController.getCurrentRoom().getActorsInRoom();
-		items = GameController.getCurrentRoom().getTakeableItems();
 		return true;
 	}
 

@@ -65,7 +65,7 @@
                   <TextField id="sentence-builder" alignment="CENTER" layoutX="10.0" layoutY="475.0" prefHeight="0.0" prefWidth="900.0" text="Inventory" />
                   <ListView id="inventory" fx:id="inventory" onMouseClicked="#inventoryClicked" prefHeight="200.0" prefWidth="200.0" />
                   <TextField id="sentence-builder" alignment="CENTER" prefHeight="0.0" prefWidth="900.0" text="Items In Room" />
-                  <ListView id="itemsInRoom" fx:id="itemsInRoom" onMouseClicked="#inventoryClicked" prefHeight="200.0" prefWidth="200.0" />
+                  <ListView id="itemsInRoom" fx:id="itemsInRoom" onMouseClicked="#itemsClicked" prefHeight="200.0" prefWidth="200.0" />
                   <TextField id="sentence-builder" alignment="CENTER" layoutX="10.0" layoutY="474.0" prefHeight="0.0" prefWidth="900.0" text="Actors In Room" />
                   <ListView id="actorsInRoom" fx:id="actorsInRoom" onMouseClicked="#inventoryClicked" prefHeight="200.0" prefWidth="200.0" />
                </children>

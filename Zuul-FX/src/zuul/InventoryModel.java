@@ -5,14 +5,13 @@ import java.util.ArrayList;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import zuulutils.EditLogArrayList;
 
 public class InventoryModel {
 //	private long lastEdited;
 	private int totalWeight;
 	private final int WEIGHT_LIMIT = 10;
 //	private ArrayList<TakeableItem> inventory = new ArrayList<TakeableItem>();
-	private EditLogArrayList<TakeableItem> inventory = new EditLogArrayList<>();
+	private ArrayList<TakeableItem> inventory = new ArrayList<>();
 
 	public int getWeight() {
 		return totalWeight;
@@ -30,7 +29,7 @@ public class InventoryModel {
 //		lastEdited = Instant.now().getEpochSecond();
 //	}
 
-	public EditLogArrayList<TakeableItem> getInventory() {
+	public ArrayList<TakeableItem> getInventory() {
 		// TODO: unsafe. Can be edited when you don't want it.
 		return inventory;
 	}
