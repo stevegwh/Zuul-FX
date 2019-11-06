@@ -7,6 +7,7 @@ import com.github.cliftonlabs.json_simple.JsonArray;
 import com.github.cliftonlabs.json_simple.JsonObject;
 
 import jsonDataHandler.JSONDataHandler;
+import zuulutils.EditLogArrayList;
 
 /**
  * Responsible for setting and getting the JsonObject created from roomData.json
@@ -114,6 +115,15 @@ public class RoomModel {
 			return (JsonArray) currentRoomJSON.get("takeableItems");
 		}
 		return null;
+	}
+	
+	public EditLogArrayList<TakeableItem> getTakeableItems2() {
+		JsonArray currentRoomItems = (JsonArray) currentRoomJSON.get("takeableItems");
+		EditLogArrayList<TakeableItem> arr = new EditLogArrayList<>();
+		if (currentRoomItems != null) {
+			currentRoomItems.forEach(e->arr.add((TakeableItem) e));
+		}
+		return arr;
 	}
 
 	/**

@@ -25,7 +25,7 @@ public class FXOutput implements Output {
 	@FXML
 	private TextArea gameText;
 	@FXML
-	private ListView<String> inventory;
+	private ListView<String> inventory, itemsInRoom, actorsInRoom;
 	@FXML
 	private Button buttonGoWest, buttonGoEast, buttonGoSouth, buttonGoNorth;
 
@@ -50,15 +50,13 @@ public class FXOutput implements Output {
 	 * Updates the view if things have changed
 	 */
 	public void updateView() {
-		long lastEdit = GameController.getCurrentPlayer().getInvModel().getInventory().getLastEdit();
-		System.out.println("Array: " + lastEdit);
-		System.out.println("View: " + lastEdited.get("inventory"));
-		if (lastEdited.get("inventory") < lastEdit) {
+		if (lastEdited.get("inventory") < GameController.getCurrentPlayer().getInvModel().getInventory().getLastEdit()) {
 			ObservableList<String> arr = FXCollections.observableArrayList();
 			GameController.getCurrentPlayer().getInvModel().getInventory().forEach(e -> arr.add(e.getName()));
 			inventory.getItems().removeAll();
 			inventory.setItems(arr);
-			lastEdited.put("inventory", lastEdit);
+			lastEdited.put("inventory", GameController.getCurrentPlayer().getInvModel().getInventory().getLastEdit());
+		} else if (lastEdited.get("itemsInRoom") < GameController.getRoomModel().getTakeableItems2().getLastEdit()) {
 		}
 	}
 
@@ -104,6 +102,8 @@ public class FXOutput implements Output {
 		gameText.setDisable(true);
 		gameText.setStyle("-fx-opacity: 1;");
 		lastEdited.put("inventory", (long) 0);
+		lastEdited.put("itemsInRoom", (long) 0);
+		lastEdited.put("actorsInRoom", (long) 0);
 	}
 
 	@Override
