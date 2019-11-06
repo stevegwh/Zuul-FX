@@ -30,7 +30,7 @@ public class GiveController extends CommandController {
 		}
 		String actorName = inputArray[1];
 		actorName = ZuulTools.capitalize(actorName);
-		NPC npc = GameController.getNPCContoller().getActor(actorName);
+//		NPC npc = GameController.getNPCContoller().getActor(actorName);
 		if (npc == null) {
 			return actorName + " is not in the room";
 		} else {
@@ -57,10 +57,6 @@ public class GiveController extends CommandController {
 		if (!npc.onGive(takeableItem.getName())) {
 			return false;
 		} else {
-			if (takeableItem.isPerishable()) {
-				GameController.getCurrentPlayer().getInvModel().setWeight(takeableItem.getWeight());
-				GameController.getCurrentPlayer().getInvModel().removeItem(takeableItem);
-			}
 			return true;
 		}
 	}

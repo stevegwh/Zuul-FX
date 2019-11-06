@@ -27,7 +27,7 @@ public class TalkController extends CommandController {
 		}
 		toTalk = inputArray[1]; // talk[0] to[1] Barry[2]
 		toTalk = ZuulTools.capitalize(toTalk);
-		if (!GameController.getRoomModel().hasActor(toTalk)) {
+		if (!GameController.getCurrentRoom().hasActor(toTalk)) {
 			return toTalk + " not in room.";
 		}
 		return null;
@@ -35,7 +35,7 @@ public class TalkController extends CommandController {
 
 	@Override
 	public boolean execute(String[] args) {
-		actor = GameController.getNPCContoller().getActor(toTalk);
+//		actor = GameController.getNPCContoller().getActor(toTalk);
 		return true;
 	}
 

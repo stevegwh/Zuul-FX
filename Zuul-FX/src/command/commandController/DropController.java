@@ -33,7 +33,7 @@ public class DropController extends CommandController {
 		TakeableItem item = GameController.getCurrentPlayer().getInvModel().getItem(toDrop);
 		GameController.getCurrentPlayer().getInvModel().setWeight(-item.getWeight());
 		GameController.getCurrentPlayer().getInvModel().removeItem(item);
-		GameController.getRoomModel().addTakeableItem(item);
+		GameController.getCurrentRoom().addTakeableItem(item);
 		return true;
 	}
 }

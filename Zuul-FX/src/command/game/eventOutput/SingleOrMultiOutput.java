@@ -16,14 +16,14 @@ public class SingleOrMultiOutput extends SingleOrMultiController implements ICom
 		IOHandler.output.println("Please choose an option.");
 		IOHandler.output.println("1. Singleplayer");
 		IOHandler.output.println("2. Multiplayer");
-		String[] choiceArr = IOHandler.input.getUserInput();
-		String error = validateUserInput(choiceArr);
-		if (error != null) {
-			IOHandler.output.println(error);
-			init(inputArray);
-		} else {
-			execute(inputArray);
-		}
+//		String[] choiceArr = IOHandler.input.getUserInput();
+//		String error = validateUserInput(choiceArr);
+//		if (error != null) {
+//			IOHandler.output.println(error);
+//			init(inputArray);
+//		} else {
+//			execute(inputArray);
+//		}
 	}
 
 }

@@ -12,7 +12,7 @@ public class TalkOutput extends TalkController implements ICommandOutput {
 			return;
 		}
 		if (super.execute(inputArray)) {
-			actor.onTalk();
+//			actor.onTalk();
 		}
 	}
 }

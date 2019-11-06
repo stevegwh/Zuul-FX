@@ -31,7 +31,7 @@ public class GoController extends CommandController {
 		if (!isValidDirection(direction.toUpperCase())) {
 			return "Invalid Direction";
 		}
-		nextRoom = GameController.getRoomModel().getExit(direction, GameController.getCurrentPlayer().getLocation());
+		nextRoom = GameController.getCurrentRoom().getExit(direction);
 		if (nextRoom == null) {
 			return "You can't go that way.";
 		}
@@ -48,7 +48,7 @@ public class GoController extends CommandController {
 	}
 
 	public boolean execute(String[] inputArray) {
-		GameController.getRoomModel().setNewRoom(nextRoom);
+		GameController.setNewRoom(nextRoom);
 		GameController.getCurrentPlayer().setLocation(nextRoom);
 		if (!GameController.getSinglePlayer()) {
 			if (GameController.getCurrentPlayer().getTurnCount() > 0) {

@@ -6,25 +6,27 @@ import IO.IOHandler;
 import command.commandView.LookOutput;
 import command.game.eventOutput.GameStartOutput;
 import command.game.eventOutput.SingleOrMultiOutput;
-import npc.NPCController;
+//import npc.NPCController;
 
 public class GameController {
 	private static boolean singlePlayer = true;
-	private static CommandHandler commandHandler;
-	private static RoomModel roomModel;
-	private static NPCController npcController;
-	private static boolean isRunning = true;
+	private static AllRoomDataController roomData;
+//	private static NPCController npcController;
 	private static Player currentPlayer;
 	private static ArrayList<Player> playerArr;
 	private final static String START_LOCATION = "entrance";
 
-	public static RoomModel getRoomModel() {
-		return roomModel;
+	public static Room getCurrentRoom() {
+		return roomData.getCurrentRoom();
+	}
+	
+	public static void setNewRoom(String roomName) {
+		roomData.setNewRoom(roomName);
 	}
 
-	public static NPCController getNPCContoller() {
-		return npcController;
-	}
+//	public static NPCController getNPCContoller() {
+//		return npcController;
+//	}
 
 	/**
 	 * @return the currently active player.
@@ -38,14 +40,6 @@ public class GameController {
 	 */
 	public static void setCurrentPlayer(Player player) {
 		currentPlayer = player;
-	}
-
-	/**
-	 * Breaks the main game loop.
-	 */
-	public static void quit() {
-		isRunning = false;
-		System.exit(0);
 	}
 
 	/**
@@ -92,16 +86,15 @@ public class GameController {
 	}
 
 	public static void start() {
-		roomModel = new RoomModel("entrance");
-		commandHandler = new CommandHandler();
-		npcController = new NPCController();
+		roomData = new AllRoomDataController();
+//		npcController = new NPCController();
 		currentPlayer = new Player("entrance");
 		GameStartOutput welcome = new GameStartOutput();
 		LookOutput look = new LookOutput();
-//		setGameType();
-//		npcController.init();
+////		setGameType();
+////		npcController.init();
 		welcome.init(new String[] {});
-		roomModel.setNewRoom(getCurrentPlayer().getLocation());
+		roomData.setNewRoom(getCurrentPlayer().getLocation());
 		look.init(new String[] {});
 	}
 

@@ -32,8 +32,7 @@ public class FXOutput implements Output {
 	@FXML
 
 	private void setDirectionButtons() {
-		ArrayList<String> exits = GameController.getRoomModel()
-				.getAllDirections(GameController.getCurrentPlayer().getLocation());
+		ArrayList<String> exits = GameController.getCurrentRoom().getAllDirections();
 		Button[] btnList = { buttonGoWest, buttonGoEast, buttonGoNorth, buttonGoSouth };
 		for (Button btn : btnList) {
 			btn.setDisable(true);
@@ -56,7 +55,7 @@ public class FXOutput implements Output {
 			inventory.getItems().removeAll();
 			inventory.setItems(arr);
 			lastEdited.put("inventory", GameController.getCurrentPlayer().getInvModel().getInventory().getLastEdit());
-		} else if (lastEdited.get("itemsInRoom") < GameController.getRoomModel().getTakeableItems2().getLastEdit()) {
+		} else if (lastEdited.get("itemsInRoom") < GameController.getCurrentRoom().getTakeableItems().getLastEdit()) {
 		}
 	}
 

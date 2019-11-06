@@ -1,11 +1,12 @@
 package command.commandController;
 
-import java.util.ArrayList;
 
-import com.github.cliftonlabs.json_simple.JsonArray;
 
 import command.CommandController;
+import npc.NPC;
 import zuul.GameController;
+import zuul.TakeableItem;
+import zuulutils.EditLogArrayList;
 
 /**
  * Prints the description, actors, items and exits of the current room. Called
@@ -16,9 +17,8 @@ import zuul.GameController;
  */
 public class LookController extends CommandController {
 	protected String description;
-	protected JsonArray actors;
-	protected JsonArray items;
-	protected ArrayList<String> exits;
+	protected EditLogArrayList<NPC> actors;
+	protected EditLogArrayList<TakeableItem> items;
 	private int COMMAND_LENGTH = 1;
 
 	@Override
@@ -33,10 +33,9 @@ public class LookController extends CommandController {
 	}
 
 	public boolean execute(String[] inputArray) {
-		description = GameController.getRoomModel().getDescription();
-		actors = GameController.getRoomModel().getActorsInRoom(GameController.getCurrentPlayer().getLocation());
-		items = GameController.getRoomModel().getTakeableItems();
-		exits = GameController.getRoomModel().getAllDirections(GameController.getCurrentPlayer().getLocation());
+		description = GameController.getCurrentRoom().getDescription();
+		actors = GameController.getCurrentRoom().getActorsInRoom();
+		items = GameController.getCurrentRoom().getTakeableItems();
 		return true;
 	}
 
