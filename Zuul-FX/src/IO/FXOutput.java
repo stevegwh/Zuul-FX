@@ -46,7 +46,7 @@ public class FXOutput implements Output {
 	}
 
 	/**
-	 * Updates the view if things have changed
+	 * TODO: Assign these directly as ObservableList and add eventlisteners to them.
 	 */
 	public void updateView() {
 		ObservableList<String> arr = FXCollections.observableArrayList();
@@ -57,6 +57,10 @@ public class FXOutput implements Output {
 		GameController.getCurrentRoom().getTakeableItems().forEach(e -> arr1.add(e.getName()));
 		itemsInRoom.getItems().removeAll();
 		itemsInRoom.setItems(arr1);
+		ObservableList<String> arr2 = FXCollections.observableArrayList();
+		GameController.getCurrentRoom().getActorsInRoom().forEach(e -> arr2.add(e.getName()));
+		actorsInRoom.getItems().removeAll();
+		actorsInRoom.setItems(arr2);
 	}
 
 	public void startClicked() {

@@ -2,8 +2,6 @@ package zuul;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
-import java.util.stream.Collectors;
 
 import npc.NPC;
 
@@ -79,6 +77,14 @@ public class Room {
 
 	public void removeTakeableItem(TakeableItem item) {
 		takeableItems.remove(item);
+	}
+
+	public void addActor(NPC npc) {
+		actorsInRoom.add(npc);
+	}
+
+	public void removeActor(NPC npc) {
+		actorsInRoom.remove(npc);
 	}
 
 	public boolean hasActor(String toTalk) {

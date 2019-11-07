@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import IO.IOHandler;
+
 public class NPCController {
 	private AllNPCDataController npcData;
 	private List<String> actors;
@@ -12,6 +14,7 @@ public class NPCController {
 		@Override
 		public void run() {
 			updateActors();
+			IOHandler.output.updateView();
 		}
 	};
 

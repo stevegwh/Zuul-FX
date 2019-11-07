@@ -65,10 +65,8 @@ public class NPC {
 	 */
 	public void move() {
 		String destinationRoomName = getRandomRoom();
-		ArrayList<NPC> destinationRoom = GameController.getAllRoomDataController().getRoom(destinationRoomName).getActorsInRoom();
-		ArrayList<NPC> currentRoom = GameController.getAllRoomDataController().getRoom(currentLocation).getActorsInRoom();
-		destinationRoom.add(this);
-		currentRoom.remove(this);
+		GameController.getAllRoomDataController().getRoom(destinationRoomName).addActor(this);
+		GameController.getAllRoomDataController().getRoom(currentLocation).removeActor(this);
 		currentLocation = destinationRoomName;
 		if (destinationRoomName.equals(GameController.getCurrentPlayer().getLocation())) {
 			AnnounceEntranceOutput announcement = new AnnounceEntranceOutput();
@@ -117,11 +115,12 @@ public class NPC {
 		currentLocation = newLocation;
 	}
 
-	public NPC() {
-	}
-
 	public void setDialog(ArrayList<String> dialogOptions, ArrayList<String> dialogResponses) {
 		this.dialogOptions = dialogOptions;
 		this.dialogResponses = dialogResponses;
 	}
+
+	public NPC() {
+	}
+
 }
