@@ -7,10 +7,8 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 public class InventoryModel {
-//	private long lastEdited;
 	private int totalWeight;
 	private final int WEIGHT_LIMIT = 10;
-//	private ArrayList<TakeableItem> inventory = new ArrayList<TakeableItem>();
 	private ArrayList<TakeableItem> inventory = new ArrayList<>();
 
 	public int getWeight() {
@@ -20,14 +18,6 @@ public class InventoryModel {
 	public void setWeight(int weight) {
 		totalWeight += weight;
 	}
-	
-//	public long getLastEdited() {
-//		return lastEdited;
-//	}
-//	
-//	public void setLastEdited() {
-//		lastEdited = Instant.now().getEpochSecond();
-//	}
 
 	public ArrayList<TakeableItem> getInventory() {
 		// TODO: unsafe. Can be edited when you don't want it.

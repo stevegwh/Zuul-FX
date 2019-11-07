@@ -1,15 +1,15 @@
 package zuul;
 
-import java.util.HashMap;
+import java.util.Map;
 
 import csvLoader.Parser;
 
 public class AllRoomDataController {
-	private HashMap<String, Room> rooms;
+	private Map<String, Room> rooms;
 	private Room currentRoom;
 	
 	
-	public void setNewRoom(String name) {
+	public void setNewCurrentRoom(String name) {
 		currentRoom = rooms.get(name);
 	}
 	
@@ -22,7 +22,7 @@ public class AllRoomDataController {
 	}
 	
 	public AllRoomDataController() {
-		Parser csvParser = new Parser("/roomData.csv");
+		Parser csvParser = new Parser("roomData.csv");
 		rooms = csvParser.loadCSV();
 	}
 }

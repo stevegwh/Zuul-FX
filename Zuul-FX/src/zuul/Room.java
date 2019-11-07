@@ -90,28 +90,7 @@ public class Room {
 		return false;
 	}
 
-	public Room(List<String> data) {
-		data = data.stream().map(e -> e.trim()).collect(Collectors.toList());
-		name = data.get(0);
-		description = data.get(1);
-		if (!data.get(2).equals("null")) {
-			exits.put("north", data.get(2));
-		}
-		if (!data.get(3).equals("null")) {
-			exits.put("east", data.get(3));
-		}
-		if (!data.get(4).equals("null")) {
-			exits.put("south", data.get(4));
-		}
-		if (!data.get(5).equals("null")) {
-			exits.put("west", data.get(5));
-		}
-//		// TODO: Return error if there is no weight
-		for (int i = 6; i < data.size(); i += 2) {
-			TakeableItem item = new TakeableItem(data.get(i), Integer.parseInt(data.get(i + 1)));
-			takeableItems.add(item);
-		}
-
+	public Room() {
 	}
 
 }

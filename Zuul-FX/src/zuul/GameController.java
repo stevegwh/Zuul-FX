@@ -20,8 +20,8 @@ public class GameController {
 		return roomData.getCurrentRoom();
 	}
 	
-	public static void setNewRoom(String roomName) {
-		roomData.setNewRoom(roomName);
+	public static void setNewCurrentRoom(String roomName) {
+		roomData.setNewCurrentRoom(roomName);
 	}
 
 //	public static NPCController getNPCContoller() {
@@ -94,7 +94,7 @@ public class GameController {
 ////		setGameType();
 ////		npcController.init();
 		welcome.init(new String[] {});
-		roomData.setNewRoom(getCurrentPlayer().getLocation());
+		roomData.setNewCurrentRoom(getCurrentPlayer().getLocation());
 		look.init(new String[] {});
 	}
 

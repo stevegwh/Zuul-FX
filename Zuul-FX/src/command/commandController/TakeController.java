@@ -1,7 +1,5 @@
 package command.commandController;
 
-import com.github.cliftonlabs.json_simple.JsonObject;
-
 import command.CommandController;
 import zuul.GameController;
 import zuul.TakeableItem;
