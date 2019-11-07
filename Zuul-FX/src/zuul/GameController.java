@@ -1,17 +1,20 @@
 package zuul;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import IO.IOHandler;
 import command.commandView.LookOutput;
 import command.game.eventOutput.GameStartOutput;
 import command.game.eventOutput.SingleOrMultiOutput;
-//import npc.NPCController;
+import npc.AllNPCDataController;
+import npc.NPCController;
 
 public class GameController {
 	private static boolean singlePlayer = true;
 	private static AllRoomDataController roomData;
-//	private static NPCController npcController;
+	private static AllNPCDataController npcData;
+	private static NPCController npcController;
 	private static Player currentPlayer;
 	private static ArrayList<Player> playerArr;
 	private final static String START_LOCATION = "entrance";
@@ -87,15 +90,20 @@ public class GameController {
 
 	public static void start() {
 		roomData = new AllRoomDataController();
-//		npcController = new NPCController();
+		npcData = new AllNPCDataController();
+		npcController = new NPCController();
 		currentPlayer = new Player("entrance");
 		GameStartOutput welcome = new GameStartOutput();
 		LookOutput look = new LookOutput();
 ////		setGameType();
-////		npcController.init();
+		npcController.init(npcData);
 		welcome.init(new String[] {});
 		roomData.setNewCurrentRoom(getCurrentPlayer().getLocation());
 		look.init(new String[] {});
+	}
+
+	public static AllRoomDataController getAllRoomDataController() {
+		return roomData;
 	}
 
 }

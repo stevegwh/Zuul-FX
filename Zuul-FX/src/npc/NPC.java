@@ -1,81 +1,80 @@
 package npc;
 
-import zuul.GameController;
-
 import java.util.ArrayList;
 import java.util.Random;
 
-import com.github.cliftonlabs.json_simple.JsonArray;
-import com.github.cliftonlabs.json_simple.JsonObject;
-
 import IO.IOHandler;
 import command.game.eventOutput.AnnounceEntranceOutput;
-//import jsonDataHandler.JSONDataHandler;
+import zuul.GameController;
+import zuul.Room;
 
-public abstract class NPC {
-	private JsonObject json;
-	protected String name;
-	protected String currentLocation;
+public class NPC {
+	private String name;
+	private String currentLocation = "pub";
+	private String validItem;
+	private ArrayList<String> dialogOptions;
+	private ArrayList<String> dialogResponses;
 
-//	private String getUserDialogChoice() {
+	private String getUserDialogChoice() {
 //		String[] inputArray = IOHandler.input.getUserInput();
 //		return inputArray[0];
-//	}
+		return "";
+	}
 
-	public abstract boolean onGive(String takeableItem);
+	public boolean onGive(String takeableItem) {
+		return true;
+	}
 
-//	public void update() {
-//		if (!currentLocation.equals(GameController.getCurrentPlayer().getLocation())) {
-//			move();
-//		}
-//	}
+	public void update() {
+		if (!currentLocation.equals(GameController.getCurrentPlayer().getLocation())) {
+			move();
+		}
+	}
 
 	public void printDialog() {
-		JsonArray dialogOptions = (JsonArray) json.get("dialogOptions");
 		for (int i = 0, len = dialogOptions.size(); i < len; i++) {
-			String option = (String) dialogOptions.get(i);
+			String option = dialogOptions.get(i);
 			IOHandler.output.printCharDialog(Integer.toString(i + 1) + ": " + option);
 		}
 	}
 
-//	public void onTalk() {
-//		printDialog();
-//		String userChoice = getUserDialogChoice();
-//		if (userChoice.length() > 1 || userChoice.matches("d")) {
-//			IOHandler.output.printError("Invalid Command");
-//			return;
-//		}
-//		int idx = Integer.parseInt(userChoice) - 1;
-//		JsonArray dialogResponses = (JsonArray) json.get("dialogResponses");
-//		IOHandler.output.printCharDialog(((String) dialogResponses.get(idx)));
-//	}
+	public void onTalk() {
+		printDialog();
+		String userChoice = getUserDialogChoice();
+		if (userChoice.length() > 1 || userChoice.matches("d")) {
+			IOHandler.output.printError("Invalid Command");
+			return;
+		}
+		int idx = Integer.parseInt(userChoice) - 1;
+		IOHandler.output.printCharDialog((dialogResponses.get(idx)));
+	}
 
-//	public String getRandomRoom() {
-//		ArrayList<String> exits = GameController.getCurrentRoom().getAllDirections(currentLocation);
-//		Random generator = new Random();
-//		int randomIndex = generator.nextInt(exits.size());
-//		String direction = exits.get(randomIndex);
-//		return GameController.getCurrentRoom().getExit(direction, currentLocation);
-//	}
+	public String getRandomRoom() {
+		Room currentRoom = GameController.getAllRoomDataController().getRoom(currentLocation);
+		ArrayList<String> exits = currentRoom.getAllDirections();
+		Random generator = new Random();
+		int randomIndex = generator.nextInt(exits.size());
+		String direction = exits.get(randomIndex);
+		return currentRoom.getExit(direction);
+	}
 
 	/**
 	 * Updates the actorsInRoom field of the destination room and the room specified
 	 * in the NPC's currentLocation field.
 	 * 
 	 */
-//	public void move() {
-//		String destinationRoomName = getRandomRoom();
-//		JsonArray destinationRoom = GameController.getCurrentRoom().getActorsInRoom(destinationRoomName);
-//		JsonArray currentRoom = GameController.getCurrentRoom().getActorsInRoom(currentLocation);
-//		destinationRoom.add(name);
-//		currentRoom.remove(name);
-//		currentLocation = destinationRoomName;
-//		if (destinationRoomName.equals(GameController.getCurrentPlayer().getLocation())) {
-//			AnnounceEntranceOutput announcement = new AnnounceEntranceOutput();
-//			announcement.init(new String[] { name });
-//		}
-//
-//	}
+	public void move() {
+		String destinationRoomName = getRandomRoom();
+		ArrayList<NPC> destinationRoom = GameController.getAllRoomDataController().getRoom(destinationRoomName).getActorsInRoom();
+		ArrayList<NPC> currentRoom = GameController.getAllRoomDataController().getRoom(currentLocation).getActorsInRoom();
+		destinationRoom.add(this);
+		currentRoom.remove(this);
+		currentLocation = destinationRoomName;
+		if (destinationRoomName.equals(GameController.getCurrentPlayer().getLocation())) {
+			AnnounceEntranceOutput announcement = new AnnounceEntranceOutput();
+			announcement.init(new String[] { name });
+		}
+	}
 
 	/**
 	 * validItem is the name TakeableItem that this NPC accepts. For example, the
@@ -86,7 +85,11 @@ public abstract class NPC {
 	 * @return the name of the TakeableItem that this NPC accepts.
 	 */
 	public String getValidItem() {
-		return (String) json.get("validItem");
+		return validItem;
+	}
+
+	public void setValidItem(String validItem) {
+		this.validItem = validItem;
 	}
 
 	/**
@@ -94,6 +97,10 @@ public abstract class NPC {
 	 */
 	public String getName() {
 		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	/**
@@ -110,18 +117,11 @@ public abstract class NPC {
 		currentLocation = newLocation;
 	}
 
-	// TODO: Scan the json file and see if the actor already exists
-//	private void loadJSON(String name) {
-//		JSONDataHandler jsonHandler = new JSONDataHandler("res/npcData.json");
-//		json = jsonHandler.getField(name);
-//		String initialRoom = (String) json.get("location");
-//		JsonArray destinationRoomJson = GameController.getCurrentRoom().getActorsInRoom(initialRoom);
-//		destinationRoomJson.add(name);
-//		currentLocation = initialRoom;
-//	}
+	public NPC() {
+	}
 
-	public NPC(String name) {
-		this.name = name;
-//		loadJSON(name);
+	public void setDialog(ArrayList<String> dialogOptions, ArrayList<String> dialogResponses) {
+		this.dialogOptions = dialogOptions;
+		this.dialogResponses = dialogResponses;
 	}
 }

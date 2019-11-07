@@ -1,28 +1,62 @@
 package zuul;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
-import csvLoader.Parser;
+import csvLoader.CSVParser;
 
 public class AllRoomDataController {
+	private Function<Object, Object> mapToItem = (line) -> {
+		String[] p = ((String) line).split(", ");
+		Room room = new Room();
+
+		room.setName(p[0]);
+		room.setDescription(p[1]);
+		HashMap<String, String> exits = new HashMap<>();
+		if (!p[2].equals("null")) {
+			exits.put("north", p[2]);
+		}
+		if (!p[3].equals("null")) {
+			exits.put("east", p[3]);
+		}
+		if (!p[4].equals("null")) {
+			exits.put("south", p[4]);
+		}
+		if (!p[5].equals("null")) {
+			exits.put("west", p[5]);
+		}
+		room.setExits(exits);
+		// TODO: Return error if there is no weight
+		for (int i = 6; i < p.length; i += 2) {
+			TakeableItem takeableItem = new TakeableItem(p[i], Integer.parseInt(p[i + 1]));
+			room.addTakeableItem(takeableItem);
+		}
+		return room;
+	};
+
 	private Map<String, Room> rooms;
 	private Room currentRoom;
-	
-	
+
 	public void setNewCurrentRoom(String name) {
 		currentRoom = rooms.get(name);
 	}
-	
+
 	public Room getCurrentRoom() {
 		return currentRoom;
 	}
-	
+
 	public Room getRoom(String name) {
 		return rooms.get(name);
 	}
-	
+
 	public AllRoomDataController() {
-		Parser csvParser = new Parser("roomData.csv");
-		rooms = csvParser.loadCSV();
+		CSVParser csvParser = new CSVParser();
+		String path = "/home/forest/git/Zuul-FX/Zuul-FX/src/csvLoader/roomData.csv";
+		rooms = csvParser.loadCSV(mapToItem, path).stream()
+				.collect(Collectors.toMap(e -> ((Room) e).getName(), e -> (Room) e));
 	}
+
 }
