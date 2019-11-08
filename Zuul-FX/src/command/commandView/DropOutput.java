@@ -3,7 +3,6 @@ package command.commandView;
 import IO.IOHandler;
 import command.ICommandOutput;
 import command.commandController.DropController;
-import zuul.GameController;
 
 public class DropOutput extends DropController implements ICommandOutput {
 	public void init(String[] inputArray) {

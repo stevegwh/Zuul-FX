@@ -1,9 +1,7 @@
 package zuul;
 
 import java.util.ArrayList;
-import java.util.List;
 
-import IO.IOHandler;
 import command.commandView.LookOutput;
 import command.game.eventOutput.GameStartOutput;
 import command.game.eventOutput.SingleOrMultiOutput;

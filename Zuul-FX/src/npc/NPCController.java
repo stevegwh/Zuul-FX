@@ -5,6 +5,8 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import IO.IOHandler;
+import javafx.application.Platform;
+
 
 public class NPCController {
 	private AllNPCDataController npcData;
@@ -14,7 +16,7 @@ public class NPCController {
 		@Override
 		public void run() {
 			updateActors();
-			IOHandler.output.updateView();
+			Platform.runLater(() -> IOHandler.output.updateView());
 		}
 	};
 

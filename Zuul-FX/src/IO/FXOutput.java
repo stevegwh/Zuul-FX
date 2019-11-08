@@ -2,10 +2,12 @@ package IO;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.stream.Collectors;
 
 import javafx.application.Platform;
+import javafx.beans.property.ListProperty;
+import javafx.beans.property.SimpleListProperty;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -29,7 +31,9 @@ public class FXOutput implements Output {
 	@FXML
 	private Button buttonGoWest, buttonGoEast, buttonGoSouth, buttonGoNorth;
 
-	@FXML
+	ListProperty<String> itemsListProperty = new SimpleListProperty<>();
+	ListProperty<String> inventoryListProperty = new SimpleListProperty<>();
+	ListProperty<String> actorListProperty = new SimpleListProperty<>();
 
 	private void setDirectionButtons() {
 		ArrayList<String> exits = GameController.getCurrentRoom().getAllDirections();
@@ -49,18 +53,15 @@ public class FXOutput implements Output {
 	 * TODO: Assign these directly as ObservableList and add eventlisteners to them.
 	 */
 	public void updateView() {
-		ObservableList<String> arr = FXCollections.observableArrayList();
-		GameController.getCurrentPlayer().getInvModel().getInventory().forEach(e -> arr.add(e.getName()));
-		inventory.getItems().removeAll();
-		inventory.setItems(arr);
-		ObservableList<String> arr1 = FXCollections.observableArrayList();
-		GameController.getCurrentRoom().getTakeableItems().forEach(e -> arr1.add(e.getName()));
-		itemsInRoom.getItems().removeAll();
-		itemsInRoom.setItems(arr1);
-		ObservableList<String> arr2 = FXCollections.observableArrayList();
-		GameController.getCurrentRoom().getActorsInRoom().forEach(e -> arr2.add(e.getName()));
-		actorsInRoom.getItems().removeAll();
-		actorsInRoom.setItems(arr2);
+		itemsListProperty.set(FXCollections.observableArrayList(GameController.getCurrentRoom().getTakeableItems()
+				.stream().map(e -> e.getName()).collect(Collectors.toList())));
+		itemsInRoom.itemsProperty().bind(itemsListProperty);
+		inventoryListProperty.set(FXCollections.observableArrayList(GameController.getCurrentPlayer().getInvModel()
+				.getInventory().stream().map(e -> e.getName()).collect(Collectors.toList())));
+		inventory.itemsProperty().bind(inventoryListProperty);
+		actorListProperty.set(FXCollections.observableArrayList(GameController.getCurrentRoom().getActorsInRoom()
+				.stream().map(e -> e.getName()).collect(Collectors.toList())));
+		actorsInRoom.itemsProperty().bind(actorListProperty);
 	}
 
 	public void startClicked() {

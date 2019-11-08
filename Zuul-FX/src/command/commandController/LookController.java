@@ -35,7 +35,6 @@ public class LookController extends CommandController {
 
 	public boolean execute(String[] inputArray) {
 		description = GameController.getCurrentRoom().getDescription();
-		actors = GameController.getCurrentRoom().getActorsInRoom();
 		return true;
 	}
 
