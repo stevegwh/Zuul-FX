@@ -11,7 +11,6 @@ public class AllRoomDataController {
 	private Function<Object, Object> mapToItem = (line) -> {
 		String[] p = ((String) line).split(", ");
 		Room room = new Room();
-
 		room.setName(p[0]);
 		room.setDescription(p[1]);
 		HashMap<String, String> exits = new HashMap<>();
@@ -51,9 +50,9 @@ public class AllRoomDataController {
 		return rooms.get(name);
 	}
 
-	public AllRoomDataController() {
+	public AllRoomDataController(String path) {
 		CSVParser csvParser = new CSVParser();
-		String path = "/home/forest/git/Zuul-FX/Zuul-FX/src/csvLoader/roomData.csv";
+
 		rooms = csvParser.loadCSV(mapToItem, path).stream()
 				.collect(Collectors.toMap(e -> ((Room) e).getName(), e -> (Room) e));
 	}

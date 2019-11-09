@@ -17,11 +17,13 @@ public class View extends Application {
 		FXMLLoader loader = new FXMLLoader();
 		loader.setLocation(getClass().getResource("zuul.fxml"));
 		loader.setController(IOHandler.output);
+		IOHandler.output.setStage(primaryStage);
 		VBox vbox = loader.<VBox>load();
 
 		Scene scene = new Scene(vbox);
 		primaryStage.setScene(scene);
 		primaryStage.show();
+//		IOHandler.output.init();
 	}
 
 }

@@ -1,7 +1,7 @@
 package IO;
 
+import java.io.File;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.stream.Collectors;
 
 import javafx.application.Platform;
@@ -15,14 +15,17 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
 import javafx.scene.input.MouseEvent;
+import javafx.stage.FileChooser;
+import javafx.stage.FileChooser.ExtensionFilter;
+import javafx.stage.Stage;
 import zuul.GameController;
 import zuul.CommandHandler;
 
 public class FXOutput implements Output {
+	private Stage stage;
 	private CommandHandler commandHandler;
 	private boolean takeClicked = false;
 	private boolean dropClicked = false;
-	private HashMap<String, Long> lastEdited = new HashMap<>();
 
 	@FXML
 	private TextArea gameText;
@@ -49,9 +52,6 @@ public class FXOutput implements Output {
 		}
 	}
 
-	/**
-	 * TODO: Assign these directly as ObservableList and add eventlisteners to them.
-	 */
 	public void updateView() {
 		itemsListProperty.set(FXCollections.observableArrayList(GameController.getCurrentRoom().getTakeableItems()
 				.stream().map(e -> e.getName()).collect(Collectors.toList())));
@@ -65,7 +65,7 @@ public class FXOutput implements Output {
 	}
 
 	public void startClicked() {
-		init();
+		init("");
 	}
 
 	public void lookClicked() {
@@ -107,15 +107,28 @@ public class FXOutput implements Output {
 		Platform.runLater(() -> updateView());
 	}
 
-	public void init() {
-		GameController.start();
+	public void init(String path) {
+		GameController.start(path);
 		setDirectionButtons();
 		gameText.setDisable(true);
 		gameText.setStyle("-fx-opacity: 1;");
-		lastEdited.put("inventory", (long) 0);
-		lastEdited.put("itemsInRoom", (long) 0);
-		lastEdited.put("actorsInRoom", (long) 0);
 		updateView();
+	}
+
+	public void openFileChooser() {
+		FileChooser fileChooser = new FileChooser();
+		ExtensionFilter filter = new ExtensionFilter("CSV", "*.csv", "*.csv");
+		fileChooser.setTitle("Select file...");
+		fileChooser.getExtensionFilters().add(filter);
+		File file = fileChooser.showOpenDialog(stage);
+		if (file != null) {
+			openFile(file);
+		}
+	}
+
+	private void openFile(File file) {
+		String path = file.getPath();
+		init(path);
 	}
 
 	@Override
@@ -147,6 +160,10 @@ public class FXOutput implements Output {
 		a.setContentText(error);
 		a.show();
 
+	}
+
+	public void setStage(Stage primaryStage) {
+		stage = primaryStage;
 	}
 
 	FXOutput() {

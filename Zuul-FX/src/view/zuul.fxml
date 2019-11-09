@@ -22,17 +22,8 @@
       <menus>
         <Menu mnemonicParsing="false" text="File">
           <items>
-            <MenuItem mnemonicParsing="false" text="New" />
-            <MenuItem mnemonicParsing="false" text="Open…" />
-            <Menu mnemonicParsing="false" text="Open Recent" />
-            <SeparatorMenuItem mnemonicParsing="false" />
-            <MenuItem mnemonicParsing="false" text="Close" />
-            <MenuItem mnemonicParsing="false" text="Save" />
-            <MenuItem mnemonicParsing="false" text="Save As…" />
-            <MenuItem mnemonicParsing="false" text="Revert" />
-            <SeparatorMenuItem mnemonicParsing="false" />
-            <MenuItem mnemonicParsing="false" text="Preferences…" />
-            <SeparatorMenuItem mnemonicParsing="false" />
+            <MenuItem mnemonicParsing="false" onAction="#startClicked" text="New Default Game" />
+            <MenuItem mnemonicParsing="false" onAction="#openFileChooser" text="Load Custom Game" />
             <MenuItem mnemonicParsing="false" text="Quit" />
           </items>
         </Menu>
@@ -78,11 +69,6 @@
       <TextField id="sentence-builder" alignment="CENTER" layoutX="10.0" layoutY="39.0" prefHeight="0.0" prefWidth="900.0" text="Hello" />
       <HBox alignment="TOP_CENTER" prefHeight="100.0" prefWidth="200.0">
          <children>
-            <Button id="go" fx:id="buttonStart" mnemonicParsing="false" onMouseClicked="#startClicked" text="Start" textAlignment="CENTER">
-               <font>
-                  <Font size="18.0" />
-               </font>
-            </Button>
             <Button id="west" fx:id="buttonGoWest" mnemonicParsing="false" onMouseClicked="#goClicked" text="West" textAlignment="CENTER">
                <font>
                   <Font size="18.0" />

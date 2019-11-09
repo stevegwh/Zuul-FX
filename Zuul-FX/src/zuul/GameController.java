@@ -9,6 +9,7 @@ import npc.AllNPCDataController;
 import npc.NPCController;
 
 public class GameController {
+	private static String defaultPath = "/home/forest/git/Zuul-FX/Zuul-FX/src/csvLoader/roomData.csv";
 	private static boolean singlePlayer = true;
 	private static AllRoomDataController roomData;
 	private static AllNPCDataController npcData;
@@ -86,8 +87,9 @@ public class GameController {
 		}
 	}
 
-	public static void start() {
-		roomData = new AllRoomDataController();
+	public static void start(String path) {
+		if (path == "") { path = defaultPath; };
+		roomData = new AllRoomDataController(path);
 		npcData = new AllNPCDataController();
 		npcController = new NPCController();
 		currentPlayer = new Player("entrance");
