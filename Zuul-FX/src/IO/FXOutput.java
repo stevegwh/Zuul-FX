@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.stream.Collectors;
 
+import command.game.eventOutput.GameStartOutput;
 import javafx.application.Platform;
 import javafx.beans.property.ListProperty;
 import javafx.beans.property.SimpleListProperty;
@@ -221,6 +222,8 @@ public class FXOutput implements Output {
 	}
 
 	public void onLoad() {
+		GameStartOutput welcome = new GameStartOutput();
+		welcome.init(new String[] {});
 	}
 
 }

@@ -62,7 +62,7 @@
       <TextField id="sentence-builder" alignment="CENTER" layoutX="10.0" layoutY="39.0" prefHeight="0.0" prefWidth="900.0" text="Hello" />
       <HBox alignment="TOP_CENTER" prefHeight="100.0" prefWidth="200.0">
          <children>
-            <Button id="west" fx:id="buttonGoWest" disable="true" mnemonicParsing="false" onMouseClicked="#goClicked" text="West" textAlignment="CENTER">
+            <Button id="north" fx:id="buttonGoNorth" disable="true" mnemonicParsing="false" onMouseClicked="#goClicked" text="North" textAlignment="CENTER">
                <font>
                   <Font size="18.0" />
                </font>
@@ -72,12 +72,12 @@
                   <Font size="18.0" />
                </font>
             </Button>
-            <Button id="north" fx:id="buttonGoNorth" disable="true" mnemonicParsing="false" onMouseClicked="#goClicked" text="North" textAlignment="CENTER">
+            <Button id="south" fx:id="buttonGoSouth" disable="true" mnemonicParsing="false" onMouseClicked="#goClicked" text="South" textAlignment="CENTER">
                <font>
                   <Font size="18.0" />
                </font>
             </Button>
-            <Button id="south" fx:id="buttonGoSouth" disable="true" mnemonicParsing="false" onMouseClicked="#goClicked" text="South" textAlignment="CENTER">
+            <Button id="west" fx:id="buttonGoWest" disable="true" mnemonicParsing="false" onMouseClicked="#goClicked" text="West" textAlignment="CENTER">
                <font>
                   <Font size="18.0" />
                </font>

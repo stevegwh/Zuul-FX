@@ -1,6 +1,5 @@
 package zuul;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -54,35 +53,22 @@ public class AllRoomDataController {
 	}
 
 	public int removeAllWithoutExit() {
-		ArrayList<String> toRemove = new ArrayList<>();
-		for (String roomName : rooms.keySet()) {
-			Room room = rooms.get(roomName);
-			if (room.getExits().size() == 0) {
-				toRemove.add(roomName);
-			}
-		}
-		for (String roomName : toRemove) {
-			int amountRemoved = rooms.size();
-			rooms.remove(roomName);
-			amountRemoved -= rooms.size();
-			return amountRemoved;
-		}
-		return 0;
+		List<String> toRemove = rooms.keySet().stream().filter(e -> rooms.get(e).getExits().size() == 0)
+				.collect(Collectors.toList());
+		int amountRemoved = rooms.size();
+		toRemove.forEach(e -> rooms.remove(e));
+		return amountRemoved - rooms.size();
 	}
 
 	public void removeAllWithoutItems() {
-		ArrayList<String> toRemove = new ArrayList<>();
-		for (String roomName : rooms.keySet()) {
-			Room room = rooms.get(roomName);
-			if (room.getTakeableItems().size() == 0) {
-				toRemove.add(roomName);
-			}
-		}
+		// Get list of room names to remove
+		List<String> toRemove = rooms.keySet().stream().filter(e -> rooms.get(e).getTakeableItems().size() == 0)
+				.collect(Collectors.toList());
 
-		for (String roomName : toRemove) {
-			rooms.remove(roomName);
-		}
+		// Remove the rooms without items from the main room map
+		toRemove.forEach(e -> rooms.remove(e));
 
+		// Remove all references to the removed rooms
 		for (String roomName : rooms.keySet()) {
 			Room room = rooms.get(roomName);
 			HashMap<String, String> exits = room.getExits();

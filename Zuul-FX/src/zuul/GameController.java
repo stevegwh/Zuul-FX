@@ -96,11 +96,9 @@ public class GameController {
 		npcData = new AllNPCDataController();
 		npcController = new NPCController();
 		currentPlayer = new Player("entrance");
-		GameStartOutput welcome = new GameStartOutput();
 		LookOutput look = new LookOutput();
 ////		setGameType();
 		npcController.init(npcData);
-		welcome.init(new String[] {});
 		roomData.setNewCurrentRoom(getCurrentPlayer().getLocation());
 		look.init(new String[] {});
 	}
