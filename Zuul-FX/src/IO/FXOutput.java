@@ -1,6 +1,7 @@
 package IO;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.stream.Collectors;
 
@@ -10,6 +11,9 @@ import javafx.beans.property.ListProperty;
 import javafx.beans.property.SimpleListProperty;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
@@ -19,7 +23,9 @@ import javafx.scene.control.TextArea;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
+import view.AddItemController;
 import zuul.GameController;
 import zuul.TakeableItem;
 import zuul.CommandHandler;
@@ -205,7 +211,6 @@ public class FXOutput implements Output {
 		a.show();
 	}
 
-	// TODO: Need to remove exit's reference from all other rooms
 	public void removeAllWithoutItems() {
 		GameController.getAllRoomDataController().removeAllWithoutItems();
 	}
@@ -213,9 +218,21 @@ public class FXOutput implements Output {
 	// TODO: Dialog box where user can specify a name and weight, then pass it to
 	// this
 	public void addItemToAllRooms() {
-		TakeableItem item = new TakeableItem("sword", 5);
-		GameController.getAllRoomDataController().addItemToAllRooms(item);
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("dialog.fxml"));
+		try {
+			Parent parent = fxmlLoader.load();
+//			AddItemController dialogController = fxmlLoader.<AddItemController>getController();
+			Scene scene = new Scene(parent, 300, 200);
+			Stage stage = new Stage();
+			stage.initModality(Modality.APPLICATION_MODAL);
+			stage.setScene(scene);
+			stage.showAndWait();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
+	
 
 	FXOutput() {
 		commandHandler = new CommandHandler();

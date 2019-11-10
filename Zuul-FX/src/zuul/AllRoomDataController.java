@@ -87,10 +87,7 @@ public class AllRoomDataController {
 	}
 
 	public void addItemToAllRooms(TakeableItem item) {
-		for (String roomName : rooms.keySet()) {
-			Room room = rooms.get(roomName);
-			room.addTakeableItem(item);
-		}
+		rooms.keySet().stream().forEach(e -> rooms.get(e).addTakeableItem(item));
 	}
 
 	public AllRoomDataController(String path) {

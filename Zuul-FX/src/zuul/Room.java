@@ -10,8 +10,6 @@ import npc.NPC;
 public class Room {
 	private String name;
 	private String description;
-//	private ArrayList<TakeableItem> takeableItems = new ArrayList<>();
-//	private ArrayList<NPC> actorsInRoom = new ArrayList<>();
 	private ObservableList<NPC> actorsInRoom = FXCollections.observableList(new ArrayList<NPC>());
 	private ObservableList<TakeableItem> takeableItems = FXCollections.observableList(new ArrayList<TakeableItem>());
 	private HashMap<String, String> exits = new HashMap<>();
@@ -24,22 +22,6 @@ public class Room {
 		this.description = description;
 	}
 
-//	public ArrayList<TakeableItem> getTakeableItems() {
-//		return takeableItems;
-//	}
-//
-//	public void setTakeableItems(ArrayList<TakeableItem> takeableItems) {
-//		this.takeableItems = takeableItems;
-//	}
-//
-//	public ArrayList<NPC> getActorsInRoom() {
-//		return actorsInRoom;
-//	}
-//
-//	public void setActorsInRoom(ArrayList<NPC> actorsInRoom) {
-//		this.actorsInRoom = actorsInRoom;
-//	}
-	
 	public ObservableList<TakeableItem> getTakeableItems() {
 		return takeableItems;
 	}
@@ -118,6 +100,5 @@ public class Room {
 
 	public Room() {
 	}
-
 
 }
