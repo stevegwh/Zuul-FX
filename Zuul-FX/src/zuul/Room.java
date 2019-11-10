@@ -3,7 +3,6 @@ package zuul;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import javafx.beans.InvalidationListener;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import npc.NPC;
@@ -41,15 +40,6 @@ public class Room {
 //		this.actorsInRoom = actorsInRoom;
 //	}
 	
-	public void addListener(InvalidationListener listener) {
-		actorsInRoom.addListener(listener);
-//		takeableItems.addListener(listener);
-	}
-
-	public void removeListener(InvalidationListener layoutListener) {
-		takeableItems.removeListener(layoutListener);
-	}
-
 	public ObservableList<TakeableItem> getTakeableItems() {
 		return takeableItems;
 	}

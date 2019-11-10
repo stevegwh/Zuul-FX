@@ -1,7 +1,10 @@
 package zuul;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -48,6 +51,60 @@ public class AllRoomDataController {
 
 	public Room getRoom(String name) {
 		return rooms.get(name);
+	}
+
+	public int removeAllWithoutExit() {
+		ArrayList<String> toRemove = new ArrayList<>();
+		for (String roomName : rooms.keySet()) {
+			Room room = rooms.get(roomName);
+			if (room.getExits().size() == 0) {
+				toRemove.add(roomName);
+			}
+		}
+		for (String roomName : toRemove) {
+			int amountRemoved = rooms.size();
+			rooms.remove(roomName);
+			amountRemoved -= rooms.size();
+			return amountRemoved;
+		}
+		return 0;
+	}
+
+	public void removeAllWithoutItems() {
+		ArrayList<String> toRemove = new ArrayList<>();
+		for (String roomName : rooms.keySet()) {
+			Room room = rooms.get(roomName);
+			if (room.getTakeableItems().size() == 0) {
+				toRemove.add(roomName);
+			}
+		}
+
+		for (String roomName : toRemove) {
+			rooms.remove(roomName);
+		}
+
+		for (String roomName : rooms.keySet()) {
+			Room room = rooms.get(roomName);
+			HashMap<String, String> exits = room.getExits();
+			for (String toRemoveName : toRemove) {
+				// Get entries with values that reference any removed room
+				Set<String> tmp = exits.entrySet().stream().filter(e -> !e.getValue().equals(toRemoveName))
+						.map(Map.Entry::getKey).collect(Collectors.toSet());
+				// Get keys of the values that reference the removed rooms
+				List<String> keysToRemove = exits.keySet().stream().filter(k -> !tmp.contains(k))
+						.collect(Collectors.toList());
+				keysToRemove.forEach(e -> exits.remove(e));
+				// Overwrite the exits HashMap with the new one
+				room.setExits(exits);
+			}
+		}
+	}
+
+	public void addItemToAllRooms(TakeableItem item) {
+		for (String roomName : rooms.keySet()) {
+			Room room = rooms.get(roomName);
+			room.addTakeableItem(item);
+		}
 	}
 
 	public AllRoomDataController(String path) {

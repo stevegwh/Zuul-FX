@@ -7,7 +7,6 @@
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
-<?import javafx.scene.control.SeparatorMenuItem?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.HBox?>
@@ -22,23 +21,17 @@
       <menus>
         <Menu mnemonicParsing="false" text="File">
           <items>
-            <MenuItem mnemonicParsing="false" onAction="#startClicked" text="New Default Game" />
+            <MenuItem mnemonicParsing="false" onAction="#startDefaultGame" text="Start Default Game" />
+                  <MenuItem fx:id="menuItemStartCustomGame" disable="true" mnemonicParsing="false" onAction="#startGame" text="Start Custom Game" />
             <MenuItem mnemonicParsing="false" onAction="#openFileChooser" text="Load Custom Game" />
             <MenuItem mnemonicParsing="false" text="Quit" />
           </items>
         </Menu>
-        <Menu mnemonicParsing="false" text="Edit">
+        <Menu mnemonicParsing="false" text="Edit Game">
           <items>
-            <MenuItem mnemonicParsing="false" text="Undo" />
-            <MenuItem mnemonicParsing="false" text="Redo" />
-            <SeparatorMenuItem mnemonicParsing="false" />
-            <MenuItem mnemonicParsing="false" text="Cut" />
-            <MenuItem mnemonicParsing="false" text="Copy" />
-            <MenuItem mnemonicParsing="false" text="Paste" />
-            <MenuItem mnemonicParsing="false" text="Delete" />
-            <SeparatorMenuItem mnemonicParsing="false" />
-            <MenuItem mnemonicParsing="false" text="Select All" />
-            <MenuItem mnemonicParsing="false" text="Unselect All" />
+            <MenuItem fx:id="menuItemRemoveExits" disable="true" mnemonicParsing="false" onAction="#removeAllWithoutExit" text="Remove All Rooms Without Exit" />
+            <MenuItem fx:id="menuItemRemoveItems" disable="true" mnemonicParsing="false" onAction="#removeAllWithoutItems" text="Remove All Rooms Without Items" />
+            <MenuItem fx:id="menuItemAddItems" disable="true" mnemonicParsing="false" onAction="#addItemToAllRooms" text="Add Item To All Rooms" />
           </items>
         </Menu>
         <Menu mnemonicParsing="false" text="Help">
@@ -50,17 +43,17 @@
     </MenuBar>
       <HBox prefHeight="567.0" prefWidth="900.0">
          <children>
-            <TextArea fx:id="gameText" prefHeight="100.0" prefWidth="726.0">
+            <TextArea fx:id="gameText" disable="true" prefHeight="100.0" prefWidth="726.0" style="-fx-opacity: 1;">
                <font>
                   <Font name="DejaVu Sans Mono" size="13.0" />
                </font></TextArea>
             <VBox prefHeight="489.0" prefWidth="254.0">
                <children>
-                  <TextField id="sentence-builder" alignment="CENTER" layoutX="10.0" layoutY="475.0" prefHeight="0.0" prefWidth="900.0" text="Inventory" />
+                  <TextField id="sentence-builder" alignment="CENTER" disable="true" layoutX="10.0" layoutY="475.0" prefHeight="0.0" prefWidth="900.0" style="-fx-opacity: 1;" text="Inventory" />
                   <ListView id="inventory" fx:id="inventory" onMouseClicked="#inventoryClicked" prefHeight="200.0" prefWidth="200.0" />
-                  <TextField id="sentence-builder" alignment="CENTER" prefHeight="0.0" prefWidth="900.0" text="Items In Room" />
+                  <TextField id="sentence-builder" alignment="CENTER" disable="true" prefHeight="0.0" prefWidth="900.0" style="-fx-opacity: 1;" text="Items In Room" />
                   <ListView id="itemsInRoom" fx:id="itemsInRoom" onMouseClicked="#itemsClicked" prefHeight="200.0" prefWidth="200.0" />
-                  <TextField id="sentence-builder" alignment="CENTER" layoutX="10.0" layoutY="474.0" prefHeight="0.0" prefWidth="900.0" text="Actors In Room" />
+                  <TextField id="sentence-builder" alignment="CENTER" disable="true" layoutX="10.0" layoutY="474.0" prefHeight="0.0" prefWidth="900.0" style="-fx-opacity: 1;" text="Actors In Room" />
                   <ListView id="actorsInRoom" fx:id="actorsInRoom" onMouseClicked="#inventoryClicked" prefHeight="200.0" prefWidth="200.0" />
                </children>
             </VBox>
@@ -69,42 +62,42 @@
       <TextField id="sentence-builder" alignment="CENTER" layoutX="10.0" layoutY="39.0" prefHeight="0.0" prefWidth="900.0" text="Hello" />
       <HBox alignment="TOP_CENTER" prefHeight="100.0" prefWidth="200.0">
          <children>
-            <Button id="west" fx:id="buttonGoWest" mnemonicParsing="false" onMouseClicked="#goClicked" text="West" textAlignment="CENTER">
+            <Button id="west" fx:id="buttonGoWest" disable="true" mnemonicParsing="false" onMouseClicked="#goClicked" text="West" textAlignment="CENTER">
                <font>
                   <Font size="18.0" />
                </font>
             </Button>
-            <Button id="east" fx:id="buttonGoEast" mnemonicParsing="false" onMouseClicked="#goClicked" text="East" textAlignment="CENTER">
+            <Button id="east" fx:id="buttonGoEast" disable="true" mnemonicParsing="false" onMouseClicked="#goClicked" text="East" textAlignment="CENTER">
                <font>
                   <Font size="18.0" />
                </font>
             </Button>
-            <Button id="north" fx:id="buttonGoNorth" mnemonicParsing="false" onMouseClicked="#goClicked" text="North" textAlignment="CENTER">
+            <Button id="north" fx:id="buttonGoNorth" disable="true" mnemonicParsing="false" onMouseClicked="#goClicked" text="North" textAlignment="CENTER">
                <font>
                   <Font size="18.0" />
                </font>
             </Button>
-            <Button id="south" fx:id="buttonGoSouth" mnemonicParsing="false" onMouseClicked="#goClicked" text="South" textAlignment="CENTER">
+            <Button id="south" fx:id="buttonGoSouth" disable="true" mnemonicParsing="false" onMouseClicked="#goClicked" text="South" textAlignment="CENTER">
                <font>
                   <Font size="18.0" />
                </font>
             </Button>
-            <Button fx:id="buttonLook" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onMouseClicked="#lookClicked" text="Look" textAlignment="CENTER">
+            <Button fx:id="buttonLook" disable="true" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onMouseClicked="#lookClicked" text="Look" textAlignment="CENTER">
                <font>
                   <Font size="18.0" />
                </font>
             </Button>
-            <Button fx:id="buttonTake" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onMouseClicked="#takeClicked" text="Take" textAlignment="CENTER">
+            <Button fx:id="buttonTake" disable="true" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onMouseClicked="#takeClicked" text="Take" textAlignment="CENTER">
                <font>
                   <Font size="18.0" />
                </font>
             </Button>
-            <Button fx:id="buttonDrop" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onMouseClicked="#dropClicked" text="Drop" textAlignment="CENTER">
+            <Button fx:id="buttonDrop" disable="true" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onMouseClicked="#dropClicked" text="Drop" textAlignment="CENTER">
                <font>
                   <Font size="18.0" />
                </font>
             </Button>
-            <Button fx:id="buttonGive" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" text="Give" textAlignment="CENTER">
+            <Button fx:id="buttonGive" disable="true" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" text="Give" textAlignment="CENTER">
                <font>
                   <Font size="18.0" />
                </font>

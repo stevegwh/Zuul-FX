@@ -86,10 +86,13 @@ public class GameController {
 			currentPlayer = new Player(START_LOCATION);
 		}
 	}
-
-	public static void start(String path) {
+	
+	public static void initRooms(String path) {
 		if (path == "") { path = defaultPath; };
 		roomData = new AllRoomDataController(path);
+	}
+
+	public static void start() {
 		npcData = new AllNPCDataController();
 		npcController = new NPCController();
 		currentPlayer = new Player("entrance");

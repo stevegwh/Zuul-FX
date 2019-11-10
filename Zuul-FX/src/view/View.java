@@ -23,6 +23,7 @@ public class View extends Application {
 		Scene scene = new Scene(vbox);
 		primaryStage.setScene(scene);
 		primaryStage.show();
+		IOHandler.output.onLoad();
 //		IOHandler.output.init();
 	}
 
