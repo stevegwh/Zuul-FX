@@ -31,7 +31,7 @@ import zuul.TakeableItem;
 import zuul.CommandHandler;
 
 public class FXOutput implements Output {
-	private String path = "";
+	private String path;
 	private Stage stage;
 	private CommandHandler commandHandler;
 	private boolean takeClicked = false;
@@ -166,7 +166,7 @@ public class FXOutput implements Output {
 	}
 
 	public void startDefaultGame() {
-		GameController.initRooms("");
+		GameController.initRooms("src/csvLoader/roomData.csv");
 		startGame();
 	}
 

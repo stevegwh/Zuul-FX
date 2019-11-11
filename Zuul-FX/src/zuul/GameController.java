@@ -1,5 +1,6 @@
 package zuul;
 
+import java.net.URL;
 import java.util.ArrayList;
 
 import command.commandView.LookOutput;
@@ -9,7 +10,7 @@ import npc.AllNPCDataController;
 import npc.NPCController;
 
 public class GameController {
-	private static String defaultPath = "/home/forest/git/Zuul-FX/Zuul-FX/src/csvLoader/roomData.csv";
+//	private static URL defaultPath = GameController.class.getClassLoader().getResource("roomData.csv");
 	private static boolean singlePlayer = true;
 	private static AllRoomDataController roomData;
 	private static AllNPCDataController npcData;
@@ -88,7 +89,6 @@ public class GameController {
 	}
 	
 	public static void initRooms(String path) {
-		if (path == "") { path = defaultPath; };
 		roomData = new AllRoomDataController(path);
 	}
 

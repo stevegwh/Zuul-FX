@@ -40,7 +40,7 @@ public class AllNPCDataController {
 
 	public AllNPCDataController() {
 		CSVParser csvParser = new CSVParser();
-		String path = "/home/forest/git/Zuul-FX/Zuul-FX/src/npc/npcData.csv";
+		String path = "src/npc/npcData.csv";
 		npcs = csvParser.loadCSV(mapToItem, path).stream()
 				.collect(Collectors.toMap(e -> ((NPC) e).getName(), e -> (NPC) e));
 	}
