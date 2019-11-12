@@ -1,0 +1,7 @@
+TODO
+-----
+
+Move remove item etc to CSVEditor and have them edit the list, not the room hashmap
+Make the appendText function print the csv in rows, not everything with a new line
+Have a "commit changes" button that then initalises all the rooms in the game with the new data.
+You'll need a way of updating the CSV text on the screen after an update. (I think just running appendText afterwards would do, tbh)

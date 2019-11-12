@@ -25,13 +25,11 @@ import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import view.AddItemController;
 import zuul.GameController;
-import zuul.TakeableItem;
 import zuul.CommandHandler;
 
 public class FXOutput implements Output {
-	private String path;
+	private String csvPath;
 	private Stage stage;
 	private CommandHandler commandHandler;
 	private boolean takeClicked = false;
@@ -50,6 +48,11 @@ public class FXOutput implements Output {
 	ListProperty<String> itemsListProperty = new SimpleListProperty<>();
 	ListProperty<String> inventoryListProperty = new SimpleListProperty<>();
 	ListProperty<String> actorListProperty = new SimpleListProperty<>();
+	
+	
+	public String getCSVPath() {
+		return csvPath;
+	}
 
 	private void setDirectionButtons() {
 		ArrayList<String> exits = GameController.getCurrentRoom().getAllDirections();
@@ -154,15 +157,16 @@ public class FXOutput implements Output {
 	}
 
 	private void openFile(File file) {
-		path = file.getPath();
+		csvPath = file.getPath();
 		// TODO: Would be good if initRooms returned a boolean so we can confirm if it
 		// loaded correctly or not
-		GameController.initRooms(path);
+//		GameController.initRooms(path);
 		Alert a = new Alert(AlertType.CONFIRMATION);
 		a.setContentText("File loaded successfully.");
-		a.show();
+		a.showAndWait();
 		setEditMenuDisable(false);
 		menuItemStartCustomGame.setDisable(false);
+		initEditCSVView();
 	}
 
 	public void startDefaultGame() {
@@ -215,24 +219,19 @@ public class FXOutput implements Output {
 		GameController.getAllRoomDataController().removeAllWithoutItems();
 	}
 
-	// TODO: Dialog box where user can specify a name and weight, then pass it to
-	// this
-	public void addItemToAllRooms() {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("dialog.fxml"));
+	public void initEditCSVView() {
+		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("editCSVView.fxml"));
 		try {
 			Parent parent = fxmlLoader.load();
-//			AddItemController dialogController = fxmlLoader.<AddItemController>getController();
-			Scene scene = new Scene(parent, 300, 200);
+			Scene scene = new Scene(parent, 800, 600);
 			Stage stage = new Stage();
 			stage.initModality(Modality.APPLICATION_MODAL);
 			stage.setScene(scene);
 			stage.showAndWait();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
-	
 
 	FXOutput() {
 		commandHandler = new CommandHandler();

@@ -31,7 +31,7 @@
           <items>
             <MenuItem fx:id="menuItemRemoveExits" disable="true" mnemonicParsing="false" onAction="#removeAllWithoutExit" text="Remove All Rooms Without Exit" />
             <MenuItem fx:id="menuItemRemoveItems" disable="true" mnemonicParsing="false" onAction="#removeAllWithoutItems" text="Remove All Rooms Without Items" />
-            <MenuItem fx:id="menuItemAddItems" disable="true" mnemonicParsing="false" onAction="#addItemToAllRooms" text="Add Item To All Rooms" />
+            <MenuItem fx:id="menuItemAddItems" disable="true" mnemonicParsing="false" onAction="#initEditCSVView" text="Add Item To All Rooms" />
           </items>
         </Menu>
         <Menu mnemonicParsing="false" text="Help">
