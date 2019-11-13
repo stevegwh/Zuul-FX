@@ -19,7 +19,7 @@
           </Menu>
           <Menu mnemonicParsing="false" text="Edit">
             <items>
-              <MenuItem mnemonicParsing="false" text="Undo" />
+              <MenuItem fx:id="undoMenuItem" mnemonicParsing="false" onAction="#undoAction" text="Undo" />
             </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Help">
@@ -38,8 +38,8 @@
             <VBox prefHeight="375.0" prefWidth="197.0">
                <children>
                   <Button alignment="TOP_LEFT" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#addItemToAllRooms" prefHeight="25.0" text="Add Item To All Rooms" />
-                  <Button alignment="TOP_LEFT" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="25.0" prefWidth="141.0" text="Remove All Rooms w/o Exits" />
-                  <Button alignment="TOP_LEFT" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="25.0" prefWidth="152.0" text="Remove All Rooms w/o Items" />
+                  <Button alignment="TOP_LEFT" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#removeAllWithoutExit" prefHeight="25.0" prefWidth="141.0" text="Remove All Rooms w/o Exits" />
+                  <Button alignment="TOP_LEFT" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#removeAllWithoutItem" prefHeight="25.0" prefWidth="152.0" text="Remove All Rooms w/o Items" />
                </children>
             </VBox>
          </children>
