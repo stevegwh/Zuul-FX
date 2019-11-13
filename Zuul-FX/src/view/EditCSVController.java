@@ -2,15 +2,17 @@ package view;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import zuul.GameController;
-import zuul.TakeableItem;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import IO.IOHandler;
 import csvLoader.CSVEditor;
 import javafx.application.Platform;
+import javafx.beans.property.ListProperty;
+import javafx.beans.property.SimpleListProperty;
+import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -23,20 +25,21 @@ import javafx.stage.Stage;
 
 public class EditCSVController {
 	private CSVEditor csvEditor;
+	private static List<List<String>> rooms;
+	private List<List<List<String>>>changesArray;
+	ListProperty<String> csvDataProperty = new SimpleListProperty<>();
 
 	@FXML
 	private TextArea csvText; 
 
-	@FXML
-	public void addItem(ActionEvent event) {
-		TakeableItem item = new TakeableItem("sword", 5);
-		GameController.getAllRoomDataController().addItemToAllRooms(item);
-		Alert a = new Alert(AlertType.CONFIRMATION);
-		a.setContentText("Added item to all rooms.");
-		a.show();
-		closeStage(event);
+	
+	public static List<List<String>> getRooms() {
+		return rooms;
 	}
 
+	/**
+	 * Shows the 'add item to all rooms' popup dialog window.
+	 */
 	public void addItemToAllRooms() {
 		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("addItemDialog.fxml"));
 		try {
@@ -46,9 +49,15 @@ public class EditCSVController {
 			stage.initModality(Modality.APPLICATION_MODAL);
 			stage.setScene(scene);
 			stage.showAndWait();
+			updateView();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	private void updateView() {
+		rooms.forEach(e -> e.forEach(f -> appendText(f)));
+		
 	}
 
     private void closeStage(ActionEvent event) {
@@ -57,6 +66,10 @@ public class EditCSVController {
         stage.close();
     }
     
+    /**
+     * Adds text to the main TextArea of the 'Edit CSV' scene.
+     * @param ele the element to add.
+     */
 	@FXML
     private void appendText(String ele) {
 		String newLine = System.getProperty("line.separator");
@@ -67,8 +80,8 @@ public class EditCSVController {
     // TODO: Print the contents of the CSV file to the TextArea
 	@FXML
     private void displayCSV() {
-    	List<List<String>> rooms = csvEditor.getRoomData();
-		rooms.forEach(e -> e.forEach(f -> appendText(f)));
+    	rooms = csvEditor.getRoomData();
+    	updateView();
     }
     
     public EditCSVController() {

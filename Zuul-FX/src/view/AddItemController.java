@@ -1,20 +1,25 @@
 package view;
 
 import javafx.fxml.FXML;
-import zuul.GameController;
-import zuul.TakeableItem;
+
+import java.util.Arrays;
+import java.util.List;
+
 import javafx.event.ActionEvent;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 public class AddItemController {
+
+	/*
+	 * Adds specified item to each room in the rooms list.
+	 */
 	@FXML
 	public void addItem(ActionEvent event) {
-		TakeableItem item = new TakeableItem("sword", 5);
-		GameController.getAllRoomDataController().addItemToAllRooms(item);
+		List<String> toAdd = Arrays.asList( "sword", "5");
+		EditCSVController.getRooms().forEach(e->e.addAll(toAdd));
 		Alert a = new Alert(AlertType.CONFIRMATION);
 		a.setContentText("Added item to all rooms.");
 		a.show();
