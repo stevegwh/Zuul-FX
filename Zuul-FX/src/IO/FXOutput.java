@@ -42,12 +42,13 @@ public class FXOutput implements Output {
 	@FXML
 	private Button buttonGoWest, buttonGoEast, buttonGoSouth, buttonGoNorth, buttonLook, buttonTake, buttonDrop,
 			buttonGive;
+	@FXML
+	private MenuItem menuItemStartCustomGame;
 
 	ListProperty<String> itemsListProperty = new SimpleListProperty<>();
 	ListProperty<String> inventoryListProperty = new SimpleListProperty<>();
 	ListProperty<String> actorListProperty = new SimpleListProperty<>();
-	
-	
+
 	public String getCSVPath() {
 		return csvPath;
 	}
@@ -201,6 +202,8 @@ public class FXOutput implements Output {
 			stage.initModality(Modality.APPLICATION_MODAL);
 			stage.setScene(scene);
 			stage.showAndWait();
+			menuItemStartCustomGame.setDisable(false);
+
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

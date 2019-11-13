@@ -19,10 +19,13 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextArea;
+import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import zuul.GameController;
 
 public class EditCSVController {
 	private final int MAX_UNDO_SIZE = 10;
@@ -34,7 +37,11 @@ public class EditCSVController {
 	@FXML
 	private TextArea csvText;
 	@FXML
+	private MenuBar menuBar;
+	@FXML
 	private MenuItem undoMenuItem;
+	@FXML
+	private VBox csvDataWrapper;
 
 	public static List<List<String>> getRooms() {
 		return rooms;
@@ -65,10 +72,16 @@ public class EditCSVController {
 		Platform.runLater(() -> undoMenuItem.setDisable(undoArr.size() == 0));
 	}
 
-	private void closeStage(ActionEvent event) {
-		Node source = (Node) event.getSource();
-		Stage stage = (Stage) source.getScene().getWindow();
+	@FXML
+	public void submitCSV(ActionEvent event) {
+		GameController.initRooms(IOHandler.output.getCSVPath());
+		Stage stage = (Stage) ((Node) menuBar).getScene().getWindow();
 		stage.close();
+	}
+
+	@FXML
+	public void saveCSV() {
+		// TODO: To be implemented
 	}
 
 	public void removeAllWithoutExit() {
@@ -95,7 +108,7 @@ public class EditCSVController {
 		List<String> names = toRemove.stream().map(e -> e.get(0)).collect(Collectors.toList());
 
 		rooms.removeAll(toRemove);
-		
+
 		// Changes any reference to the room name in other rooms to 'null'
 		for (String name : names) {
 			for (List<String> room : rooms) {
@@ -111,17 +124,17 @@ public class EditCSVController {
 		a.show();
 		updateView();
 	}
-	
-	
+
 	@FXML
 	public void undoAction() {
 		rooms = undoArr.get(undoArr.size() - 1);
-		undoArr.remove(undoArr.size() -1);
+		undoArr.remove(undoArr.size() - 1);
 		updateView();
 	}
-	
+
 	/**
 	 * Adds item to the undo history array.
+	 * 
 	 * @param room
 	 */
 	private void addUndoItem(List<List<String>> room) {
@@ -130,12 +143,6 @@ public class EditCSVController {
 			undoArr.remove(0);
 		}
 		undoArr.add(room);
-	}
-	
-	
-	@FXML
-	public void commitChanges() {
-		
 	}
 
 	/**

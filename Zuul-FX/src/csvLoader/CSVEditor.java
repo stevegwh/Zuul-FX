@@ -28,7 +28,6 @@ public class CSVEditor {
 
 		rooms = csvParser.loadCSV(mapToItem, path).stream().map(e -> (List<String>) e).collect(Collectors.toList());
 
-
 	}
 
 }

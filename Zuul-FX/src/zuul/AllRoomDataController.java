@@ -1,15 +1,24 @@
 package zuul;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import csvLoader.CSVParser;
 
+/**
+ * Responsible for managing all the Room objects in the game.
+ * 
+ * @author Steve
+ *
+ */
 public class AllRoomDataController {
+	/**
+	 * Function that get's passed into the CSVLoader to instantiate all Room
+	 * objects. This defines what we want to happen to every line in the CSV file in
+	 * this context.
+	 */
 	private Function<Object, Object> mapToItem = (line) -> {
 		String[] p = ((String) line).split(", ");
 		Room room = new Room();
@@ -50,44 +59,6 @@ public class AllRoomDataController {
 
 	public Room getRoom(String name) {
 		return rooms.get(name);
-	}
-
-	public int removeAllWithoutExit() {
-		List<String> toRemove = rooms.keySet().stream().filter(e -> rooms.get(e).getExits().size() == 0)
-				.collect(Collectors.toList());
-		int amountRemoved = rooms.size();
-		toRemove.forEach(e -> rooms.remove(e));
-		return amountRemoved - rooms.size();
-	}
-
-	public void removeAllWithoutItems() {
-		// Get list of room names to remove
-		List<String> toRemove = rooms.keySet().stream().filter(e -> rooms.get(e).getTakeableItems().size() == 0)
-				.collect(Collectors.toList());
-
-		// Remove the rooms without items from the main room map
-		toRemove.forEach(e -> rooms.remove(e));
-
-		// Remove all references to the removed rooms
-		for (String roomName : rooms.keySet()) {
-			Room room = rooms.get(roomName);
-			HashMap<String, String> exits = room.getExits();
-			for (String toRemoveName : toRemove) {
-				// Get entries with values that reference any removed room
-				Set<String> tmp = exits.entrySet().stream().filter(e -> !e.getValue().equals(toRemoveName))
-						.map(Map.Entry::getKey).collect(Collectors.toSet());
-				// Get keys of the values that reference the removed rooms
-				List<String> keysToRemove = exits.keySet().stream().filter(k -> !tmp.contains(k))
-						.collect(Collectors.toList());
-				keysToRemove.forEach(e -> exits.remove(e));
-				// Overwrite the exits HashMap with the new one
-				room.setExits(exits);
-			}
-		}
-	}
-
-	public void addItemToAllRooms(TakeableItem item) {
-		rooms.keySet().stream().forEach(e -> rooms.get(e).addTakeableItem(item));
 	}
 
 	public AllRoomDataController(String path) {
