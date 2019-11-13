@@ -25,6 +25,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 public class EditCSVController {
+	private final int MAX_UNDO_SIZE = 10;
 	private CSVEditor csvEditor;
 	private static List<List<String>> rooms;
 	private List<List<List<String>>> undoArr = new ArrayList<>();
@@ -45,7 +46,7 @@ public class EditCSVController {
 	public void addItemToAllRooms() {
 		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("addItemDialog.fxml"));
 		try {
-			undoArr.add(rooms);
+			addUndoItem(rooms);
 			Parent parent = fxmlLoader.load();
 			Scene scene = new Scene(parent, 300, 200);
 			Stage stage = new Stage();
@@ -72,7 +73,7 @@ public class EditCSVController {
 
 	public void removeAllWithoutExit() {
 		int amountRemoved = rooms.size();
-		undoArr.add(rooms);
+		addUndoItem(rooms);
 		List<List<String>> toRemove = rooms.stream().filter(e -> !(e.get(2).equals("null") && e.get(3).equals("null")
 				&& e.get(4).equals("null") && e.get(5).equals("null"))).collect(Collectors.toList());
 		rooms = toRemove;
@@ -86,7 +87,7 @@ public class EditCSVController {
 		// Stores the room array before modification
 		int amountRemoved = rooms.size();
 		// Saves previous state of room for undo
-		undoArr.add(rooms);
+		addUndoItem(rooms);
 
 		// Finds all rooms that do not have any items (<= length 6)
 		List<List<String>> toRemove = rooms.stream().filter(e -> e.size() <= 6).collect(Collectors.toList());
@@ -119,9 +120,16 @@ public class EditCSVController {
 		updateView();
 	}
 	
+	/**
+	 * Adds item to the undo history array.
+	 * @param room
+	 */
 	private void addUndoItem(List<List<String>> room) {
+		// TODO: Make this redo/undo by +/- an index to the current operation
+		if (undoArr.size() > MAX_UNDO_SIZE) {
+			undoArr.remove(0);
+		}
 		undoArr.add(room);
-		
 	}
 	
 	

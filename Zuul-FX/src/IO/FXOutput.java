@@ -42,8 +42,6 @@ public class FXOutput implements Output {
 	@FXML
 	private Button buttonGoWest, buttonGoEast, buttonGoSouth, buttonGoNorth, buttonLook, buttonTake, buttonDrop,
 			buttonGive;
-	@FXML
-	private MenuItem menuItemRemoveItems, menuItemRemoveExits, menuItemAddItems, menuItemStartCustomGame;
 
 	ListProperty<String> itemsListProperty = new SimpleListProperty<>();
 	ListProperty<String> inventoryListProperty = new SimpleListProperty<>();
@@ -119,17 +117,6 @@ public class FXOutput implements Output {
 		Platform.runLater(() -> updateView());
 	}
 
-	private void setEditMenuDisable(boolean toggle) {
-		MenuItem[] menuList = { menuItemAddItems, menuItemRemoveExits, menuItemRemoveItems };
-		for (MenuItem item : menuList) {
-			if (toggle) {
-				item.setDisable(true);
-			} else {
-				item.setDisable(false);
-			}
-		}
-	}
-
 	private void enableAllButtons() {
 		Button[] buttons = { buttonTake, buttonLook, buttonDrop, buttonGive };
 		for (Button btn : buttons) {
@@ -141,7 +128,6 @@ public class FXOutput implements Output {
 		GameController.start();
 		setDirectionButtons();
 		enableAllButtons();
-		setEditMenuDisable(true);
 		updateView();
 	}
 
@@ -164,8 +150,6 @@ public class FXOutput implements Output {
 		Alert a = new Alert(AlertType.CONFIRMATION);
 		a.setContentText("File loaded successfully.");
 		a.showAndWait();
-		setEditMenuDisable(false);
-		menuItemStartCustomGame.setDisable(false);
 		initEditCSVView();
 	}
 
@@ -206,17 +190,6 @@ public class FXOutput implements Output {
 
 	public void setStage(Stage primaryStage) {
 		stage = primaryStage;
-	}
-
-	public void removeAllWithoutExit() {
-		int amountRemoved = GameController.getAllRoomDataController().removeAllWithoutExit();
-		Alert a = new Alert(AlertType.CONFIRMATION);
-		a.setContentText(amountRemoved + " room(s) removed.");
-		a.show();
-	}
-
-	public void removeAllWithoutItems() {
-		GameController.getAllRoomDataController().removeAllWithoutItems();
 	}
 
 	public void initEditCSVView() {

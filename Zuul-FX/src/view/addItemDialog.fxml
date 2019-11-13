@@ -35,6 +35,7 @@
             <HBox alignment="CENTER_RIGHT">
                <children>
                   <Button mnemonicParsing="false" onAction="#addItem" text="Add" />
+                  <Button layoutX="236.0" layoutY="10.0" mnemonicParsing="false" onAction="#closeWindow" text="Cancel" />
                </children>
                <opaqueInsets>
                   <Insets />
