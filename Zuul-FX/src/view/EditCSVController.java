@@ -22,6 +22,8 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -34,14 +36,16 @@ public class EditCSVController {
 	private List<List<List<String>>> undoArr = new ArrayList<>();
 	ListProperty<String> csvDataProperty = new SimpleListProperty<>();
 
-	@FXML
-	private TextArea csvText;
+//	@FXML
+//	private TextArea csvText;
 	@FXML
 	private MenuBar menuBar;
 	@FXML
 	private MenuItem undoMenuItem;
 	@FXML
 	private VBox csvDataWrapper;
+	@FXML
+	private GridPane csvGridPane;
 
 	public static List<List<String>> getRooms() {
 		return rooms;
@@ -67,7 +71,7 @@ public class EditCSVController {
 	}
 
 	private void updateView() {
-		Platform.runLater(() -> csvText.setText(" "));
+//		Platform.runLater(() -> csvText.setText(" "));
 		rooms.forEach(e -> e.forEach(f -> appendText(f)));
 		Platform.runLater(() -> undoMenuItem.setDisable(undoArr.size() == 0));
 	}
@@ -153,8 +157,20 @@ public class EditCSVController {
 	@FXML
 	private void appendText(String ele) {
 		String newLine = System.getProperty("line.separator");
-		Platform.runLater(() -> csvText.appendText(ele));
-		Platform.runLater(() -> csvText.appendText(newLine));
+//		Platform.runLater(() -> csvText.appendText(ele));
+//		Platform.runLater(() -> csvText.appendText(newLine));
+	}
+	
+	
+	@FXML
+	private void initGrid() {
+		int ROW_LENGTH = 6;
+		int COL_LENGTH = 20;
+		for (int i = 0; i < ROW_LENGTH; i++) {
+			for (int j = 0; j < COL_LENGTH; j++) {
+				csvGridPane.add(new TextField(), i, j);
+			}
+		}
 	}
 
 	@FXML
@@ -165,7 +181,8 @@ public class EditCSVController {
 
 	public EditCSVController() {
 		csvEditor = new CSVEditor(IOHandler.output.getCSVPath());
-		displayCSV();
+		Platform.runLater(() -> initGrid());
+//		displayCSV();
 	}
 
 }
