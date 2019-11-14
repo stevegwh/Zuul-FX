@@ -13,6 +13,7 @@ import csvLoader.CSVEditor;
 import javafx.application.Platform;
 import javafx.beans.property.ListProperty;
 import javafx.beans.property.SimpleListProperty;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -72,6 +73,7 @@ public class EditCSVController {
 
 	private void updateView() {
 //		Platform.runLater(() -> csvText.setText(" "));
+		Platform.runLater(() -> initGrid());
 		rooms.forEach(e -> e.forEach(f -> appendText(f)));
 		Platform.runLater(() -> undoMenuItem.setDisable(undoArr.size() == 0));
 	}
@@ -160,29 +162,51 @@ public class EditCSVController {
 //		Platform.runLater(() -> csvText.appendText(ele));
 //		Platform.runLater(() -> csvText.appendText(newLine));
 	}
-	
-	
+
+	private int findLongestArr(List<List<String>> list) {
+		int longest = 0;
+		for (List<String> arr : list) {
+			if (arr.size() > longest)
+				longest = arr.size();
+		}
+		return longest;
+	}
+
+	public Node getNodeByRowColumnIndex(final int row, final int column, GridPane gridPane) {
+		Node result = null;
+		ObservableList<Node> childrens = gridPane.getChildren();
+		for (Node node : childrens) {
+			if (gridPane.getRowIndex(node) == row && gridPane.getColumnIndex(node) == column) {
+				result = node;
+				break;
+			}
+		}
+		return result;
+	}
+
 	@FXML
 	private void initGrid() {
-		int ROW_LENGTH = 6;
-		int COL_LENGTH = 20;
-		for (int i = 0; i < ROW_LENGTH; i++) {
-			for (int j = 0; j < COL_LENGTH; j++) {
-				csvGridPane.add(new TextField(), i, j);
+		int ROW_LENGTH = rooms.size();
+		int COL_LENGTH = findLongestArr(rooms);
+		for (int row = 0; row < ROW_LENGTH; row++) {
+			for (int col = 0; col < COL_LENGTH + 2; col++) {
+				TextField cell = new TextField();
+				if (col < rooms.get(row).size()) {
+					cell.setText(rooms.get(row).get(col));
+				} else if (col > rooms.get(row).size() + 1) {
+					cell.setDisable(true);
+				}
+
+				csvGridPane.add(cell, col, row);
 			}
 		}
 	}
 
-	@FXML
-	private void displayCSV() {
-		rooms = csvEditor.getRoomData();
-		updateView();
-	}
-
 	public EditCSVController() {
 		csvEditor = new CSVEditor(IOHandler.output.getCSVPath());
+		rooms = csvEditor.getRoomData();
 		Platform.runLater(() -> initGrid());
-//		displayCSV();
+		updateView();
 	}
 
 }
