@@ -2,7 +2,6 @@ package view;
 
 import javafx.fxml.FXML;
 import csvLoader.CSVCell;
-import csvLoader.CSVCell.HeaderType;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Point2D;
 
@@ -24,7 +23,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.Label;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.ScrollPane;
@@ -34,7 +32,6 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.stage.Window;
 import zuul.GameController;
 
 public class EditCSVController {
@@ -276,9 +273,12 @@ public class EditCSVController {
 		if (!rooms.get(rowIdx).get(colIdx).checkValidity()) {
 			final String cssDefault = "-fx-background-color: orange;";
 			cell.setStyle(cssDefault);
+			Tooltip tooltip = new Tooltip("Error Message");
+			cell.setTooltip(tooltip);
 //			showTooltip(cell, "Error Message");
 		} else if (rooms.get(rowIdx).get(colIdx).checkValidity()) {
 			cell.setStyle("");
+			cell.setTooltip(null);
 		}
 		
 	}
