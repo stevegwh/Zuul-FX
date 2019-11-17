@@ -36,8 +36,10 @@ public class EditCSVController {
 	private final int MAX_UNDO_SIZE = 10;
 	private CSVEditor csvEditor;
 //	private static List<List<String>> rooms;
-	private static List<ObservableList<CSVCell>> rooms = new ArrayList<ObservableList<CSVCell>>();
-	private List<List<ObservableList<CSVCell>>> undoArr = new ArrayList<>();
+
+//	private static List<ObservableList<CSVCell>> rooms = new ArrayList<ObservableList<CSVCell>>();
+	private static ObservableList<ObservableList<CSVCell>> rooms = FXCollections.observableArrayList();
+	private List<ObservableList<ObservableList<CSVCell>>> undoArr = new ArrayList<>();
 
 //	@FXML
 //	private TextArea csvText;
@@ -53,7 +55,7 @@ public class EditCSVController {
 	private int lastFocusedRow;
 	private int lastFocusedCol;
 
-	public static List<ObservableList<CSVCell>> getRooms() {
+	public static ObservableList<ObservableList<CSVCell>> getRooms() {
 		return rooms;
 	}
 
@@ -61,11 +63,6 @@ public class EditCSVController {
 	 * Shows the 'add item to all rooms' popup dialog window.
 	 */
 	public void addItemToAllRooms() {
-//		for (List<CSVCell> room : rooms) { 
-//			for (CSVCell cell : room) {
-//				System.out.println(cell.getProperty().getValue());
-//			}
-//		}
 		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("addItemDialog.fxml"));
 		try {
 			addUndoItem(rooms);
@@ -75,14 +72,13 @@ public class EditCSVController {
 			stage.initModality(Modality.APPLICATION_MODAL);
 			stage.setScene(scene);
 			stage.showAndWait();
-			updateView();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
 
 	private void updateView() {
-		Platform.runLater(() -> initGrid());
+		Platform.runLater(() -> drawGrid());
 		Platform.runLater(() -> undoMenuItem.setDisable(undoArr.size() == 0));
 	}
 
@@ -101,18 +97,17 @@ public class EditCSVController {
 	public void removeAllWithoutExit() {
 		int amountRemoved = rooms.size();
 		addUndoItem(rooms);
-		// Get's list of rooms with exits
+		// Get's list of rooms without exits
 		List<ObservableList<CSVCell>> toRemove = rooms.stream()
-				.filter(e -> !(e.get(2).getProperty().getValue().equals("null")
+				.filter(e -> (e.get(2).getProperty().getValue().equals("null")
 						&& e.get(3).getProperty().getValue().equals("null")
 						&& e.get(4).getProperty().getValue().equals("null")
 						&& e.get(5).getProperty().getValue().equals("null")))
 				.collect(Collectors.toList());
-		rooms = toRemove;
+		rooms.removeAll(toRemove);
 		Alert a = new Alert(AlertType.CONFIRMATION);
 		a.setContentText(amountRemoved - rooms.size() + " room(s) removed.");
 		a.show();
-		updateView();
 	}
 
 	// TODO: Broken. References do not get updated to 'null' now.
@@ -149,14 +144,12 @@ public class EditCSVController {
 		Alert a = new Alert(AlertType.CONFIRMATION);
 		a.setContentText(amountRemoved - rooms.size() + " room(s) removed.");
 		a.show();
-		updateView();
 	}
 
 	@FXML
 	public void undoAction() {
 		rooms = undoArr.get(undoArr.size() - 1);
 		undoArr.remove(undoArr.size() - 1);
-		updateView();
 	}
 
 	/**
@@ -164,7 +157,7 @@ public class EditCSVController {
 	 * 
 	 * @param rooms2
 	 */
-	private void addUndoItem(List<ObservableList<CSVCell>> rooms2) {
+	private void addUndoItem(ObservableList<ObservableList<CSVCell>> rooms2) {
 		// TODO: Make this redo/undo by +/- an index to the current operation
 		if (undoArr.size() > MAX_UNDO_SIZE) {
 			undoArr.remove(0);
@@ -172,7 +165,7 @@ public class EditCSVController {
 		undoArr.add(rooms2);
 	}
 
-	private int findLongestArr(List<ObservableList<CSVCell>> rooms2) {
+	private int findLongestArr(ObservableList<ObservableList<CSVCell>> rooms2) {
 		int longest = 0;
 		for (ObservableList<CSVCell> arr : rooms2) {
 			if (arr.size() > longest)
@@ -196,10 +189,10 @@ public class EditCSVController {
 	}
 
 	@FXML
-	private void initGrid() {
-		// TODO: Check if the user is focusing a TextField here.
+	private void drawGrid() {
 		csvGridPane.getChildren().clear();
 		int ROW_LENGTH = rooms.size();
+		// To have an even grid we find the longest row in the CSV file to use as our boundary.
 		int COL_LENGTH = findLongestArr(rooms);
 
 		for (int row = 0; row < ROW_LENGTH; row++) {
@@ -207,40 +200,19 @@ public class EditCSVController {
 				TextField cell = new TextField();
 				if (col < rooms.get(row).size()) {
 					CSVCell element = rooms.get(row).get(col);
-					int colIdx = col;
-					int rowIdx = row;
+					int colIdx = col, rowIdx = row;
 					cell.setText(element.getProperty().getValue());
 					cell.textProperty().bindBidirectional(element.getProperty());
 					cell.textProperty().addListener((InvalidationListener) c -> {
-						System.out.println("Cell changed");
-//						element.getProperty().set("Hello");
-						// TODO: Simplify
-//						if (colIdx == rooms.get(rowIdx).size() - 2) {
-//							System.out.println("We are editing the second from last item in the row");
-//							if (!rooms.get(rowIdx).get(colIdx + 1).getProperty().getValue().isEmpty()) {
-//								lastFocusedRow = rowIdx;
-//								lastFocusedCol = colIdx;
-//								rooms.get(rowIdx).add(new CSVCell(""));
-//								rooms.get(rowIdx).add(new CSVCell(""));
-//								System.out.println("Both name and weight are populated");
-//							}
-//						}
-//						if (colIdx == rooms.get(rowIdx).size() - 1) {
-//							System.out.println("We are editing the final item in the row");
-//							if (!rooms.get(rowIdx).get(colIdx - 1).getProperty().getValue().isEmpty()) {
-//								System.out.println("Both name and weight are populated");
-//								lastFocusedRow = rowIdx;
-//								lastFocusedCol = colIdx;
-//								rooms.get(rowIdx).add(new CSVCell(""));
-//								rooms.get(rowIdx).add(new CSVCell(""));
-//							}
-//						}
+						// If both the last cell and the second to last (i.e. the item name + the item
+						// weight) are not empty then add two extra spaces at the end of the cell row
+						// for the user.
+						lastFocusedRow = rowIdx;
+						lastFocusedCol = colIdx;
 						if ((colIdx == rooms.get(rowIdx).size() - 1
 								&& !rooms.get(rowIdx).get(colIdx - 1).getProperty().getValue().isEmpty())
 								|| (colIdx == rooms.get(rowIdx).size() - 2)
 										&& !rooms.get(rowIdx).get(colIdx + 1).getProperty().getValue().isEmpty()) {
-							lastFocusedRow = rowIdx;
-							lastFocusedCol = colIdx;
 							rooms.get(rowIdx).add(new CSVCell(""));
 							rooms.get(rowIdx).add(new CSVCell(""));
 						}
@@ -248,16 +220,14 @@ public class EditCSVController {
 				} else if (col > rooms.get(row).size() - 1) {
 					// From this point on in the row 'dummy' TextFields are instantiated and set to
 					// disabled.
-					// They are not bound to the underlying array of CSVCells unlike the two blank
-					// cells added previously.
+					// They are not bound to an underlying array of CSVCells like the previous TextFields.
 					cell.setDisable(true);
 				}
 
 				csvGridPane.add(cell, col, row);
 			}
 		}
-		// TODO: Refocus previous TextField here if it exists.
-		System.out.println(lastFocusedRow + " " + lastFocusedCol);
+		// Ensures the grid is focusing the user's last row.
 		TextField toFocus = (TextField) getNodeByRowColumnIndex(lastFocusedRow, lastFocusedCol, csvGridPane);
 		toFocus.requestFocus();
 		Platform.runLater(() -> toFocus.positionCaret(toFocus.textProperty().getValue().length() + 1));
@@ -277,16 +247,21 @@ public class EditCSVController {
 			room.addListener((ListChangeListener<CSVCell>) c -> {
 				// respond to list changes
 				System.out.println("Row changed to : " + room);
-				initGrid();
+				drawGrid();
 			});
 		}
+		rooms.addListener((ListChangeListener<ObservableList<CSVCell>>) c -> {
+			// respond to list changes
+			System.out.println("Row changed to : " + rooms);
+			drawGrid();
+		});
 	}
 
 	public EditCSVController() {
 		csvEditor = new CSVEditor(IOHandler.output.getCSVPath());
 		List<List<String>> roomData = csvEditor.getRoomData();
 		buildObservableList(roomData);
-		updateView();
+		Platform.runLater(()-> drawGrid());
 	}
 
 }

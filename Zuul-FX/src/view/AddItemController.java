@@ -6,6 +6,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import csvLoader.CSVCell;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
@@ -24,10 +25,13 @@ public class AddItemController {
 	@FXML
 	public void addItem(ActionEvent event) {
 
-		List<CSVCell> toAdd = Arrays.asList(new CSVCell(itemName.getText()), new CSVCell(itemWeight.getText()));
 		if (itemName.getText() != null && itemWeight.getText() != null && itemWeight.getText().matches("\\d+")
 				&& itemName.getText().matches("\\w+")) {
-			EditCSVController.getRooms().forEach(e -> e.addAll(toAdd));
+			ObservableList<ObservableList<CSVCell>> rooms = EditCSVController.getRooms();
+			for (ObservableList<CSVCell> room : rooms) {
+				room.get(room.size() - 2).getProperty().setValue(itemName.getText());
+				room.get(room.size() - 1).getProperty().setValue(itemWeight.getText());
+			}
 			Alert a = new Alert(AlertType.CONFIRMATION);
 			a.setContentText("Added item to all rooms.");
 			a.show();
