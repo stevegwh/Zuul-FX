@@ -13,7 +13,6 @@ import IO.IOHandler;
 import csvLoader.CSVEditor;
 import javafx.application.Platform;
 import javafx.beans.InvalidationListener;
-import javafx.beans.value.ChangeListener;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
@@ -35,14 +34,9 @@ import zuul.GameController;
 public class EditCSVController {
 	private final int MAX_UNDO_SIZE = 10;
 	private CSVEditor csvEditor;
-//	private static List<List<String>> rooms;
-
-//	private static List<ObservableList<CSVCell>> rooms = new ArrayList<ObservableList<CSVCell>>();
 	private static ObservableList<ObservableList<CSVCell>> rooms = FXCollections.observableArrayList();
 	private List<ObservableList<ObservableList<CSVCell>>> undoArr = new ArrayList<>();
 
-//	@FXML
-//	private TextArea csvText;
 	@FXML
 	private MenuBar menuBar;
 	@FXML
@@ -110,10 +104,7 @@ public class EditCSVController {
 		a.show();
 	}
 
-	// TODO: Broken. References do not get updated to 'null' now.
-	// Also, you can no longer check for size of the array as an indicator that
-	// there are no items as you are adding null CSVCels to the table for the user
-	// to input values in.
+	// TODO: Tidy
 	public void removeAllWithoutItem() {
 		// Stores the room array before modification
 		int amountRemoved = rooms.size();
@@ -121,22 +112,23 @@ public class EditCSVController {
 		addUndoItem(rooms);
 
 		// Finds all rooms that do not have any items (<= length 6)
-		List<ObservableList<CSVCell>> toRemove = rooms.stream().filter(e -> e.size() <= 6).collect(Collectors.toList());
+		List<ObservableList<CSVCell>> toRemove = rooms.stream().filter(e -> e.size() <= 8).collect(Collectors.toList());
 		// Stores the names of these rooms
 		List<CSVCell> names = toRemove.stream().map(e -> e.get(0)).collect(Collectors.toList());
 		System.out.println(names.size());
 
-		// TODO: Instead of removing you could set all to null?
 		rooms.removeAll(toRemove);
 
 		// Changes any reference to the room name in other rooms to 'null'
 		for (CSVCell name : names) {
 			for (ObservableList<CSVCell> room : rooms) {
-				int idx = room.indexOf(name);
-				System.out.println(idx);
-				if (idx >= 0) {
-					System.out.println("THIS NEVER HAPPENS");
-					room.set(idx, new CSVCell("null"));
+				// TODO: Range is hard coded
+				for (int i = 2; i <= 5; i++) {
+					if (room.get(i).getProperty().getValue().equals(name.getProperty().getValue())) {
+						System.out.println("THIS NEVER HAPPENS");
+						room.set(i, new CSVCell("null"));
+					}
+
 				}
 			}
 		}
@@ -192,7 +184,8 @@ public class EditCSVController {
 	private void drawGrid() {
 		csvGridPane.getChildren().clear();
 		int ROW_LENGTH = rooms.size();
-		// To have an even grid we find the longest row in the CSV file to use as our boundary.
+		// To have an even grid we find the longest row in the CSV file to use as our
+		// boundary.
 		int COL_LENGTH = findLongestArr(rooms);
 
 		for (int row = 0; row < ROW_LENGTH; row++) {
@@ -220,7 +213,8 @@ public class EditCSVController {
 				} else if (col > rooms.get(row).size() - 1) {
 					// From this point on in the row 'dummy' TextFields are instantiated and set to
 					// disabled.
-					// They are not bound to an underlying array of CSVCells like the previous TextFields.
+					// They are not bound to an underlying array of CSVCells like the previous
+					// TextFields.
 					cell.setDisable(true);
 				}
 
@@ -228,6 +222,7 @@ public class EditCSVController {
 			}
 		}
 		// Ensures the grid is focusing the user's last row.
+		// TODO: Ensure the textfield that was focused exists still. At the moment it throws an error if you are selecting a field that get's deleted.
 		TextField toFocus = (TextField) getNodeByRowColumnIndex(lastFocusedRow, lastFocusedCol, csvGridPane);
 		toFocus.requestFocus();
 		Platform.runLater(() -> toFocus.positionCaret(toFocus.textProperty().getValue().length() + 1));
@@ -261,7 +256,7 @@ public class EditCSVController {
 		csvEditor = new CSVEditor(IOHandler.output.getCSVPath());
 		List<List<String>> roomData = csvEditor.getRoomData();
 		buildObservableList(roomData);
-		Platform.runLater(()-> drawGrid());
+		Platform.runLater(() -> drawGrid());
 	}
 
 }

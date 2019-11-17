@@ -2,9 +2,6 @@ package view;
 
 import javafx.fxml.FXML;
 
-import java.util.Arrays;
-import java.util.List;
-
 import csvLoader.CSVCell;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
