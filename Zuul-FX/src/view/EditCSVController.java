@@ -33,7 +33,7 @@ import zuul.GameController;
 public class EditCSVController {
 	private final int MAX_UNDO_SIZE = 10;
 	private CSVEditor csvEditor;
-	private CSVGrid csvGrid;
+	private CSVGridFactory csvGrid;
 	private static ObservableList<ObservableList<CSVCell>> rooms = FXCollections.observableArrayList();
 	private List<ObservableList<ObservableList<CSVCell>>> undoArr = new ArrayList<>();
 
@@ -179,7 +179,7 @@ public class EditCSVController {
 		List<List<String>> roomData = csvEditor.getRoomData();
 		buildObservableList(roomData);
 		GridPane csvGridPane = new GridPane();
-		csvGrid = new CSVGrid(csvGridPane);
+		csvGrid = new CSVGridFactory(csvGridPane);
 		Platform.runLater(() -> csvContainer.setContent(csvGridPane));
 		Platform.runLater(() -> csvGrid.drawGrid());
 	}

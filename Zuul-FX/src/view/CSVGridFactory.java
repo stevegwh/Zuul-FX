@@ -12,7 +12,7 @@ import javafx.scene.control.Tooltip;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 
-public class CSVGrid {
+public class CSVGridFactory {
 	ObservableList<ObservableList<CSVCell>> rooms = EditCSVController.getRooms();
 	private GridPane csvGridPane;
 
@@ -147,7 +147,7 @@ public class CSVGrid {
 		
 	}
 	
-	public CSVGrid(GridPane csvGridPane) {
+	public CSVGridFactory(GridPane csvGridPane) {
 		this.csvGridPane = csvGridPane;
 	}
 

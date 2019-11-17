@@ -10,7 +10,7 @@ import javafx.collections.ObservableList;
 public class ObservableListFactory {
 
 	private List<List<String>> roomData;
-	private CSVGrid csvGrid;
+	private CSVGridFactory csvGrid;
 
 	public ObservableList<ObservableList<CSVCell>> start() {
 		ObservableList<ObservableList<CSVCell>> rooms = FXCollections.observableArrayList();
@@ -40,7 +40,7 @@ public class ObservableListFactory {
 		return rooms;
 	}
 
-	public ObservableListFactory(List<List<String>> roomData, CSVGrid csvGrid) {
+	public ObservableListFactory(List<List<String>> roomData, CSVGridFactory csvGrid) {
 		this.roomData = roomData;
 		this.csvGrid = csvGrid;
 	}
