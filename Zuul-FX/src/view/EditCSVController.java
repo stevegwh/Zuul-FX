@@ -24,6 +24,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
@@ -44,7 +45,9 @@ public class EditCSVController {
 	@FXML
 	private VBox csvDataWrapper;
 	@FXML
-	private GridPane csvGridPane;
+	private ScrollPane csvContainer;
+
+	private GridPane csvGridPane = new GridPane();
 
 	private int lastFocusedRow;
 	private int lastFocusedCol;
@@ -69,11 +72,6 @@ public class EditCSVController {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-	}
-
-	private void updateView() {
-		Platform.runLater(() -> drawGrid());
-		Platform.runLater(() -> undoMenuItem.setDisable(undoArr.size() == 0));
 	}
 
 	@FXML
@@ -125,7 +123,6 @@ public class EditCSVController {
 				// TODO: Range is hard coded
 				for (int i = 2; i <= 5; i++) {
 					if (room.get(i).getProperty().getValue().equals(name.getProperty().getValue())) {
-						System.out.println("THIS NEVER HAPPENS");
 						room.set(i, new CSVCell("null"));
 					}
 
@@ -224,8 +221,10 @@ public class EditCSVController {
 		// Ensures the grid is focusing the user's last row.
 		// TODO: Ensure the textfield that was focused exists still. At the moment it throws an error if you are selecting a field that get's deleted.
 		TextField toFocus = (TextField) getNodeByRowColumnIndex(lastFocusedRow, lastFocusedCol, csvGridPane);
-		toFocus.requestFocus();
-		Platform.runLater(() -> toFocus.positionCaret(toFocus.textProperty().getValue().length() + 1));
+		if (toFocus != null) {
+			toFocus.requestFocus();
+			Platform.runLater(() -> toFocus.positionCaret(toFocus.textProperty().getValue().length() + 1));
+		}
 	}
 
 	// TODO: Could make this a class
@@ -249,6 +248,7 @@ public class EditCSVController {
 			// respond to list changes
 			System.out.println("Row changed to : " + rooms);
 			drawGrid();
+			undoMenuItem.setDisable(undoArr.size() == 0);
 		});
 	}
 
@@ -256,6 +256,7 @@ public class EditCSVController {
 		csvEditor = new CSVEditor(IOHandler.output.getCSVPath());
 		List<List<String>> roomData = csvEditor.getRoomData();
 		buildObservableList(roomData);
+		Platform.runLater(() -> csvContainer.setContent(csvGridPane));
 		Platform.runLater(() -> drawGrid());
 	}
 

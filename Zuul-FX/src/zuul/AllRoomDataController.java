@@ -66,16 +66,9 @@ public class AllRoomDataController {
 	}
 
 	public AllRoomDataController(List<ObservableList<CSVCell>> csvData) {
-//		CSVParser csvParser = new CSVParser();
-		
 		rooms = csvData.stream().map(mapToItem)
 				.collect(Collectors.toMap(e -> ((Room) e).getName(), e -> (Room) e));
 
-		// TODO: This needs to load a List<List<String>> (Or ObservableList), not take the raw CSV file.
-		// This means even the default game should first build a List<List<String>> (Or we can hard code it)
-		// before it gets processed into rooms.
-//		rooms = csvParser.loadCSV(mapToItem, path).stream()
-//				.collect(Collectors.toMap(e -> ((Room) e).getName(), e -> (Room) e));
 	}
 
 }
