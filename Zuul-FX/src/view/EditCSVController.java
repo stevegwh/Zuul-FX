@@ -2,6 +2,7 @@ package view;
 
 import javafx.fxml.FXML;
 import csvLoader.CSVCell;
+import csvLoader.CSVCell.HeaderType;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Point2D;
 
@@ -117,7 +118,6 @@ public class EditCSVController {
 		List<ObservableList<CSVCell>> toRemove = rooms.stream().filter(e -> e.size() <= 8).collect(Collectors.toList());
 		// Stores the names of these rooms
 		List<CSVCell> names = toRemove.stream().map(e -> e.get(0)).collect(Collectors.toList());
-		System.out.println(names.size());
 
 		rooms.removeAll(toRemove);
 
@@ -127,7 +127,7 @@ public class EditCSVController {
 				// TODO: Range is hard coded
 				for (int i = 2; i <= 5; i++) {
 					if (room.get(i).getProperty().getValue().equals(name.getProperty().getValue())) {
-						room.set(i, new CSVCell("null"));
+						room.set(i, new CSVCell("null", i));
 					}
 
 				}
@@ -217,6 +217,7 @@ public class EditCSVController {
 	 */
 	@FXML
 	private void drawGrid() {
+		// TODO: Move to own class
 		csvGridPane.getChildren().clear();
 		int ROW_LENGTH = rooms.size();
 		// To have an even grid we find the longest row in the CSV file to use as our
@@ -246,13 +247,11 @@ public class EditCSVController {
 								&& !rooms.get(rowIdx).get(colIdx - 1).getProperty().getValue().isEmpty())
 								|| (colIdx == rooms.get(rowIdx).size() - 2)
 										&& !rooms.get(rowIdx).get(colIdx + 1).getProperty().getValue().isEmpty()) {
-							rooms.get(rowIdx).add(new CSVCell(""));
-							rooms.get(rowIdx).add(new CSVCell(""));
+							rooms.get(rowIdx).add(new CSVCell("", colIdx));
+							rooms.get(rowIdx).add(new CSVCell("", colIdx));
 						}
+						Platform.runLater(()->cellErrorCheck(rowIdx, colIdx, cell));
 
-				        final String cssDefault = "-fx-background-color: orange;";
-						cell.setStyle(cssDefault);
-						showTooltip(cell, "Error Message");
 					});
 				} else if (col > rooms.get(row).size() - 1) {
 					// From this point on in the row 'dummy' TextFields are instantiated and set to
@@ -271,15 +270,31 @@ public class EditCSVController {
 			Platform.runLater(() -> toFocus.positionCaret(toFocus.textProperty().getValue().length() + 1));
 		}
 	}
+	
+	
+	private void cellErrorCheck(int rowIdx, int colIdx, TextField cell) {
+		if (!rooms.get(rowIdx).get(colIdx).checkValidity()) {
+			final String cssDefault = "-fx-background-color: orange;";
+			cell.setStyle(cssDefault);
+//			showTooltip(cell, "Error Message");
+		} else if (rooms.get(rowIdx).get(colIdx).checkValidity()) {
+			cell.setStyle("");
+		}
+		
+	}
 
 	// TODO: Could make this a class
 	private void buildObservableList(List<List<String>> roomData) {
 		for (List<String> room : roomData) {
 			ObservableList<CSVCell> row = FXCollections.observableArrayList();
-			room.forEach(e -> row.add(new CSVCell(e)));
+			int i = 0;
+			for (String e : room) {
+				row.add(new CSVCell(e, i));
+				i++;
+			}
 			// Add an extra two blank cells at the end.
-			row.add(new CSVCell(""));
-			row.add(new CSVCell(""));
+			row.add(new CSVCell("", i));
+			row.add(new CSVCell("", i + 1));
 			rooms.add(row);
 		}
 		for (ObservableList<CSVCell> room : rooms) {
