@@ -155,8 +155,9 @@ public class FXOutput implements Output {
 	}
 
 	public void startDefaultGame() {
-		GameController.initRooms("src/csvLoader/roomData.csv");
-		startGame();
+		// TODO: Pass in list, not path
+//		GameController.initRooms("src/csvLoader/roomData.csv");
+//		startGame();
 	}
 
 	@Override

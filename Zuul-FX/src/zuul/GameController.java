@@ -1,9 +1,12 @@
 package zuul;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import command.commandView.LookOutput;
 import command.game.eventOutput.SingleOrMultiOutput;
+import csvLoader.CSVCell;
+import javafx.collections.ObservableList;
 import npc.AllNPCDataController;
 import npc.NPCController;
 
@@ -86,8 +89,8 @@ public class GameController {
 		}
 	}
 	
-	public static void initRooms(String path) {
-		roomData = new AllRoomDataController(path);
+	public static void initRooms(List<ObservableList<CSVCell>> rooms) {
+		roomData = new AllRoomDataController(rooms);
 	}
 
 	public static void start() {
