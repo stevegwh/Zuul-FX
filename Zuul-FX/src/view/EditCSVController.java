@@ -154,6 +154,12 @@ public class EditCSVController {
 		undoArr.add(rooms2);
 	}
 
+	/**
+	 * Finds the longest row of the grid. Required to make each row of equal length.
+	 * 
+	 * @param rooms2 ObservableList of all rows.
+	 * @return the longest row of the grid.
+	 */
 	private int findLongestArr(ObservableList<ObservableList<CSVCell>> rooms2) {
 		int longest = 0;
 		for (ObservableList<CSVCell> arr : rooms2) {
@@ -165,6 +171,7 @@ public class EditCSVController {
 
 	// Reference:
 	// https://www.programcreek.com/java-api-examples/?class=javafx.scene.layout.GridPane&method=getChildren
+	@SuppressWarnings("static-access")
 	public Node getNodeByRowColumnIndex(final int row, final int column, GridPane gridPane) {
 		Node result = null;
 		ObservableList<Node> childrens = gridPane.getChildren();
@@ -177,6 +184,15 @@ public class EditCSVController {
 		return result;
 	}
 
+	/**
+	 * Represents the data from the CSV file in a grid pattern. Each 'row' and
+	 * 'cell' of the grid is bound to the 'rooms' ObservableList. All rows are of
+	 * equal length. The length is the size of the current ObservableList plus two
+	 * extra fields for the user to enter a new item plus its weight. If there are
+	 * rows that are shorter than others then this space is accounted for by adding
+	 * extra TextField objects that are set to disabled. These 'dummy' TextFields
+	 * are not bound to any data structure.
+	 */
 	@FXML
 	private void drawGrid() {
 		csvGridPane.getChildren().clear();
@@ -189,10 +205,15 @@ public class EditCSVController {
 			for (int col = 0; col < COL_LENGTH; col++) {
 				TextField cell = new TextField();
 				if (col < rooms.get(row).size()) {
+
+					// 'final' elements for the InvalidationListener to use.
 					CSVCell element = rooms.get(row).get(col);
 					int colIdx = col, rowIdx = row;
+
+					// Binding of the underlying ObservableList to the TextField's data
 					cell.setText(element.getProperty().getValue());
 					cell.textProperty().bindBidirectional(element.getProperty());
+
 					cell.textProperty().addListener((InvalidationListener) c -> {
 						// If both the last cell and the second to last (i.e. the item name + the item
 						// weight) are not empty then add two extra spaces at the end of the cell row
@@ -210,8 +231,6 @@ public class EditCSVController {
 				} else if (col > rooms.get(row).size() - 1) {
 					// From this point on in the row 'dummy' TextFields are instantiated and set to
 					// disabled.
-					// They are not bound to an underlying array of CSVCells like the previous
-					// TextFields.
 					cell.setDisable(true);
 				}
 
@@ -219,8 +238,8 @@ public class EditCSVController {
 			}
 		}
 		// Ensures the grid is focusing the user's last row.
-		// TODO: Ensure the textfield that was focused exists still. At the moment it throws an error if you are selecting a field that get's deleted.
 		TextField toFocus = (TextField) getNodeByRowColumnIndex(lastFocusedRow, lastFocusedCol, csvGridPane);
+		// Check if focused cell still exists. 
 		if (toFocus != null) {
 			toFocus.requestFocus();
 			Platform.runLater(() -> toFocus.positionCaret(toFocus.textProperty().getValue().length() + 1));
@@ -239,13 +258,11 @@ public class EditCSVController {
 		}
 		for (ObservableList<CSVCell> room : rooms) {
 			room.addListener((ListChangeListener<CSVCell>) c -> {
-				// respond to list changes
 				System.out.println("Row changed to : " + room);
 				drawGrid();
 			});
 		}
 		rooms.addListener((ListChangeListener<ObservableList<CSVCell>>) c -> {
-			// respond to list changes
 			System.out.println("Row changed to : " + rooms);
 			drawGrid();
 			undoMenuItem.setDisable(undoArr.size() == 0);
