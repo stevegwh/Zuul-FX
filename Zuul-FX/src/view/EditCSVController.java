@@ -3,6 +3,7 @@ package view;
 import javafx.fxml.FXML;
 import csvLoader.CSVCell;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Point2D;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -22,14 +23,17 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Label;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Tooltip;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.Window;
 import zuul.GameController;
 
 public class EditCSVController {
@@ -183,6 +187,24 @@ public class EditCSVController {
 		}
 		return result;
 	}
+	
+	
+	public void showTooltip(TextField textField, String tooltipText)
+		{
+			Stage owner = (Stage) textField.getScene().getWindow();
+		    Point2D p = textField.localToScene(0.0, -20.0);
+
+		    final Tooltip customTooltip = new Tooltip();
+		    customTooltip.setText(tooltipText);
+
+		    textField.setTooltip(customTooltip);
+		    customTooltip.setAutoHide(true);
+
+		    customTooltip.show(owner, p.getX()
+		        + textField.getScene().getX() + textField.getScene().getWindow().getX(), p.getY()
+		        + textField.getScene().getY() + textField.getScene().getWindow().getY());
+
+		}
 
 	/**
 	 * Represents the data from the CSV file in a grid pattern. Each 'row' and
@@ -227,6 +249,10 @@ public class EditCSVController {
 							rooms.get(rowIdx).add(new CSVCell(""));
 							rooms.get(rowIdx).add(new CSVCell(""));
 						}
+
+				        final String cssDefault = "-fx-background-color: orange;";
+						cell.setStyle(cssDefault);
+						showTooltip(cell, "Error Message");
 					});
 				} else if (col > rooms.get(row).size() - 1) {
 					// From this point on in the row 'dummy' TextFields are instantiated and set to
