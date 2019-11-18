@@ -1,6 +1,5 @@
 package view;
 
-
 import csvLoader.CSVCell;
 import javafx.application.Platform;
 import javafx.beans.InvalidationListener;
@@ -46,7 +45,6 @@ public class CSVGridFactory {
 		}
 		return result;
 	}
-	
 
 	/**
 	 * Represents the data from the CSV file in a grid pattern. Each 'row' and
@@ -91,6 +89,8 @@ public class CSVGridFactory {
 								&& !rooms.get(rowIdx).get(colIdx - 1).getProperty().getValue().isEmpty())
 								|| (colIdx == rooms.get(rowIdx).size() - 2)
 										&& !rooms.get(rowIdx).get(colIdx + 1).getProperty().getValue().isEmpty()) {
+							// TODO: Need to pass in correct colIdx (even or odd number) for the header to
+							// know if its ITEMNAME or ITEMWEIGHT
 							rooms.get(rowIdx).add(new CSVCell("", colIdx));
 							rooms.get(rowIdx).add(new CSVCell("", colIdx));
 						}

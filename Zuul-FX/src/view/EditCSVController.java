@@ -80,6 +80,7 @@ public class EditCSVController {
 		// TODO: To be implemented
 	}
 
+	// TODO: Should also dereference rooms that point to it?
 	public void removeAllWithoutExit() {
 		int amountRemoved = rooms.size();
 		addUndoItem(rooms);
@@ -96,7 +97,6 @@ public class EditCSVController {
 		a.show();
 	}
 
-	// TODO: Tidy
 	public void removeAllWithoutItem() {
 		// Stores the room array before modification
 		int amountRemoved = rooms.size();
@@ -124,7 +124,7 @@ public class EditCSVController {
 		}
 
 		Alert a = new Alert(AlertType.CONFIRMATION);
-		a.setContentText(amountRemoved - rooms.size() + " room(s) removed.");
+		a.setContentText(amountRemoved - rooms.size() + " room(s) removed. All references to removed rooms are now 'null'.");
 		a.show();
 	}
 
