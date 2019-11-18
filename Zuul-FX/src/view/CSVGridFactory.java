@@ -77,7 +77,6 @@ public class CSVGridFactory {
 	 */
 	@FXML
 	public void drawGrid() {
-		// TODO: Move to own class
 		csvGridPane.getChildren().clear();
 		int ROW_LENGTH = rooms.size();
 		// To have an even grid we find the longest row in the CSV file to use as our
@@ -107,6 +106,8 @@ public class CSVGridFactory {
 								&& !rooms.get(rowIdx).get(colIdx - 1).getProperty().getValue().isEmpty())
 								|| (colIdx == rooms.get(rowIdx).size() - 2)
 										&& !rooms.get(rowIdx).get(colIdx + 1).getProperty().getValue().isEmpty()) {
+							// TODO: Currently this resets all error coloring and tooltips.
+							// Probably can be solved by adding the tooltip to the CSVCell itself.
 							rooms.get(rowIdx).add(new CSVCell("", colIdx));
 							rooms.get(rowIdx).add(new CSVCell("", colIdx));
 						}
