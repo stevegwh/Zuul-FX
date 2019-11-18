@@ -85,14 +85,20 @@ public class CSVGridFactory {
 						// for the user.
 						lastFocusedRow = rowIdx;
 						lastFocusedCol = colIdx;
+
+						// TODO: Duplication
+						// Editing last cell
 						if ((colIdx == rooms.get(rowIdx).size() - 1
-								&& !rooms.get(rowIdx).get(colIdx - 1).getProperty().getValue().isEmpty())
-								|| (colIdx == rooms.get(rowIdx).size() - 2)
-										&& !rooms.get(rowIdx).get(colIdx + 1).getProperty().getValue().isEmpty()) {
-							// TODO: Need to pass in correct colIdx (even or odd number) for the header to
-							// know if its ITEMNAME or ITEMWEIGHT
+								&& !rooms.get(rowIdx).get(colIdx - 1).getProperty().getValue().isEmpty())) {
+							rooms.get(rowIdx).add(new CSVCell("", colIdx - 1));
 							rooms.get(rowIdx).add(new CSVCell("", colIdx));
+
+						}
+						// Editing second from last cell
+						if ((colIdx == rooms.get(rowIdx).size() - 2)
+								&& !rooms.get(rowIdx).get(colIdx + 1).getProperty().getValue().isEmpty()) {
 							rooms.get(rowIdx).add(new CSVCell("", colIdx));
+							rooms.get(rowIdx).add(new CSVCell("", colIdx + 1));
 						}
 						// TODO: Duplication
 						Platform.runLater(() -> element.checkValidity());

@@ -11,6 +11,13 @@ import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+/**
+ * Parses through the provided CSV file and maps each object to the function
+ * passed in.
+ * 
+ * @author Steve
+ *
+ */
 public class CSVParser {
 	public List<Object> loadCSV(Function<Object, Object> mapToItem, String path) {
 		File inputF = new File(path);
@@ -29,7 +36,6 @@ public class CSVParser {
 		try {
 			br.close();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return records;

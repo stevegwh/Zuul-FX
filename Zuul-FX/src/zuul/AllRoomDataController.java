@@ -1,6 +1,5 @@
 package zuul;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,14 +16,22 @@ import javafx.collections.ObservableList;
  *
  */
 public class AllRoomDataController {
+	/**
+	 * Same process as parsing through the CSV file and converting to a List of
+	 * Lists, this function takes a List of Lists and forms Room objects from them.
+	 */
 	private Function<ObservableList<CSVCell>, Room> mapToItem = (line) -> {
 		// Change ObservableList<CSVCell> into List<String> to make it easier to parse
-		List<String> p = new ArrayList<String>();
-		line.forEach(e->p.add(e.getProperty().getValue()));
+		List<String> p = line.stream().map(e -> e.getProperty().getValue()).collect(Collectors.toList());
+		Map<String, String> headers = new HashMap<String, String>();
+		for (CSVCell ele : line) {
+			headers.put(ele.getHeader().getName(), ele.getProperty().getValue());
+		}
+		
 
 		Room room = new Room();
-		room.setName(p.get(0));
-		room.setDescription(p.get(1));
+		room.setName(headers.get("NAME"));
+		room.setDescription(headers.get("DESCRIPTION"));
 		HashMap<String, String> exits = new HashMap<>();
 		if (!p.get(2).equals("null")) {
 			exits.put("north", p.get(2));
@@ -39,9 +46,12 @@ public class AllRoomDataController {
 			exits.put("west", p.get(5));
 		}
 		room.setExits(exits);
-		// TODO: Return error if there is no weight
+		// TODO: Implement this after you fix the bug where they are set to 2x ITEMNAME 2x ITEMWEIGHT
+		Map<String, String> items = headers.entrySet().stream().filter(e-> "ITEMNAME".equals(e.getKey()) || "ITEMWEIGHT".equals(e.getKey())).collect(Collectors.toMap(e->e.getKey(), e-> e.getValue()));
+		items.keySet().forEach(e->System.out.println(e));
 		for (int i = 6; i < p.size(); i += 2) {
-			// Check if the former CSVCell held a value or not before converting to an item.
+			// TODO: Check if the former CSVCell held a value or not before converting to an item.
+			// Might not be necessary now after the CSV editor.
 			if (!p.get(i).isEmpty()) {
 				TakeableItem takeableItem = new TakeableItem(p.get(i), Integer.parseInt(p.get(i + 1)));
 				room.addTakeableItem(takeableItem);
@@ -66,8 +76,7 @@ public class AllRoomDataController {
 	}
 
 	public AllRoomDataController(List<ObservableList<CSVCell>> csvData) {
-		rooms = csvData.stream().map(mapToItem)
-				.collect(Collectors.toMap(e -> ((Room) e).getName(), e -> (Room) e));
+		rooms = csvData.stream().map(mapToItem).collect(Collectors.toMap(e -> ((Room) e).getName(), e -> (Room) e));
 
 	}
 
