@@ -2,16 +2,19 @@ package csvLoader;
 
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import javafx.scene.control.Tooltip;
 
 public class CSVCell {
 	HeaderType header;
+	private Tooltip tooltip;
+	private String style = "";
 	private StringProperty prop = new SimpleStringProperty();
 
 	public enum HeaderType {
 		NAME, DESCRIPTION, DIRECTION, ITEMNAME, ITEMWEIGHT;
 	}
 
-	public boolean checkValidity() {
+	public void checkValidity() {
 		String regex;
 		switch (header) {
 		case NAME:
@@ -30,28 +33,43 @@ public class CSVCell {
 			break;
 		}
 
-		return prop.getValue().matches(regex);
+		if (!prop.getValue().matches(regex)) {
+			style = "-fx-background-color: orange;";
+			setTooltipText("Error Message");
+		} else {
+			style = "";
+			setTooltipText(header.name());
+		}
 	}
 
-	private HeaderType setHeader(int idx) {
+	public Tooltip getTooltip() {
+		return tooltip;
+	}
 
+	public String getStyle() {
+		return style;
+	}
+
+	public void setTooltipText(String text) {
+		tooltip.setText(text);
+	}
+
+	private void setHeader(int idx) {
 		if (idx == 0) {
-			return HeaderType.NAME;
+			header = HeaderType.NAME;
 		} else if (idx == 1) {
-			return HeaderType.DESCRIPTION;
+			header = HeaderType.DESCRIPTION;
 		} else if (idx == 2) {
-			return HeaderType.ITEMNAME;
+			header = HeaderType.ITEMNAME;
 		} else if (idx >= 3 && idx <= 6) {
-			return HeaderType.DIRECTION;
+			header = HeaderType.DIRECTION;
 		} else if (idx > 6) {
 			if (idx % 2 == 0) {
-				return HeaderType.ITEMNAME;
+				header = HeaderType.ITEMNAME;
 			} else {
-				return HeaderType.ITEMWEIGHT;
+				header = HeaderType.ITEMWEIGHT;
 			}
 		}
-
-		return null;
 	}
 
 	public HeaderType getHeader() {
@@ -64,6 +82,8 @@ public class CSVCell {
 
 	public CSVCell(String value, int idx) {
 		getProperty().set(value);
-		this.header = setHeader(idx);
+		setHeader(idx);
+		tooltip = new Tooltip();
 	}
+
 }

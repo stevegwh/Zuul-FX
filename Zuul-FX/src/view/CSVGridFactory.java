@@ -48,24 +48,22 @@ public class CSVGridFactory {
 		}
 		return result;
 	}
-	
-	
-	public void showTooltip(TextField textField, String tooltipText)
-		{
-			Stage owner = (Stage) textField.getScene().getWindow();
-		    Point2D p = textField.localToScene(0.0, -20.0);
 
-		    final Tooltip customTooltip = new Tooltip();
-		    customTooltip.setText(tooltipText);
+	public void showTooltip(TextField textField, String tooltipText) {
+		Stage owner = (Stage) textField.getScene().getWindow();
+		Point2D p = textField.localToScene(0.0, -20.0);
 
-		    textField.setTooltip(customTooltip);
-		    customTooltip.setAutoHide(true);
+		final Tooltip customTooltip = new Tooltip();
+		customTooltip.setText(tooltipText);
 
-		    customTooltip.show(owner, p.getX()
-		        + textField.getScene().getX() + textField.getScene().getWindow().getX(), p.getY()
-		        + textField.getScene().getY() + textField.getScene().getWindow().getY());
+		textField.setTooltip(customTooltip);
+		customTooltip.setAutoHide(true);
 
-		}
+		customTooltip.show(owner, p.getX() + textField.getScene().getX() + textField.getScene().getWindow().getX(),
+				p.getY() + textField.getScene().getY() + textField.getScene().getWindow().getY());
+
+	}
+
 	/**
 	 * Represents the data from the CSV file in a grid pattern. Each 'row' and
 	 * 'cell' of the grid is bound to the 'rooms' ObservableList. All rows are of
@@ -91,10 +89,13 @@ public class CSVGridFactory {
 					// 'final' elements for the InvalidationListener to use.
 					CSVCell element = rooms.get(row).get(col);
 					int colIdx = col, rowIdx = row;
-
 					// Binding of the underlying ObservableList to the TextField's data
 					cell.setText(element.getProperty().getValue());
 					cell.textProperty().bindBidirectional(element.getProperty());
+					// TODO: Duplication of lower todo:
+					element.checkValidity();
+					cell.setTooltip(element.getTooltip());
+					cell.setStyle(element.getStyle());
 
 					cell.textProperty().addListener((InvalidationListener) c -> {
 						// If both the last cell and the second to last (i.e. the item name + the item
@@ -106,12 +107,13 @@ public class CSVGridFactory {
 								&& !rooms.get(rowIdx).get(colIdx - 1).getProperty().getValue().isEmpty())
 								|| (colIdx == rooms.get(rowIdx).size() - 2)
 										&& !rooms.get(rowIdx).get(colIdx + 1).getProperty().getValue().isEmpty()) {
-							// TODO: Currently this resets all error coloring and tooltips.
-							// Probably can be solved by adding the tooltip to the CSVCell itself.
 							rooms.get(rowIdx).add(new CSVCell("", colIdx));
 							rooms.get(rowIdx).add(new CSVCell("", colIdx));
 						}
-						Platform.runLater(()->cellErrorCheck(rowIdx, colIdx, cell));
+						// TODO: Duplication
+						Platform.runLater(() -> element.checkValidity());
+						Platform.runLater(() -> cell.setTooltip(element.getTooltip()));
+						Platform.runLater(() -> cell.setStyle(element.getStyle()));
 
 					});
 				} else if (col > rooms.get(row).size() - 1) {
@@ -125,29 +127,13 @@ public class CSVGridFactory {
 		}
 		// Ensures the grid is focusing the user's last row.
 		TextField toFocus = (TextField) getNodeByRowColumnIndex(lastFocusedRow, lastFocusedCol, csvGridPane);
-		// Check if focused cell still exists. 
+		// Check if focused cell still exists.
 		if (toFocus != null) {
 			toFocus.requestFocus();
 			Platform.runLater(() -> toFocus.positionCaret(toFocus.textProperty().getValue().length() + 1));
 		}
 	}
-	
-	
-	// TODO: Find a sensible way of handling error checking and getting the correct tooltip
-	private void cellErrorCheck(int rowIdx, int colIdx, TextField cell) {
-		if (!rooms.get(rowIdx).get(colIdx).checkValidity()) {
-			final String cssDefault = "-fx-background-color: orange;";
-			cell.setStyle(cssDefault);
-			Tooltip tooltip = new Tooltip("Error Message");
-			cell.setTooltip(tooltip);
-//			showTooltip(cell, "Error Message");
-		} else if (rooms.get(rowIdx).get(colIdx).checkValidity()) {
-			cell.setStyle("");
-			cell.setTooltip(null);
-		}
-		
-	}
-	
+
 	public CSVGridFactory(GridPane csvGridPane) {
 		this.csvGridPane = csvGridPane;
 	}
