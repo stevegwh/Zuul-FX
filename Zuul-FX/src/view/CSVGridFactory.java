@@ -1,16 +1,14 @@
 package view;
 
+
 import csvLoader.CSVCell;
 import javafx.application.Platform;
 import javafx.beans.InvalidationListener;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.geometry.Point2D;
 import javafx.scene.Node;
 import javafx.scene.control.TextField;
-import javafx.scene.control.Tooltip;
 import javafx.scene.layout.GridPane;
-import javafx.stage.Stage;
 
 public class CSVGridFactory {
 	ObservableList<ObservableList<CSVCell>> rooms = EditCSVController.getRooms();
@@ -48,21 +46,7 @@ public class CSVGridFactory {
 		}
 		return result;
 	}
-
-	public void showTooltip(TextField textField, String tooltipText) {
-		Stage owner = (Stage) textField.getScene().getWindow();
-		Point2D p = textField.localToScene(0.0, -20.0);
-
-		final Tooltip customTooltip = new Tooltip();
-		customTooltip.setText(tooltipText);
-
-		textField.setTooltip(customTooltip);
-		customTooltip.setAutoHide(true);
-
-		customTooltip.show(owner, p.getX() + textField.getScene().getX() + textField.getScene().getWindow().getX(),
-				p.getY() + textField.getScene().getY() + textField.getScene().getWindow().getY());
-
-	}
+	
 
 	/**
 	 * Represents the data from the CSV file in a grid pattern. Each 'row' and

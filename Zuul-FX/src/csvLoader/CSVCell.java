@@ -1,9 +1,11 @@
 package csvLoader;
 
+import csvLoader.headers.HeaderFactory;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.scene.control.Tooltip;
 
+// TODO: Figure out a way to have this hold the TextView so that you can add the tooltips etc directly
 public class CSVCell {
 	HeaderType header;
 	private Tooltip tooltip;
@@ -59,11 +61,9 @@ public class CSVCell {
 			header = HeaderType.NAME;
 		} else if (idx == 1) {
 			header = HeaderType.DESCRIPTION;
-		} else if (idx == 2) {
-			header = HeaderType.ITEMNAME;
-		} else if (idx >= 3 && idx <= 6) {
+		} else if (idx >= 2 && idx <= 5) {
 			header = HeaderType.DIRECTION;
-		} else if (idx > 6) {
+		} else if (idx >= 6) {
 			if (idx % 2 == 0) {
 				header = HeaderType.ITEMNAME;
 			} else {
@@ -81,6 +81,7 @@ public class CSVCell {
 	}
 
 	public CSVCell(String value, int idx) {
+		HeaderFactory headerFactory = new HeaderFactory(idx);
 		getProperty().set(value);
 		setHeader(idx);
 		tooltip = new Tooltip();
