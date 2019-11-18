@@ -1,9 +1,12 @@
 package csvLoader.headers;
 
-public class NameHeader extends Header {
-	private static final int INDEX = 0;
-	public NameHeader() {
-		super("NAME");
+import java.util.List;
+
+public class DirectionHeader extends Header {
+	private static final List<Integer> INDEX_RANGE = List.of(2, 3, 4, 5);
+
+	public DirectionHeader() {
+		super("DIRECTION");
 	}
 
 	@Override
@@ -15,6 +18,6 @@ public class NameHeader extends Header {
 	}
 
 	public static boolean matchesIndexCondition(int csvIndex) {
-		return csvIndex == INDEX;
+		return INDEX_RANGE.contains(csvIndex);
 	}
 }

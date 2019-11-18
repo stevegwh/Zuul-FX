@@ -1,9 +1,10 @@
 package csvLoader.headers;
 
-public class NameHeader extends Header {
-	private static final int INDEX = 0;
-	public NameHeader() {
-		super("NAME");
+public class DescriptionHeader extends Header {
+	private static int INDEX = 1;
+
+	public DescriptionHeader() {
+		super("DESCRIPTION");
 	}
 
 	@Override

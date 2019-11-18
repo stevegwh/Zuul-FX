@@ -1,9 +1,8 @@
 package csvLoader.headers;
 
-public class NameHeader extends Header {
-	private static final int INDEX = 0;
-	public NameHeader() {
-		super("NAME");
+public class ItemNameHeader extends Header {
+	public ItemNameHeader() {
+		super("ITEMNAME");
 	}
 
 	@Override
@@ -15,6 +14,6 @@ public class NameHeader extends Header {
 	}
 
 	public static boolean matchesIndexCondition(int csvIndex) {
-		return csvIndex == INDEX;
+		return csvIndex >= 6 && csvIndex % 2 == 0;
 	}
 }

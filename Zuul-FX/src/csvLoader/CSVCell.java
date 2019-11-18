@@ -1,5 +1,6 @@
 package csvLoader;
 
+import csvLoader.headers.Header;
 import csvLoader.headers.HeaderFactory;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
@@ -7,40 +8,19 @@ import javafx.scene.control.Tooltip;
 
 // TODO: Figure out a way to have this hold the TextView so that you can add the tooltips etc directly
 public class CSVCell {
-	HeaderType header;
+	Header header;
 	private Tooltip tooltip;
 	private String style = "";
 	private StringProperty prop = new SimpleStringProperty();
 
-	public enum HeaderType {
-		NAME, DESCRIPTION, DIRECTION, ITEMNAME, ITEMWEIGHT;
-	}
-
 	public void checkValidity() {
-		String regex;
-		switch (header) {
-		case NAME:
-		case DIRECTION:
-		case ITEMNAME:
-			regex = "\\w+";
-			break;
-		case DESCRIPTION:
-			regex = "[a-zA-Z0-9]+";
-			break;
-		case ITEMWEIGHT:
-			regex = "[0-9]+";
-			break;
-		default:
-			regex = null;
-			break;
-		}
-
-		if (!prop.getValue().matches(regex)) {
+		String tooltip = header.validateFieldText(prop.getValue());
+		if (tooltip != null) {
 			style = "-fx-background-color: orange;";
-			setTooltipText("Error Message");
+			setTooltipText(tooltip);
 		} else {
 			style = "";
-			setTooltipText(header.name());
+			setTooltipText(header.getName());
 		}
 	}
 
@@ -56,23 +36,7 @@ public class CSVCell {
 		tooltip.setText(text);
 	}
 
-	private void setHeader(int idx) {
-		if (idx == 0) {
-			header = HeaderType.NAME;
-		} else if (idx == 1) {
-			header = HeaderType.DESCRIPTION;
-		} else if (idx >= 2 && idx <= 5) {
-			header = HeaderType.DIRECTION;
-		} else if (idx >= 6) {
-			if (idx % 2 == 0) {
-				header = HeaderType.ITEMNAME;
-			} else {
-				header = HeaderType.ITEMWEIGHT;
-			}
-		}
-	}
-
-	public HeaderType getHeader() {
+	public Header getHeader() {
 		return header;
 	}
 
@@ -82,8 +46,9 @@ public class CSVCell {
 
 	public CSVCell(String value, int idx) {
 		HeaderFactory headerFactory = new HeaderFactory(idx);
+		header = headerFactory.getHeader();
+		System.out.println("Given header of: " + header.getName());
 		getProperty().set(value);
-		setHeader(idx);
 		tooltip = new Tooltip();
 	}
 

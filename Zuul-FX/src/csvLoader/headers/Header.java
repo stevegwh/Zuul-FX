@@ -1,9 +1,7 @@
 package csvLoader.headers;
 
 public abstract class Header {
-
 	private final String name;
-	private final int[] indexRange;
 
 	public String getName() {
 		return name;
@@ -11,12 +9,7 @@ public abstract class Header {
 
 	public abstract String validateFieldText(String textFieldValue);
 
-	public int[] getIndexRange() {
-		return indexRange;
-	}
-
-	public Header(String name, int[] indexRange) {
+	public Header(String name) {
 		this.name = name;
-		this.indexRange = indexRange;
 	}
 }
