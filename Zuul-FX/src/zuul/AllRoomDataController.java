@@ -49,6 +49,7 @@ public class AllRoomDataController {
 		// TODO: Implement this after you fix the bug where they are set to 2x ITEMNAME 2x ITEMWEIGHT
 		Map<String, String> items = headers.entrySet().stream().filter(e-> "ITEMNAME".equals(e.getKey()) || "ITEMWEIGHT".equals(e.getKey())).collect(Collectors.toMap(e->e.getKey(), e-> e.getValue()));
 		items.keySet().forEach(e->System.out.println(e));
+		
 		for (int i = 6; i < p.size(); i += 2) {
 			// TODO: Check if the former CSVCell held a value or not before converting to an item.
 			// Might not be necessary now after the CSV editor.
