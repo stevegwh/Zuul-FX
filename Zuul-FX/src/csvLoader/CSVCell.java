@@ -47,6 +47,10 @@ public class CSVCell {
 	public CSVCell(String value, int idx) {
 		HeaderFactory headerFactory = new HeaderFactory(idx);
 		header = headerFactory.getHeader();
+		// TODO: Use enum for this.
+		if (header.getName().equals("ITEMWEIGHT")) {
+			
+		}
 		System.out.println("Given header of: " + header.getName());
 		getProperty().set(value);
 		tooltip = new Tooltip();

@@ -18,9 +18,6 @@
             </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Edit">
-            <items>
-              <MenuItem fx:id="undoMenuItem" mnemonicParsing="false" onAction="#undoAction" text="Undo" />
-            </items>
           </Menu>
             <Menu mnemonicParsing="false" text="Bulk Actions">
                <items>

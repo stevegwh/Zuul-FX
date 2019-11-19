@@ -31,7 +31,6 @@ import javafx.stage.Stage;
 import zuul.GameController;
 
 public class EditCSVController {
-	private final int MAX_UNDO_SIZE = 10;
 	private CSVEditor csvEditor;
 	private CSVGridFactory csvGrid;
 	private static ObservableList<ObservableList<CSVCell>> rooms = FXCollections.observableArrayList();
@@ -56,7 +55,6 @@ public class EditCSVController {
 	public void addItemToAllRooms() {
 		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("addItemDialog.fxml"));
 		try {
-			addUndoItem(rooms);
 			Parent parent = fxmlLoader.load();
 			Scene scene = new Scene(parent, 300, 200);
 			Stage stage = new Stage();
@@ -83,7 +81,6 @@ public class EditCSVController {
 	// TODO: Should also dereference rooms that point to it?
 	public void removeAllWithoutExit() {
 		int amountRemoved = rooms.size();
-		addUndoItem(rooms);
 		// Get's list of rooms without exits
 		List<ObservableList<CSVCell>> toRemove = rooms.stream()
 				.filter(e -> (e.get(2).getProperty().getValue().equals("null")
@@ -101,7 +98,6 @@ public class EditCSVController {
 		// Stores the room array before modification
 		int amountRemoved = rooms.size();
 		// Saves previous state of room for undo
-		addUndoItem(rooms);
 
 		// Finds all rooms that do not have any items (<= length 6)
 		List<ObservableList<CSVCell>> toRemove = rooms.stream().filter(e -> e.size() <= 8).collect(Collectors.toList());
@@ -128,34 +124,18 @@ public class EditCSVController {
 		a.show();
 	}
 
-	@FXML
-	public void undoAction() {
-		rooms = undoArr.get(undoArr.size() - 1);
-		undoArr.remove(undoArr.size() - 1);
-	}
-
-	/**
-	 * Adds item to the undo history array.
-	 * 
-	 * @param rooms2
-	 */
-	private void addUndoItem(ObservableList<ObservableList<CSVCell>> rooms2) {
-		// TODO: Make this redo/undo by +/- an index to the current operation
-		if (undoArr.size() > MAX_UNDO_SIZE) {
-			undoArr.remove(0);
-		}
-		undoArr.add(rooms2);
-	}
-
-	// TODO: Could make this a class
 	private void buildObservableList(List<List<String>> roomData) {
 		for (List<String> room : roomData) {
 			ObservableList<CSVCell> row = FXCollections.observableArrayList();
+
+			// Instantiates CSVCells with String and an index.
+			// The index is used to decide what csv header the String represents (Name, Description etc).
 			int i = 0;
 			for (String e : room) {
 				row.add(new CSVCell(e, i));
 				i++;
 			}
+
 			// Add an extra two blank cells at the end.
 			row.add(new CSVCell("", i));
 			row.add(new CSVCell("", i + 1));
