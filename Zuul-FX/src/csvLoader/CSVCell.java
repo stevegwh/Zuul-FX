@@ -3,6 +3,8 @@ package csvLoader;
 import csvLoader.headers.Header;
 import csvLoader.headers.HeaderEnum;
 import csvLoader.headers.HeaderFactory;
+import csvLoader.headers.ItemNameHeader;
+
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.scene.control.Tooltip;
@@ -48,9 +50,8 @@ public class CSVCell {
 	public CSVCell(String value, int idx) {
 		HeaderFactory headerFactory = new HeaderFactory(idx);
 		header = headerFactory.getHeader();
-		// TODO: Use enum for this.
 		if (header.getName().equals(HeaderEnum.ITEMNAME)) {
-			
+			((ItemNameHeader) header).setItemPair(idx);
 		}
 		System.out.println("Given header of: " + header.getName());
 		getProperty().set(value);

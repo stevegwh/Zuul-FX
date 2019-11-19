@@ -14,20 +14,21 @@ public class DirectionHeader extends Header {
 	public DirectionHeader(int idx) {
 		super(HeaderEnum.DIRECTION);
 		switch(idx) {
-		case 1:
-			direction = "NORTH";
-			break;
 		case 2:
-			direction = "SOUTH";
+			direction = "north";
 			break;
 		case 3:
-			direction = "EAST";
+			direction = "east";
 			break;
 		case 4:
-			direction = "WEST";
+			direction = "south";
+			break;
+		case 5:
+			direction = "west";
 			break;
 		default:
-			direction = "NULL";
+			System.err.println("Index " + idx + " could not be bound to a direction. Game will behave unexpectedly");
+			direction = null;
 		}
 	}
 

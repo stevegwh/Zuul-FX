@@ -1,7 +1,7 @@
 package zuul;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Map;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -12,7 +12,7 @@ public class Room {
 	private String description;
 	private ObservableList<NPC> actorsInRoom = FXCollections.observableList(new ArrayList<NPC>());
 	private ObservableList<TakeableItem> takeableItems = FXCollections.observableList(new ArrayList<TakeableItem>());
-	private HashMap<String, String> exits = new HashMap<>();
+	private Map<String, String> exits;
 
 	public String getDescription() {
 		return description;
@@ -38,11 +38,11 @@ public class Room {
 		this.actorsInRoom = FXCollections.observableList(actorsInRoom);
 	}
 
-	public HashMap<String, String> getExits() {
+	public Map<String, String> getExits() {
 		return exits;
 	}
 
-	public void setExits(HashMap<String, String> exits) {
+	public void setExits(Map<String, String> exits) {
 		this.exits = exits;
 	}
 

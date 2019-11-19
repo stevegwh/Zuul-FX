@@ -1,6 +1,5 @@
 package zuul;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
@@ -8,6 +7,9 @@ import java.util.stream.Collectors;
 
 import csvLoader.CSVCell;
 import javafx.collections.ObservableList;
+import csvLoader.headers.HeaderEnum;
+import csvLoader.headers.ItemNameHeader;
+import csvLoader.headers.DirectionHeader;
 
 /**
  * Responsible for managing all the Room objects in the game.
@@ -21,44 +23,32 @@ public class AllRoomDataController {
 	 * Lists, this function takes a List of Lists and forms Room objects from them.
 	 */
 	private Function<ObservableList<CSVCell>, Room> mapToItem = (line) -> {
-		// Change ObservableList<CSVCell> into List<String> to make it easier to parse
-		List<String> p = line.stream().map(e -> e.getProperty().getValue()).collect(Collectors.toList());
-		Map<String, String> headers = new HashMap<String, String>();
-		for (CSVCell ele : line) {
-			headers.put(ele.getHeader().getName().name(), ele.getProperty().getValue());
-		}
-		
-
 		Room room = new Room();
-		room.setName(headers.get("NAME"));
-		room.setDescription(headers.get("DESCRIPTION"));
-		HashMap<String, String> exits = new HashMap<>();
-		if (!p.get(2).equals("null")) {
-			exits.put("north", p.get(2));
-		}
-		if (!p.get(3).equals("null")) {
-			exits.put("east", p.get(3));
-		}
-		if (!p.get(4).equals("null")) {
-			exits.put("south", p.get(4));
-		}
-		if (!p.get(5).equals("null")) {
-			exits.put("west", p.get(5));
-		}
-		room.setExits(exits);
-		// TODO: Implement this after you fix the bug where they are set to 2x ITEMNAME 2x ITEMWEIGHT
-		Map<String, String> items = headers.entrySet().stream().filter(e-> "ITEMNAME".equals(e.getKey()) || "ITEMWEIGHT".equals(e.getKey())).collect(Collectors.toMap(e->e.getKey(), e-> e.getValue()));
-		items.keySet().forEach(e->System.out.println(e));
 		
-		for (int i = 6; i < p.size(); i += 2) {
-			// TODO: Check if the former CSVCell held a value or not before converting to an item.
-			// Might not be necessary now after the CSV editor.
-			if (!p.get(i).isEmpty()) {
-				TakeableItem takeableItem = new TakeableItem(p.get(i), Integer.parseInt(p.get(i + 1)));
-				room.addTakeableItem(takeableItem);
-			}
-		}
+		line.removeIf(e-> e.getProperty().getValue().isEmpty());
+
+		String name = line.stream().filter(e->e.getHeader().getName().equals(HeaderEnum.NAME)).map(e-> e.getProperty().getValue()).findFirst().orElse("null");
+		room.setName(name);
+
+		String description = line.stream().filter(e->e.getHeader().getName().equals(HeaderEnum.DESCRIPTION)).map(e-> e.getProperty().getValue()).findFirst().orElse("null");
+		room.setDescription(description);
+
+		Map<String, String> exits = line.stream()
+				.filter(e-> e.getHeader().getName().equals(HeaderEnum.DIRECTION))
+				.filter(e-> !e.getProperty().getValue().equals("null"))
+				.collect(Collectors.toMap(e-> ((DirectionHeader) e.getHeader()).getDirection(), e-> e.getProperty().getValue()));
+		exits.entrySet().forEach(e-> System.out.println("K: " + e.getKey() + " V: " + e.getValue()));
+
+		room.setExits(exits);
+
+		List<CSVCell> items = line.stream().filter(e -> e.getHeader().getName().equals(HeaderEnum.ITEMNAME))
+				.collect(Collectors.toList());
+		items.forEach(e -> room.addTakeableItem(new TakeableItem(e.getProperty().getValue(),
+				Integer.parseInt(line.get(((ItemNameHeader) e.getHeader()).getItemPair()).getProperty().getValue()))));
+		
+		
 		return room;
+
 	};
 
 	private Map<String, Room> rooms;

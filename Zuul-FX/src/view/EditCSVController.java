@@ -5,7 +5,6 @@ import csvLoader.CSVCell;
 import javafx.fxml.FXMLLoader;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -34,7 +33,6 @@ public class EditCSVController {
 	private CSVEditor csvEditor;
 	private CSVGridFactory csvGrid;
 	private static ObservableList<ObservableList<CSVCell>> rooms = FXCollections.observableArrayList();
-	private List<ObservableList<ObservableList<CSVCell>>> undoArr = new ArrayList<>();
 
 	@FXML
 	private MenuBar menuBar;
@@ -150,7 +148,6 @@ public class EditCSVController {
 		rooms.addListener((ListChangeListener<ObservableList<CSVCell>>) c -> {
 			System.out.println("Row changed to : " + rooms);
 			csvGrid.drawGrid();
-			undoMenuItem.setDisable(undoArr.size() == 0);
 		});
 	}
 
