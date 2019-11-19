@@ -25,7 +25,7 @@ public class AllRoomDataController {
 		List<String> p = line.stream().map(e -> e.getProperty().getValue()).collect(Collectors.toList());
 		Map<String, String> headers = new HashMap<String, String>();
 		for (CSVCell ele : line) {
-			headers.put(ele.getHeader().getName(), ele.getProperty().getValue());
+			headers.put(ele.getHeader().getName().name(), ele.getProperty().getValue());
 		}
 		
 

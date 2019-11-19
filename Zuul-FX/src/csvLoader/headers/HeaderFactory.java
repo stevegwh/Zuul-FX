@@ -14,7 +14,7 @@ public class HeaderFactory {
 		} else if (DescriptionHeader.matchesIndexCondition(csvIndex)) {
 			return new DescriptionHeader();
 		} else if (DirectionHeader.matchesIndexCondition(csvIndex)) {
-			return new DirectionHeader();
+			return new DirectionHeader(csvIndex);
 		} else if (ItemNameHeader.matchesIndexCondition(csvIndex)) {
 			return new ItemNameHeader();
 		} else if (ItemWeightHeader.matchesIndexCondition(csvIndex)) {

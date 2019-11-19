@@ -1,15 +1,15 @@
 package csvLoader.headers;
 
 public abstract class Header {
-	private final String name;
+	private final HeaderEnum name;
 
-	public String getName() {
+	public HeaderEnum getName() {
 		return name;
 	}
 
 	public abstract String validateFieldText(String textFieldValue);
 
-	public Header(String name) {
+	public Header(HeaderEnum name) {
 		this.name = name;
 	}
 }

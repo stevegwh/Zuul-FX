@@ -2,7 +2,7 @@ package csvLoader.headers;
 
 public class ItemWeightHeader extends Header {
 	public ItemWeightHeader() {
-		super("ITEMWEIGHT");
+		super(HeaderEnum.ITEMWEIGHT);
 	}
 
 	@Override

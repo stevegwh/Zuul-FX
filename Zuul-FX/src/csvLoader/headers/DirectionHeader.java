@@ -9,9 +9,26 @@ import view.EditCSVController;
 
 public class DirectionHeader extends Header {
 	private static final List<Integer> INDEX_RANGE = List.of(2, 3, 4, 5);
+	private final String direction;
 
-	public DirectionHeader() {
-		super("DIRECTION");
+	public DirectionHeader(int idx) {
+		super(HeaderEnum.DIRECTION);
+		switch(idx) {
+		case 1:
+			direction = "NORTH";
+			break;
+		case 2:
+			direction = "SOUTH";
+			break;
+		case 3:
+			direction = "EAST";
+			break;
+		case 4:
+			direction = "WEST";
+			break;
+		default:
+			direction = "NULL";
+		}
 	}
 
 	@Override
@@ -33,5 +50,9 @@ public class DirectionHeader extends Header {
 
 	public static boolean matchesIndexCondition(int csvIndex) {
 		return INDEX_RANGE.contains(csvIndex);
+	}
+
+	public String getDirection() {
+		return direction;
 	}
 }

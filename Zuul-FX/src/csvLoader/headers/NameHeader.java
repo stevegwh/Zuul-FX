@@ -3,7 +3,7 @@ package csvLoader.headers;
 public class NameHeader extends Header {
 	private static final int INDEX = 0;
 	public NameHeader() {
-		super("NAME");
+		super(HeaderEnum.NAME);
 	}
 
 	@Override

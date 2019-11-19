@@ -1,8 +1,10 @@
 package csvLoader.headers;
 
 public class ItemNameHeader extends Header {
+	private int itemPair;
+
 	public ItemNameHeader() {
-		super("ITEMNAME");
+		super(HeaderEnum.ITEMNAME);
 	}
 
 	@Override
@@ -15,5 +17,13 @@ public class ItemNameHeader extends Header {
 
 	public static boolean matchesIndexCondition(int csvIndex) {
 		return csvIndex >= 6 && csvIndex % 2 == 0;
+	}
+	
+	public void setItemPair(int idx) {
+		itemPair = idx + 1;
+	}
+
+	public int getItemPair() {
+		return itemPair;
 	}
 }

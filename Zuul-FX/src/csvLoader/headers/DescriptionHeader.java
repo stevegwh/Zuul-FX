@@ -4,7 +4,7 @@ public class DescriptionHeader extends Header {
 	private static int INDEX = 1;
 
 	public DescriptionHeader() {
-		super("DESCRIPTION");
+		super(HeaderEnum.DESCRIPTION);
 	}
 
 	@Override

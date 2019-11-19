@@ -1,6 +1,7 @@
 package csvLoader;
 
 import csvLoader.headers.Header;
+import csvLoader.headers.HeaderEnum;
 import csvLoader.headers.HeaderFactory;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
@@ -20,7 +21,7 @@ public class CSVCell {
 			setTooltipText(tooltip);
 		} else {
 			style = "";
-			setTooltipText(header.getName());
+			setTooltipText(header.getName().name());
 		}
 	}
 
@@ -48,7 +49,7 @@ public class CSVCell {
 		HeaderFactory headerFactory = new HeaderFactory(idx);
 		header = headerFactory.getHeader();
 		// TODO: Use enum for this.
-		if (header.getName().equals("ITEMWEIGHT")) {
+		if (header.getName().equals(HeaderEnum.ITEMNAME)) {
 			
 		}
 		System.out.println("Given header of: " + header.getName());
