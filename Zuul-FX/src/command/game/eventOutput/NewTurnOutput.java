@@ -1,8 +1,8 @@
 package command.game.eventOutput;
 
-import IO.IOHandler;
 import command.ICommandOutput;
 import command.game.eventController.NewTurnController;
+import view.IOHandler;
 
 public class NewTurnOutput extends NewTurnController implements ICommandOutput {
 

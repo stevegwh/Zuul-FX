@@ -8,7 +8,6 @@ import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import IO.IOHandler;
 import csvLoader.CSVEditor;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;

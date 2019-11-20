@@ -3,8 +3,8 @@ package npc;
 import java.util.ArrayList;
 import java.util.Random;
 
-import IO.IOHandler;
 import command.game.eventOutput.AnnounceEntranceOutput;
+import view.IOHandler;
 import zuul.GameController;
 import zuul.Room;
 

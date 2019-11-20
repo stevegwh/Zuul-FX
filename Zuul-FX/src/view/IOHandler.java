@@ -1,4 +1,4 @@
-package IO;
+package view;
 
 /**
  * Class that routes I/O in the game. Defaults to 'Console' mode

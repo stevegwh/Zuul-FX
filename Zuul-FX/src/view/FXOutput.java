@@ -1,4 +1,4 @@
-package IO;
+package view;
 
 import java.io.File;
 import java.io.IOException;
@@ -8,6 +8,7 @@ import java.util.List;
 import command.game.eventOutput.GameStartOutput;
 import csvLoader.CSVEditor;
 import javafx.application.Platform;
+import javafx.beans.binding.Bindings;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -15,6 +16,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.ContextMenu;
+import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextArea;
@@ -23,8 +26,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import view.DropContextMenu;
-import view.ItemsContextMenu;
+import javafx.util.Callback;
 import zuul.GameController;
 import zuul.GameType;
 import zuul.CommandHandler;
@@ -35,8 +37,6 @@ public class FXOutput {
 	private final int SCENE_HEIGHT = 600;
 	private Stage stage;
 	private CommandHandler commandHandler;
-	private boolean takeClicked = false;
-	private boolean dropClicked = false;
 
 	@FXML
 	private TextArea gameText;
@@ -86,31 +86,6 @@ public class FXOutput {
 		commandHandler.handleCommand(new String[] { "Look" });
 	}
 
-	public void inventoryClicked() {
-		if (dropClicked) {
-			String toDrop = (String) inventory.getSelectionModel().getSelectedItem();
-			commandHandler.handleCommand(new String[] { "Drop", toDrop });
-			dropClicked = false;
-		}
-	}
-
-	public void itemsClicked() {
-		if (takeClicked) {
-			String toTake = (String) itemsInRoom.getSelectionModel().getSelectedItem();
-			commandHandler.handleCommand(new String[] { "Take", toTake });
-			takeClicked = false;
-		}
-	}
-
-	public void takeClicked() {
-		takeClicked = true;
-	}
-
-	@FXML
-	public void dropClicked() {
-		dropClicked = true;
-	}
-
 	public void goClicked(MouseEvent event) {
 		Button tmp = (Button) event.getSource();
 		String direction = tmp.getId();
@@ -121,7 +96,7 @@ public class FXOutput {
 	}
 
 	private void enableAllButtons() {
-		Button[] buttons = { buttonTake, buttonLook, buttonDrop, buttonGive };
+		Button[] buttons = { buttonLook, buttonGive };
 		for (Button btn : buttons) {
 			btn.setDisable(false);
 		}
@@ -211,12 +186,59 @@ public class FXOutput {
 			e.printStackTrace();
 		}
 	}
+	
+	// Code adapted from: https://stackoverflow.com/questions/28264907/javafx-listview-contextmenu
+	private Callback<ListView<String>, ListCell<String>> takeCellFactory = (lv) -> {
+		ListCell<String> cell = new ListCell<>();
+		ContextMenu contextMenu = new ContextMenu();
+		MenuItem editItem = new MenuItem();
+		editItem.textProperty().bind(Bindings.format("Take \"%s\"", cell.itemProperty()));
+		editItem.setOnAction(event -> {
+			String toTake = (String) itemsInRoom.getSelectionModel().getSelectedItem();
+			commandHandler.handleCommand(new String[] { "Take", toTake });
+		});
+		contextMenu.getItems().addAll(editItem);
+
+		cell.textProperty().bind(cell.itemProperty());
+
+		cell.emptyProperty().addListener((obs, wasEmpty, isNowEmpty) -> {
+			if (isNowEmpty) {
+				cell.setContextMenu(null);
+			} else {
+				cell.setContextMenu(contextMenu);
+			}
+		});
+		return cell ;
+	};
+
+	// Code adapted from: https://stackoverflow.com/questions/28264907/javafx-listview-contextmenu
+	private Callback<ListView<String>, ListCell<String>> dropCellFactory = (lv) -> {
+		ListCell<String> cell = new ListCell<>();
+		ContextMenu contextMenu = new ContextMenu();
+		MenuItem editItem = new MenuItem();
+		editItem.textProperty().bind(Bindings.format("Drop \"%s\"", cell.itemProperty()));
+		editItem.setOnAction(event -> {
+			String toDrop = cell.getItem();
+			commandHandler.handleCommand(new String[] { "Drop", toDrop });
+		});
+		contextMenu.getItems().addAll(editItem);
+
+		cell.textProperty().bind(cell.itemProperty());
+
+		cell.emptyProperty().addListener((obs, wasEmpty, isNowEmpty) -> {
+			if (isNowEmpty) {
+				cell.setContextMenu(null);
+			} else {
+				cell.setContextMenu(contextMenu);
+			}
+		});
+		return cell ;
+	};
+	
 
 	private void setContextMenus() {
-		DropContextMenu dropContextMenu = new DropContextMenu();
-		ItemsContextMenu itemsContextMenu = new ItemsContextMenu();
-		inventory.setContextMenu(dropContextMenu.getContextMenu());
-		itemsInRoom.setContextMenu(itemsContextMenu.getContextMenu());
+        itemsInRoom.setCellFactory(takeCellFactory);
+        inventory.setCellFactory(dropCellFactory);
 	}
 
 	FXOutput() {

@@ -43,11 +43,11 @@
             <VBox prefHeight="489.0" prefWidth="254.0">
                <children>
                   <TextField id="sentence-builder" alignment="CENTER" disable="true" layoutX="10.0" layoutY="475.0" prefHeight="0.0" prefWidth="900.0" style="-fx-opacity: 1;" text="Inventory" />
-                  <ListView id="inventory" fx:id="inventory" onMouseClicked="#inventoryClicked" prefHeight="200.0" prefWidth="200.0" />
+                  <ListView id="inventory" fx:id="inventory" prefHeight="200.0" prefWidth="200.0" />
                   <TextField id="sentence-builder" alignment="CENTER" disable="true" prefHeight="0.0" prefWidth="900.0" style="-fx-opacity: 1;" text="Items In Room" />
-                  <ListView id="itemsInRoom" fx:id="itemsInRoom" onMouseClicked="#itemsClicked" prefHeight="200.0" prefWidth="200.0" />
+                  <ListView id="itemsInRoom" fx:id="itemsInRoom" prefHeight="200.0" prefWidth="200.0" />
                   <TextField id="sentence-builder" alignment="CENTER" disable="true" layoutX="10.0" layoutY="474.0" prefHeight="0.0" prefWidth="900.0" style="-fx-opacity: 1;" text="Actors In Room" />
-                  <ListView id="actorsInRoom" fx:id="actorsInRoom" onMouseClicked="#inventoryClicked" prefHeight="200.0" prefWidth="200.0" />
+                  <ListView id="actorsInRoom" fx:id="actorsInRoom" prefHeight="200.0" prefWidth="200.0" />
                </children>
             </VBox>
          </children>
@@ -76,16 +76,6 @@
                </font>
             </Button>
             <Button fx:id="buttonLook" disable="true" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onMouseClicked="#lookClicked" text="Look" textAlignment="CENTER">
-               <font>
-                  <Font size="18.0" />
-               </font>
-            </Button>
-            <Button fx:id="buttonTake" disable="true" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onMouseClicked="#takeClicked" text="Take" textAlignment="CENTER">
-               <font>
-                  <Font size="18.0" />
-               </font>
-            </Button>
-            <Button fx:id="buttonDrop" disable="true" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onMouseClicked="#dropClicked" text="Drop" textAlignment="CENTER">
                <font>
                   <Font size="18.0" />
                </font>

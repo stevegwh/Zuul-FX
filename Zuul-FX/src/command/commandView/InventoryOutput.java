@@ -1,8 +1,8 @@
 package command.commandView;
 
-import IO.IOHandler;
 import command.ICommandOutput;
 import command.commandController.InventoryController;
+import view.IOHandler;
 import zuulutils.ZuulTools;
 
 public class InventoryOutput extends InventoryController implements ICommandOutput {

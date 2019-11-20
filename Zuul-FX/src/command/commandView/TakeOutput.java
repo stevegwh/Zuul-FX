@@ -1,8 +1,8 @@
 package command.commandView;
 
-import IO.IOHandler;
 import command.ICommandOutput;
 import command.commandController.TakeController;
+import view.IOHandler;
 
 public class TakeOutput extends TakeController implements ICommandOutput {
 	public void init(String[] inputArray) {

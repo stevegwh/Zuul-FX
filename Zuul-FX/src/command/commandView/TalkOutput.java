@@ -1,8 +1,8 @@
 package command.commandView;
 
-import IO.IOHandler;
 import command.ICommandOutput;
 import command.commandController.TalkController;
+import view.IOHandler;
 
 public class TalkOutput extends TalkController implements ICommandOutput {
 	public void init(String[] inputArray) {

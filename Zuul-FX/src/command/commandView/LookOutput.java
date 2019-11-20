@@ -1,8 +1,8 @@
 package command.commandView;
 
-import IO.IOHandler;
 import command.ICommandOutput;
 import command.commandController.LookController;
+import view.IOHandler;
 
 /**
  * Called at the beginning of every game loop by GameController.

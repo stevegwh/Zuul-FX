@@ -1,8 +1,8 @@
 package command.game.eventOutput;
 
-import IO.IOHandler;
 import command.ICommandOutput;
 import command.game.eventController.SingleOrMultiController;
+import view.IOHandler;
 
 /**
  * Asks the user to specify single or multi-player.

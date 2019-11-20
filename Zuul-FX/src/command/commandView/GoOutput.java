@@ -1,8 +1,8 @@
 package command.commandView;
 
-import IO.IOHandler;
 import command.ICommandOutput;
 import command.commandController.GoController;
+import view.IOHandler;
 import zuul.GameController;
 
 public class GoOutput extends GoController implements ICommandOutput {

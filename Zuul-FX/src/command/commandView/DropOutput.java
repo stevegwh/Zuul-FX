@@ -1,8 +1,8 @@
 package command.commandView;
 
-import IO.IOHandler;
 import command.ICommandOutput;
 import command.commandController.DropController;
+import view.IOHandler;
 
 public class DropOutput extends DropController implements ICommandOutput {
 	public void init(String[] inputArray) {

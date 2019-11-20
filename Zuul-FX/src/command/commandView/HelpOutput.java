@@ -1,8 +1,8 @@
 package command.commandView;
 
-import IO.IOHandler;
 import command.ICommandOutput;
 import command.commandController.HelpController;
+import view.IOHandler;
 
 public class HelpOutput extends HelpController implements ICommandOutput {
 	public void init(String[] inputArray) {

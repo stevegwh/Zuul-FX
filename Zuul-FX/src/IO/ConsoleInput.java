@@ -2,6 +2,8 @@ package IO;
 
 import java.util.Scanner;
 
+import view.IOHandler;
+
 public class ConsoleInput implements Input {
 	private String[] parseInput(String input) {
 		input = input.trim().replaceAll(" +", " ");

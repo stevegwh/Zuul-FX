@@ -1,8 +1,8 @@
 package command.commandView;
 
-import IO.IOHandler;
 import command.ICommandOutput;
 import command.commandController.GiveController;
+import view.IOHandler;
 
 public class GiveOutput extends GiveController implements ICommandOutput {
 

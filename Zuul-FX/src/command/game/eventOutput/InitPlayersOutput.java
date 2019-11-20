@@ -1,8 +1,8 @@
 package command.game.eventOutput;
 
-import IO.IOHandler;
 import command.ICommandOutput;
 import command.game.eventController.InitPlayersController;
+import view.IOHandler;
 
 public class InitPlayersOutput extends InitPlayersController implements ICommandOutput {
 
