@@ -24,7 +24,7 @@
             <MenuItem mnemonicParsing="false" onAction="#startDefaultGame" text="Start Default Game" />
                   <MenuItem fx:id="menuItemStartCustomGame" disable="true" mnemonicParsing="false" onAction="#startGame" text="Start Custom Game" />
             <MenuItem mnemonicParsing="false" onAction="#openFileChooser" text="Load Custom Game" />
-            <MenuItem mnemonicParsing="false" text="Quit" />
+            <MenuItem mnemonicParsing="false" onAction="#quitProgram" text="Quit" />
           </items>
         </Menu>
         <Menu mnemonicParsing="false" text="Help">

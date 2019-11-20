@@ -2,6 +2,7 @@ package view;
 
 import IO.IOHandler;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.VBox;
@@ -22,6 +23,10 @@ public class View extends Application {
 
 		Scene scene = new Scene(vbox);
 		primaryStage.setScene(scene);
+		primaryStage.setOnCloseRequest(e->{
+			Platform.exit();
+			System.exit(0);
+		});
 		primaryStage.show();
 		IOHandler.output.onLoad();
 //		IOHandler.output.init();

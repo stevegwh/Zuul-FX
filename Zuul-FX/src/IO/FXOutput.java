@@ -55,6 +55,12 @@ public class FXOutput implements Output {
 	public String getCSVPath() {
 		return csvPath;
 	}
+	
+	@FXML
+	public void quitProgram() {
+		Platform.exit();
+		System.exit(0);
+	}
 
 	private void setDirectionButtons() {
 		ArrayList<String> exits = GameController.getCurrentRoom().getAllDirections();

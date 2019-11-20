@@ -25,26 +25,27 @@ public class AllRoomDataController {
 	 */
 	private Function<ObservableList<CSVCell>, Room> customMap = (line) -> {
 		Room room = new Room();
-		
-		line.removeIf(e-> e.getProperty().getValue().isEmpty());
 
-		String name = line.stream().filter(e->e.getHeader().getEnum().equals(HeaderEnum.NAME)).map(e-> e.getProperty().getValue()).findFirst().orElse(null);
+		line.removeIf(e -> e.getProperty().getValue().isEmpty());
+
+		String name = line.stream().filter(e -> e.getHeader().getEnum().equals(HeaderEnum.NAME))
+				.map(csvCell -> csvCell.getProperty().getValue()).findFirst().orElse(null);
 		if (name.equals(null)) {
 			System.err.println("Unable to map the name from the following row: " + line);
 		}
 		room.setName(name);
 
-		String description = line.stream().filter(e->e.getHeader().getEnum().equals(HeaderEnum.DESCRIPTION)).map(e-> e.getProperty().getValue()).findFirst().orElse(null);
+		String description = line.stream().filter(e -> e.getHeader().getEnum().equals(HeaderEnum.DESCRIPTION))
+				.map(csvCell -> csvCell.getProperty().getValue()).findFirst().orElse(null);
 		if (description.equals(null)) {
 			System.err.println("Unable to map the description from the following row: " + line);
 		}
 		room.setDescription(description);
 
-		Map<String, String> exits = line.stream()
-				.filter(e-> e.getHeader().getEnum().equals(HeaderEnum.DIRECTION))
-				.filter(e-> !e.getProperty().getValue().equals("null"))
-				.collect(Collectors.toMap(e-> ((DirectionHeader) e.getHeader()).getDirection(), e-> e.getProperty().getValue()));
-		exits.entrySet().forEach(e-> System.out.println("K: " + e.getKey() + " V: " + e.getValue()));
+		Map<String, String> exits = line.stream().filter(e -> e.getHeader().getEnum().equals(HeaderEnum.DIRECTION))
+				.filter(e -> !e.getProperty().getValue().equals("null")).collect(Collectors
+						.toMap(e -> ((DirectionHeader) e.getHeader()).getDirection(), e -> e.getProperty().getValue()));
+//		exits.entrySet().forEach(e -> System.out.println("K: " + e.getKey() + " V: " + e.getValue()));
 
 		room.setExits(exits);
 
@@ -53,12 +54,11 @@ public class AllRoomDataController {
 		// Get's the index of its item weight pair.
 		items.forEach(e -> room.addTakeableItem(new TakeableItem(e.getProperty().getValue(),
 				Integer.parseInt(line.get(((ItemNameHeader) e.getHeader()).getItemPair()).getProperty().getValue()))));
-		
-		
+
 		return room;
 
 	};
-	
+
 	private Function<List<String>, Room> defaultMap = (line) -> {
 		Room room = new Room();
 		room.setName(line.get(0));
@@ -83,7 +83,7 @@ public class AllRoomDataController {
 				room.addTakeableItem(takeableItem);
 			}
 		}
-		
+
 		return room;
 	};
 
@@ -101,16 +101,18 @@ public class AllRoomDataController {
 	public Room getRoom(String name) {
 		return rooms.get(name);
 	}
-	
+
 //	public AllRoomDataController(List<ObservableList<CSVCell>> csvData) {
 //		rooms = csvData.stream().map(mapToItem).collect(Collectors.toMap(e -> ((Room) e).getName(), e -> (Room) e));
 //	}
 	@SuppressWarnings("unchecked")
 	public AllRoomDataController(List<?> csvData, GameType game) {
 		if (game.equals(GameType.DEFAULT)) {
-			rooms = ((List<List<String>>) csvData).stream().map(defaultMap).collect(Collectors.toMap(e -> ((Room) e).getName(), e -> (Room) e));
+			rooms = ((List<List<String>>) csvData).stream().map(defaultMap)
+					.collect(Collectors.toMap(e -> ((Room) e).getName(), e -> (Room) e));
 		} else if (game.equals(GameType.CUSTOM)) {
-			rooms = ((List<ObservableList<CSVCell>>) csvData).stream().map(customMap).collect(Collectors.toMap(e -> ((Room) e).getName(), e -> (Room) e));
+			rooms = ((List<ObservableList<CSVCell>>) csvData).stream().map(customMap)
+					.collect(Collectors.toMap(e -> ((Room) e).getName(), e -> (Room) e));
 		}
 
 	}
