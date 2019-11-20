@@ -1,6 +1,7 @@
 package command.commandController;
 
 import command.CommandController;
+import command.ZuulDirection;
 import command.game.eventOutput.NewTurnOutput;
 import zuul.GameController;
 
@@ -17,10 +18,6 @@ public class GoController extends CommandController {
 	protected String nextRoom;
 	protected int turnsLeft;
 	private int COMMAND_LENGTH = 2;
-
-	private enum Directions {
-		NORTH, SOUTH, EAST, WEST
-	}
 
 	@Override
 	public String validateUserInput(String[] inputArray) {
@@ -39,7 +36,7 @@ public class GoController extends CommandController {
 	}
 
 	private boolean isValidDirection(String userInput) {
-		for (Directions c : Directions.values()) {
+		for (ZuulDirection c : ZuulDirection.values()) {
 			if (c.name().equals(userInput)) {
 				return true;
 			}
