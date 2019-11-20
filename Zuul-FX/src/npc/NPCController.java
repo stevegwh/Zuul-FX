@@ -15,8 +15,7 @@ public class NPCController {
 	TimerTask task = new TimerTask() {
 		@Override
 		public void run() {
-			updateActors();
-			Platform.runLater(() -> IOHandler.output.updateActors());
+			Platform.runLater(() -> updateActors());
 		}
 	};
 

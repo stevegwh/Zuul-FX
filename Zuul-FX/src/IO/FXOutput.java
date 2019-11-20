@@ -4,14 +4,10 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import command.game.eventOutput.GameStartOutput;
 import csvLoader.CSVEditor;
 import javafx.application.Platform;
-import javafx.beans.property.ListProperty;
-import javafx.beans.property.SimpleListProperty;
-import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -52,8 +48,6 @@ public class FXOutput {
 	@FXML
 	private MenuItem menuItemStartCustomGame;
 
-	private ListProperty<String> actorListProperty = new SimpleListProperty<>();
-
 	public String getCSVPath() {
 		return csvPath;
 	}
@@ -85,12 +79,7 @@ public class FXOutput {
 		itemsInRoom.itemsProperty().bind(GameController.getCurrentRoom().getItemListProperty());
 		inventory.itemsProperty()
 				.bind(GameController.getCurrentPlayer().getInvModel().getInventoryListProperty());
-	}
-
-	public void updateActors() {
-		actorListProperty.set(FXCollections.observableArrayList(GameController.getCurrentRoom().getActorsInRoom()
-				.stream().map(e -> e.getName()).collect(Collectors.toList())));
-		actorsInRoom.itemsProperty().bind(actorListProperty);
+		actorsInRoom.itemsProperty().bind(GameController.getCurrentRoom().getActorListProperty());
 	}
 
 	public void lookClicked() {
@@ -129,7 +118,6 @@ public class FXOutput {
 		Platform.runLater(() -> commandHandler.handleCommand(new String[] { "Go", direction }));
 		Platform.runLater(() -> setDirectionButtons());
 		Platform.runLater(() -> updateView());
-		Platform.runLater(() -> updateActors());
 	}
 
 	private void enableAllButtons() {

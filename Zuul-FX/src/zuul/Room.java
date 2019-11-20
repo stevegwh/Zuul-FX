@@ -18,8 +18,10 @@ public class Room {
 	private Map<String, String> exits;
 	// String representation of 'takeableItems'
 	private ObservableList<String> itemNames = FXCollections.observableList(new ArrayList<String>());
+	private ObservableList<String> actorNames = FXCollections.observableList(new ArrayList<String>());
 	// Necessary to bind data with view
 	private ListProperty<String> itemsListProperty = new SimpleListProperty<>(itemNames);
+	private ListProperty<String> actorsListProperty = new SimpleListProperty<>(actorNames);
 
 	public String getDescription() {
 		return description;
@@ -94,12 +96,18 @@ public class Room {
 		return itemsListProperty;
 	}
 
+	public ListProperty<String> getActorListProperty() {
+		return actorsListProperty;
+	}
+
 	public void addActor(NPC npc) {
 		actorsInRoom.add(npc);
+		actorNames.add(npc.getName());
 	}
 
 	public void removeActor(NPC npc) {
 		actorsInRoom.remove(npc);
+		actorNames.remove(npc.getName());
 	}
 
 	public boolean hasActor(String toTalk) {
