@@ -16,7 +16,7 @@ public class NPCController {
 		@Override
 		public void run() {
 			updateActors();
-			Platform.runLater(() -> IOHandler.output.updateView());
+			Platform.runLater(() -> IOHandler.output.updateActors());
 		}
 	};
 

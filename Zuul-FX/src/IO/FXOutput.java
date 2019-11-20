@@ -52,9 +52,7 @@ public class FXOutput implements Output {
 	@FXML
 	private MenuItem menuItemStartCustomGame;
 
-	ListProperty<String> itemsListProperty = new SimpleListProperty<>();
-	ListProperty<String> inventoryListProperty = new SimpleListProperty<>();
-	ListProperty<String> actorListProperty = new SimpleListProperty<>();
+	private ListProperty<String> actorListProperty = new SimpleListProperty<>();
 
 	public String getCSVPath() {
 		return csvPath;
@@ -80,15 +78,15 @@ public class FXOutput implements Output {
 		}
 	}
 
-	// TODO: Inventory should only need to be bound once.
-	// TODO: It seems like you're calling this way too much. Use listeners instead.
+	/**
+	 * Binds the data of the game data's array and the view's ListView
+	 */
 	public void updateView() {
-		itemsListProperty.set(FXCollections.observableArrayList(GameController.getCurrentRoom().getTakeableItems()
-				.stream().map(e -> e.getName()).collect(Collectors.toList())));
-		itemsInRoom.itemsProperty().bind(itemsListProperty);
-		inventoryListProperty.set(FXCollections.observableArrayList(GameController.getCurrentPlayer().getInvModel()
-				.getInventory().stream().map(e -> e.getName()).collect(Collectors.toList())));
-		inventory.itemsProperty().bind(inventoryListProperty);
+		itemsInRoom.itemsProperty().bindBidirectional(GameController.getCurrentRoom().getItemListProperty());
+		inventory.itemsProperty().bindBidirectional(GameController.getCurrentPlayer().getInvModel().getInventoryListProperty());
+	}
+
+	public void updateActors() {
 		actorListProperty.set(FXCollections.observableArrayList(GameController.getCurrentRoom().getActorsInRoom()
 				.stream().map(e -> e.getName()).collect(Collectors.toList())));
 		actorsInRoom.itemsProperty().bind(actorListProperty);
@@ -102,7 +100,6 @@ public class FXOutput implements Output {
 		if (dropClicked) {
 			String toDrop = (String) inventory.getSelectionModel().getSelectedItem();
 			commandHandler.handleCommand(new String[] { "Drop", toDrop });
-			updateView();
 			dropClicked = false;
 		}
 	}
@@ -111,7 +108,6 @@ public class FXOutput implements Output {
 		if (takeClicked) {
 			String toTake = (String) itemsInRoom.getSelectionModel().getSelectedItem();
 			commandHandler.handleCommand(new String[] { "Take", toTake });
-//			updateView();
 			takeClicked = false;
 		}
 	}
@@ -144,6 +140,7 @@ public class FXOutput implements Output {
 		Platform.runLater(() -> commandHandler.handleCommand(new String[] { "Go", direction }));
 		Platform.runLater(() -> setDirectionButtons());
 		Platform.runLater(() -> updateView());
+		Platform.runLater(() -> updateActors());
 	}
 
 	private void enableAllButtons() {
@@ -250,5 +247,6 @@ public class FXOutput implements Output {
 		GameStartOutput welcome = new GameStartOutput();
 		welcome.init(new String[] {});
 	}
+
 
 }

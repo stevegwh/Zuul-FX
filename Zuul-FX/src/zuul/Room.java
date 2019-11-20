@@ -3,6 +3,8 @@ package zuul;
 import java.util.ArrayList;
 import java.util.Map;
 
+import javafx.beans.property.ListProperty;
+import javafx.beans.property.SimpleListProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import npc.NPC;
@@ -12,6 +14,8 @@ public class Room {
 	private String description;
 	private ObservableList<NPC> actorsInRoom = FXCollections.observableList(new ArrayList<NPC>());
 	private ObservableList<TakeableItem> takeableItems = FXCollections.observableList(new ArrayList<TakeableItem>());
+	private ObservableList<String> itemNames = FXCollections.observableList(new ArrayList<String>());
+	private ListProperty<String> itemsListProperty = new SimpleListProperty<>(itemNames);
 	private Map<String, String> exits;
 
 	public String getDescription() {
@@ -34,6 +38,7 @@ public class Room {
 		return actorsInRoom;
 	}
 
+	// TODO: Make sure you can only call this once.
 	public void setActorsInRoom(ArrayList<NPC> actorsInRoom) {
 		this.actorsInRoom = FXCollections.observableList(actorsInRoom);
 	}
@@ -56,6 +61,7 @@ public class Room {
 
 	public void addTakeableItem(TakeableItem item) {
 		takeableItems.add(item);
+		itemNames.add(item.getName());
 	}
 
 	public String getExit(String direction) {
@@ -79,6 +85,11 @@ public class Room {
 
 	public void removeTakeableItem(TakeableItem item) {
 		takeableItems.remove(item);
+		itemNames.remove(item.getName());
+	}
+	
+	public ListProperty<String> getItemListProperty() {
+		return itemsListProperty;
 	}
 
 	public void addActor(NPC npc) {
