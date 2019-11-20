@@ -1,5 +1,6 @@
 package zuul;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
@@ -22,15 +23,21 @@ public class AllRoomDataController {
 	 * Same process as parsing through the CSV file and converting to a List of
 	 * Lists, this function takes a List of Lists and forms Room objects from them.
 	 */
-	private Function<ObservableList<CSVCell>, Room> mapToItem = (line) -> {
+	private Function<ObservableList<CSVCell>, Room> customMap = (line) -> {
 		Room room = new Room();
 		
 		line.removeIf(e-> e.getProperty().getValue().isEmpty());
 
-		String name = line.stream().filter(e->e.getHeader().getEnum().equals(HeaderEnum.NAME)).map(e-> e.getProperty().getValue()).findFirst().orElse("null");
+		String name = line.stream().filter(e->e.getHeader().getEnum().equals(HeaderEnum.NAME)).map(e-> e.getProperty().getValue()).findFirst().orElse(null);
+		if (name.equals(null)) {
+			System.err.println("Unable to map the name from the following row: " + line);
+		}
 		room.setName(name);
 
-		String description = line.stream().filter(e->e.getHeader().getEnum().equals(HeaderEnum.DESCRIPTION)).map(e-> e.getProperty().getValue()).findFirst().orElse("null");
+		String description = line.stream().filter(e->e.getHeader().getEnum().equals(HeaderEnum.DESCRIPTION)).map(e-> e.getProperty().getValue()).findFirst().orElse(null);
+		if (description.equals(null)) {
+			System.err.println("Unable to map the description from the following row: " + line);
+		}
 		room.setDescription(description);
 
 		Map<String, String> exits = line.stream()
@@ -43,12 +50,41 @@ public class AllRoomDataController {
 
 		List<CSVCell> items = line.stream().filter(e -> e.getHeader().getEnum().equals(HeaderEnum.ITEMNAME))
 				.collect(Collectors.toList());
+		// Get's the index of its item weight pair.
 		items.forEach(e -> room.addTakeableItem(new TakeableItem(e.getProperty().getValue(),
 				Integer.parseInt(line.get(((ItemNameHeader) e.getHeader()).getItemPair()).getProperty().getValue()))));
 		
 		
 		return room;
 
+	};
+	
+	private Function<List<String>, Room> defaultMap = (line) -> {
+		Room room = new Room();
+		room.setName(line.get(0));
+		room.setDescription(line.get(1));
+		Map<String, String> exits = new HashMap<>();
+		if (!line.get(2).equals("null")) {
+			exits.put("north", line.get(2));
+		}
+		if (!line.get(3).equals("null")) {
+			exits.put("east", line.get(3));
+		}
+		if (!line.get(4).equals("null")) {
+			exits.put("south", line.get(4));
+		}
+		if (!line.get(5).equals("null")) {
+			exits.put("west", line.get(5));
+		}
+		room.setExits(exits);
+		for (int i = 6; i < line.size(); i += 2) {
+			if (!line.get(i).isEmpty()) {
+				TakeableItem takeableItem = new TakeableItem(line.get(i), Integer.parseInt(line.get(i + 1)));
+				room.addTakeableItem(takeableItem);
+			}
+		}
+		
+		return room;
 	};
 
 	private Map<String, Room> rooms;
@@ -65,9 +101,17 @@ public class AllRoomDataController {
 	public Room getRoom(String name) {
 		return rooms.get(name);
 	}
-
-	public AllRoomDataController(List<ObservableList<CSVCell>> csvData) {
-		rooms = csvData.stream().map(mapToItem).collect(Collectors.toMap(e -> ((Room) e).getName(), e -> (Room) e));
+	
+//	public AllRoomDataController(List<ObservableList<CSVCell>> csvData) {
+//		rooms = csvData.stream().map(mapToItem).collect(Collectors.toMap(e -> ((Room) e).getName(), e -> (Room) e));
+//	}
+	@SuppressWarnings("unchecked")
+	public AllRoomDataController(List<?> csvData, GameType game) {
+		if (game.equals(GameType.DEFAULT)) {
+			rooms = ((List<List<String>>) csvData).stream().map(defaultMap).collect(Collectors.toMap(e -> ((Room) e).getName(), e -> (Room) e));
+		} else if (game.equals(GameType.CUSTOM)) {
+			rooms = ((List<ObservableList<CSVCell>>) csvData).stream().map(customMap).collect(Collectors.toMap(e -> ((Room) e).getName(), e -> (Room) e));
+		}
 
 	}
 

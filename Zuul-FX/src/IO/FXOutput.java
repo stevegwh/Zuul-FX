@@ -3,9 +3,11 @@ package IO;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Collectors;
 
 import command.game.eventOutput.GameStartOutput;
+import csvLoader.CSVEditor;
 import javafx.application.Platform;
 import javafx.beans.property.ListProperty;
 import javafx.beans.property.SimpleListProperty;
@@ -26,6 +28,7 @@ import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import zuul.GameController;
+import zuul.GameType;
 import zuul.CommandHandler;
 
 public class FXOutput implements Output {
@@ -155,9 +158,12 @@ public class FXOutput implements Output {
 	}
 
 	public void startDefaultGame() {
-		// TODO: Pass in list, not path
-//		GameController.initRooms("src/csvLoader/roomData.csv");
-//		startGame();
+		// TODO: Find out directory of this
+		String path = "C:\\Users\\Steve\\git\\Zuul-FX\\Zuul-FX\\src\\csvLoader\\defaultRoomData.csv";
+		CSVEditor csvEditor = new CSVEditor(path);
+		List<List<String>> roomData = csvEditor.getRoomData();
+		GameController.initRooms(roomData, GameType.DEFAULT);
+		startGame();
 	}
 
 	@Override

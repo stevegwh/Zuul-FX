@@ -28,6 +28,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import zuul.GameController;
+import zuul.GameType;
 
 public class EditCSVController {
 	private CSVEditor csvEditor;
@@ -66,7 +67,7 @@ public class EditCSVController {
 
 	@FXML
 	public void submitCSV(ActionEvent event) {
-		GameController.initRooms(rooms);
+		GameController.initRooms(rooms, GameType.CUSTOM);
 		Stage stage = (Stage) ((Node) menuBar).getScene().getWindow();
 		stage.close();
 	}

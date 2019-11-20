@@ -89,8 +89,8 @@ public class GameController {
 		}
 	}
 	
-	public static void initRooms(List<ObservableList<CSVCell>> rooms) {
-		roomData = new AllRoomDataController(rooms);
+	public static void initRooms(List<?> rooms, GameType game) {
+		roomData = new AllRoomDataController(rooms, game);
 	}
 
 	public static void start() {
