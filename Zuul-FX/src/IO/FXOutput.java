@@ -33,7 +33,11 @@ import zuul.CommandHandler;
 
 public class FXOutput implements Output {
 	private String csvPath;
+	private final int SCENE_WIDTH = 800;
+	private final int SCENE_HEIGHT = 600;
 	private Stage stage;
+	private Scene dropScene;
+	private Scene takeScene;
 	private CommandHandler commandHandler;
 	private boolean takeClicked = false;
 	private boolean dropClicked = false;
@@ -76,6 +80,8 @@ public class FXOutput implements Output {
 		}
 	}
 
+	// TODO: Inventory should only need to be bound once.
+	// TODO: It seems like you're calling this way too much. Use listeners instead.
 	public void updateView() {
 		itemsListProperty.set(FXCollections.observableArrayList(GameController.getCurrentRoom().getTakeableItems()
 				.stream().map(e -> e.getName()).collect(Collectors.toList())));
@@ -105,7 +111,7 @@ public class FXOutput implements Output {
 		if (takeClicked) {
 			String toTake = (String) itemsInRoom.getSelectionModel().getSelectedItem();
 			commandHandler.handleCommand(new String[] { "Take", toTake });
-			updateView();
+//			updateView();
 			takeClicked = false;
 		}
 	}
@@ -114,8 +120,21 @@ public class FXOutput implements Output {
 		takeClicked = true;
 	}
 
+	@FXML
 	public void dropClicked() {
 		dropClicked = true;
+//		FXMLLoader loader = new FXMLLoader();
+//		loader.setLocation(getClass().getResource("zuul.fxml"));
+//		loader.setController(this);
+//		Parent parent;
+//		try {
+//			parent = loader.load();
+//			Scene scene = new Scene(parent, SCENE_WIDTH, SCENE_HEIGHT);
+//			stage.setScene(scene);
+//			updateView();
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
 	}
 
 	public void goClicked(MouseEvent event) {
@@ -165,7 +184,8 @@ public class FXOutput implements Output {
 
 	public void startDefaultGame() {
 		// TODO: Find out directory of this
-		String path = "C:\\Users\\Steve\\git\\Zuul-FX\\Zuul-FX\\src\\csvLoader\\defaultRoomData.csv";
+//		String path = "C:\\Users\\Steve\\git\\Zuul-FX\\Zuul-FX\\src\\csvLoader\\defaultRoomData.csv";
+		String path = "/home/forest/git/Zuul-FX/Zuul-FX/src/csvLoader/defaultRoomData.csv";
 		CSVEditor csvEditor = new CSVEditor(path);
 		List<List<String>> roomData = csvEditor.getRoomData();
 		GameController.initRooms(roomData, GameType.DEFAULT);
@@ -210,7 +230,7 @@ public class FXOutput implements Output {
 		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("editCSVView.fxml"));
 		try {
 			Parent parent = fxmlLoader.load();
-			Scene scene = new Scene(parent, 800, 600);
+			Scene scene = new Scene(parent, SCENE_WIDTH, SCENE_HEIGHT);
 			Stage stage = new Stage();
 			stage.initModality(Modality.APPLICATION_MODAL);
 			stage.setScene(scene);
