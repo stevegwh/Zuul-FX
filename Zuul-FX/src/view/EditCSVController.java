@@ -119,7 +119,8 @@ public class EditCSVController {
 		}
 
 		Alert a = new Alert(AlertType.CONFIRMATION);
-		a.setContentText(amountRemoved - rooms.size() + " room(s) removed. All references to removed rooms are now 'null'.");
+		a.setContentText(
+				amountRemoved - rooms.size() + " room(s) removed. All references to removed rooms are now 'null'.");
 		a.show();
 	}
 
@@ -128,7 +129,8 @@ public class EditCSVController {
 			ObservableList<CSVCell> row = FXCollections.observableArrayList();
 
 			// Instantiates CSVCells with String and an index.
-			// The index is used to decide what csv header the String represents (Name, Description etc).
+			// The index is used to decide what csv header the String represents (Name,
+			// Description etc).
 			int i = 0;
 			for (String e : room) {
 				row.add(new CSVCell(e, i));

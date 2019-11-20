@@ -1,6 +1,7 @@
 package zuul;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import javafx.beans.property.ListProperty;
@@ -13,10 +14,12 @@ public class Room {
 	private String name;
 	private String description;
 	private ObservableList<NPC> actorsInRoom = FXCollections.observableList(new ArrayList<NPC>());
-	private ObservableList<TakeableItem> takeableItems = FXCollections.observableList(new ArrayList<TakeableItem>());
-	private ObservableList<String> itemNames = FXCollections.observableList(new ArrayList<String>());
-	private ListProperty<String> itemsListProperty = new SimpleListProperty<>(itemNames);
+	private List<TakeableItem> takeableItems = new ArrayList<TakeableItem>();
 	private Map<String, String> exits;
+	// String representation of 'takeableItems'
+	private ObservableList<String> itemNames = FXCollections.observableList(new ArrayList<String>());
+	// Necessary to bind data with view
+	private ListProperty<String> itemsListProperty = new SimpleListProperty<>(itemNames);
 
 	public String getDescription() {
 		return description;
@@ -26,7 +29,7 @@ public class Room {
 		this.description = description;
 	}
 
-	public ObservableList<TakeableItem> getTakeableItems() {
+	public List<TakeableItem> getTakeableItems() {
 		return takeableItems;
 	}
 
@@ -38,7 +41,6 @@ public class Room {
 		return actorsInRoom;
 	}
 
-	// TODO: Make sure you can only call this once.
 	public void setActorsInRoom(ArrayList<NPC> actorsInRoom) {
 		this.actorsInRoom = FXCollections.observableList(actorsInRoom);
 	}

@@ -27,17 +27,17 @@ import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import view.DropContextMenu;
+import view.ItemsContextMenu;
 import zuul.GameController;
 import zuul.GameType;
 import zuul.CommandHandler;
 
 public class FXOutput implements Output {
 	private String csvPath;
-	private final int SCENE_WIDTH = 800;
+	private final int SCENE_WIDTH = 900;
 	private final int SCENE_HEIGHT = 600;
 	private Stage stage;
-	private Scene dropScene;
-	private Scene takeScene;
 	private CommandHandler commandHandler;
 	private boolean takeClicked = false;
 	private boolean dropClicked = false;
@@ -57,7 +57,7 @@ public class FXOutput implements Output {
 	public String getCSVPath() {
 		return csvPath;
 	}
-	
+
 	@FXML
 	public void quitProgram() {
 		Platform.exit();
@@ -83,7 +83,8 @@ public class FXOutput implements Output {
 	 */
 	public void updateView() {
 		itemsInRoom.itemsProperty().bindBidirectional(GameController.getCurrentRoom().getItemListProperty());
-		inventory.itemsProperty().bindBidirectional(GameController.getCurrentPlayer().getInvModel().getInventoryListProperty());
+		inventory.itemsProperty()
+				.bindBidirectional(GameController.getCurrentPlayer().getInvModel().getInventoryListProperty());
 	}
 
 	public void updateActors() {
@@ -119,18 +120,6 @@ public class FXOutput implements Output {
 	@FXML
 	public void dropClicked() {
 		dropClicked = true;
-//		FXMLLoader loader = new FXMLLoader();
-//		loader.setLocation(getClass().getResource("zuul.fxml"));
-//		loader.setController(this);
-//		Parent parent;
-//		try {
-//			parent = loader.load();
-//			Scene scene = new Scene(parent, SCENE_WIDTH, SCENE_HEIGHT);
-//			stage.setScene(scene);
-//			updateView();
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
 	}
 
 	public void goClicked(MouseEvent event) {
@@ -239,14 +228,21 @@ public class FXOutput implements Output {
 		}
 	}
 
+	private void setContextMenus() {
+		DropContextMenu dropContextMenu = new DropContextMenu();
+		ItemsContextMenu itemsContextMenu = new ItemsContextMenu();
+		inventory.setContextMenu(dropContextMenu.getContextMenu());
+		itemsInRoom.setContextMenu(itemsContextMenu.getContextMenu());
+	}
+
 	FXOutput() {
 		commandHandler = new CommandHandler();
+		Platform.runLater(() -> setContextMenus());
 	}
 
 	public void onLoad() {
 		GameStartOutput welcome = new GameStartOutput();
 		welcome.init(new String[] {});
 	}
-
 
 }
