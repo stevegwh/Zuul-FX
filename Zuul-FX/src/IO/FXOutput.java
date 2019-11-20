@@ -33,7 +33,7 @@ import zuul.GameController;
 import zuul.GameType;
 import zuul.CommandHandler;
 
-public class FXOutput implements Output {
+public class FXOutput {
 	private String csvPath;
 	private final int SCENE_WIDTH = 900;
 	private final int SCENE_HEIGHT = 600;
@@ -82,9 +82,9 @@ public class FXOutput implements Output {
 	 * Binds the data of the game data's array and the view's ListView
 	 */
 	public void updateView() {
-		itemsInRoom.itemsProperty().bindBidirectional(GameController.getCurrentRoom().getItemListProperty());
+		itemsInRoom.itemsProperty().bind(GameController.getCurrentRoom().getItemListProperty());
 		inventory.itemsProperty()
-				.bindBidirectional(GameController.getCurrentPlayer().getInvModel().getInventoryListProperty());
+				.bind(GameController.getCurrentPlayer().getInvModel().getInventoryListProperty());
 	}
 
 	public void updateActors() {
@@ -178,7 +178,6 @@ public class FXOutput implements Output {
 		startGame();
 	}
 
-	@Override
 	public void println(String ele) {
 		System.out.println(ele);
 		String newLine = System.getProperty("line.separator");
@@ -187,21 +186,18 @@ public class FXOutput implements Output {
 
 	}
 
-	@Override
 	public void printf(String ele) {
 		System.out.println(ele);
 		Platform.runLater(() -> gameText.appendText(ele));
 
 	}
 
-	@Override
 	public void printCharDialog(String ele) {
 		System.out.println(ele);
 		Platform.runLater(() -> gameText.appendText(ele));
 
 	}
 
-	@Override
 	public void printError(String error) {
 		Alert a = new Alert(AlertType.ERROR);
 		a.setContentText(error);
