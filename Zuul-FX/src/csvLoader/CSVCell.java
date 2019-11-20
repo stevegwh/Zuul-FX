@@ -23,7 +23,7 @@ public class CSVCell {
 			setTooltipText(tooltip);
 		} else {
 			style = "";
-			setTooltipText(header.getName().name());
+			setTooltipText(header.getEnum().name());
 		}
 	}
 
@@ -50,10 +50,10 @@ public class CSVCell {
 	public CSVCell(String value, int idx) {
 		HeaderFactory headerFactory = new HeaderFactory(idx);
 		header = headerFactory.getHeader();
-		if (header.getName().equals(HeaderEnum.ITEMNAME)) {
+		if (header.getEnum().equals(HeaderEnum.ITEMNAME)) {
 			((ItemNameHeader) header).setItemPair(idx);
 		}
-		System.out.println("Given header of: " + header.getName());
+		System.out.println("Given header of: " + header.getEnum());
 		getProperty().set(value);
 		tooltip = new Tooltip();
 	}

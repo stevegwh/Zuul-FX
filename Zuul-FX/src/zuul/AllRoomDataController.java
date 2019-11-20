@@ -27,21 +27,21 @@ public class AllRoomDataController {
 		
 		line.removeIf(e-> e.getProperty().getValue().isEmpty());
 
-		String name = line.stream().filter(e->e.getHeader().getName().equals(HeaderEnum.NAME)).map(e-> e.getProperty().getValue()).findFirst().orElse("null");
+		String name = line.stream().filter(e->e.getHeader().getEnum().equals(HeaderEnum.NAME)).map(e-> e.getProperty().getValue()).findFirst().orElse("null");
 		room.setName(name);
 
-		String description = line.stream().filter(e->e.getHeader().getName().equals(HeaderEnum.DESCRIPTION)).map(e-> e.getProperty().getValue()).findFirst().orElse("null");
+		String description = line.stream().filter(e->e.getHeader().getEnum().equals(HeaderEnum.DESCRIPTION)).map(e-> e.getProperty().getValue()).findFirst().orElse("null");
 		room.setDescription(description);
 
 		Map<String, String> exits = line.stream()
-				.filter(e-> e.getHeader().getName().equals(HeaderEnum.DIRECTION))
+				.filter(e-> e.getHeader().getEnum().equals(HeaderEnum.DIRECTION))
 				.filter(e-> !e.getProperty().getValue().equals("null"))
 				.collect(Collectors.toMap(e-> ((DirectionHeader) e.getHeader()).getDirection(), e-> e.getProperty().getValue()));
 		exits.entrySet().forEach(e-> System.out.println("K: " + e.getKey() + " V: " + e.getValue()));
 
 		room.setExits(exits);
 
-		List<CSVCell> items = line.stream().filter(e -> e.getHeader().getName().equals(HeaderEnum.ITEMNAME))
+		List<CSVCell> items = line.stream().filter(e -> e.getHeader().getEnum().equals(HeaderEnum.ITEMNAME))
 				.collect(Collectors.toList());
 		items.forEach(e -> room.addTakeableItem(new TakeableItem(e.getProperty().getValue(),
 				Integer.parseInt(line.get(((ItemNameHeader) e.getHeader()).getItemPair()).getProperty().getValue()))));

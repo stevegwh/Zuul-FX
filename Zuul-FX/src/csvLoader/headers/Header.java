@@ -3,7 +3,7 @@ package csvLoader.headers;
 public abstract class Header {
 	private final HeaderEnum name;
 
-	public HeaderEnum getName() {
+	public HeaderEnum getEnum() {
 		return name;
 	}
 
