@@ -194,7 +194,7 @@ public class FXOutput {
 		MenuItem editItem = new MenuItem();
 		editItem.textProperty().bind(Bindings.format("Take \"%s\"", cell.itemProperty()));
 		editItem.setOnAction(event -> {
-			String toTake = (String) itemsInRoom.getSelectionModel().getSelectedItem();
+			String toTake = cell.getItem();
 			commandHandler.handleCommand(new String[] { "Take", toTake });
 		});
 		contextMenu.getItems().addAll(editItem);
