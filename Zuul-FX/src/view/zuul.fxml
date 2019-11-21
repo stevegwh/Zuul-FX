@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox prefHeight="600.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<VBox prefHeight="600.0" prefWidth="900.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
   <children>
     <MenuBar VBox.vgrow="NEVER">
       <menus>
@@ -37,7 +37,7 @@
                <children>
                   <TextArea fx:id="gameText" disable="true" maxHeight="1.7976931348623157E308" prefHeight="500.0" prefWidth="726.0" style="-fx-opacity: 1;" HBox.hgrow="ALWAYS">
                      <font>
-                        <Font name="DejaVu Sans Mono" size="13.0" />
+                        <Font name="Segoe UI" size="13.0" />
                      </font>
                   </TextArea>
                   <VBox maxHeight="1.7976931348623157E308" prefHeight="489.0" prefWidth="254.0">

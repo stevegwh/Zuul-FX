@@ -133,8 +133,8 @@ public class FXOutput {
 
 	public void startDefaultGame() {
 		// TODO: Find out directory of this
-//		String path = "C:\\Users\\Steve\\git\\Zuul-FX\\Zuul-FX\\src\\csvLoader\\defaultRoomData.csv";
-		String path = "/home/forest/git/Zuul-FX/Zuul-FX/src/csvLoader/defaultRoomData.csv";
+		String path = "C:\\Users\\Steve\\git\\Zuul-FX\\Zuul-FX\\src\\csvLoader\\defaultRoomData.csv";
+//		String path = "/home/forest/git/Zuul-FX/Zuul-FX/src/csvLoader/defaultRoomData.csv";
 		CSVEditor csvEditor = new CSVEditor(path);
 		List<List<String>> roomData = csvEditor.getRoomData();
 		GameController.initRooms(roomData, GameType.DEFAULT);
