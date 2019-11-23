@@ -5,10 +5,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import command.game.eventOutput.GameStartOutput;
 import csvLoader.CSVEditor;
 import javafx.application.Platform;
-import javafx.beans.binding.Bindings;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -16,8 +14,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
-import javafx.scene.control.ContextMenu;
-import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextArea;
@@ -26,7 +22,6 @@ import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.util.Callback;
 import zuul.GameController;
 import zuul.GameType;
 import zuul.CommandHandler;
@@ -76,9 +71,12 @@ public class FXOutput {
 	 * Binds the data of the game data's array and the view's ListView
 	 */
 	public void updateView() {
+		// Inventory only needs to be bound once.
+		if (!inventory.itemsProperty().isBound()) {
+			inventory.itemsProperty().bind(GameController.getCurrentPlayer().getInvModel().getInventoryListProperty());
+		}
+		// TODO: Could you do this without having the properties coupled?
 		itemsInRoom.itemsProperty().bind(GameController.getCurrentRoom().getItemListProperty());
-		inventory.itemsProperty()
-				.bind(GameController.getCurrentPlayer().getInvModel().getInventoryListProperty());
 		actorsInRoom.itemsProperty().bind(GameController.getCurrentRoom().getActorListProperty());
 	}
 
@@ -133,14 +131,15 @@ public class FXOutput {
 
 	public void startDefaultGame() {
 		// TODO: Find out directory of this
-		String path = "C:\\Users\\Steve\\git\\Zuul-FX\\Zuul-FX\\src\\csvLoader\\defaultRoomData.csv";
-//		String path = "/home/forest/git/Zuul-FX/Zuul-FX/src/csvLoader/defaultRoomData.csv";
+//		String path = "C:\\Users\\Steve\\git\\Zuul-FX\\Zuul-FX\\src\\csvLoader\\defaultRoomData.csv";
+		String path = "/home/forest/git/Zuul-FX/Zuul-FX/src/csvLoader/defaultRoomData.csv";
 		CSVEditor csvEditor = new CSVEditor(path);
 		List<List<String>> roomData = csvEditor.getRoomData();
 		GameController.initRooms(roomData, GameType.DEFAULT);
 		startGame();
 	}
 
+	// TODO: Could you do this with binding instead of explicitly appending?
 	public void println(String ele) {
 		System.out.println(ele);
 		String newLine = System.getProperty("line.separator");
@@ -186,59 +185,12 @@ public class FXOutput {
 			e.printStackTrace();
 		}
 	}
-	
-	// Code adapted from: https://stackoverflow.com/questions/28264907/javafx-listview-contextmenu
-	private Callback<ListView<String>, ListCell<String>> takeCellFactory = (lv) -> {
-		ListCell<String> cell = new ListCell<>();
-		ContextMenu contextMenu = new ContextMenu();
-		MenuItem editItem = new MenuItem();
-		editItem.textProperty().bind(Bindings.format("Take \"%s\"", cell.itemProperty()));
-		editItem.setOnAction(event -> {
-			String toTake = cell.getItem();
-			commandHandler.handleCommand(new String[] { "Take", toTake });
-		});
-		contextMenu.getItems().addAll(editItem);
-
-		cell.textProperty().bind(cell.itemProperty());
-
-		cell.emptyProperty().addListener((obs, wasEmpty, isNowEmpty) -> {
-			if (isNowEmpty) {
-				cell.setContextMenu(null);
-			} else {
-				cell.setContextMenu(contextMenu);
-			}
-		});
-		return cell ;
-	};
-
-	// Code adapted from: https://stackoverflow.com/questions/28264907/javafx-listview-contextmenu
-	private Callback<ListView<String>, ListCell<String>> dropCellFactory = (lv) -> {
-		ListCell<String> cell = new ListCell<>();
-		ContextMenu contextMenu = new ContextMenu();
-		MenuItem editItem = new MenuItem();
-		editItem.textProperty().bind(Bindings.format("Drop \"%s\"", cell.itemProperty()));
-		editItem.setOnAction(event -> {
-			String toDrop = cell.getItem();
-			commandHandler.handleCommand(new String[] { "Drop", toDrop });
-		});
-		contextMenu.getItems().addAll(editItem);
-
-		cell.textProperty().bind(cell.itemProperty());
-
-		cell.emptyProperty().addListener((obs, wasEmpty, isNowEmpty) -> {
-			if (isNowEmpty) {
-				cell.setContextMenu(null);
-			} else {
-				cell.setContextMenu(contextMenu);
-			}
-		});
-		return cell ;
-	};
-	
 
 	private void setContextMenus() {
-        itemsInRoom.setCellFactory(takeCellFactory);
-        inventory.setCellFactory(dropCellFactory);
+		ItemsContextMenu itemsContextMenu = new ItemsContextMenu();
+		itemsInRoom.setCellFactory(itemsContextMenu.getContextMenu(commandHandler));
+		DropContextMenu dropContextMenu = new DropContextMenu();
+		inventory.setCellFactory(dropContextMenu.getContextMenu(commandHandler));
 	}
 
 	FXOutput() {
@@ -247,8 +199,8 @@ public class FXOutput {
 	}
 
 	public void onLoad() {
-		GameStartOutput welcome = new GameStartOutput();
-		welcome.init(new String[] {});
+//		GameStartOutput welcome = new GameStartOutput();
+//		welcome.init(new String[] {});
 	}
 
 }

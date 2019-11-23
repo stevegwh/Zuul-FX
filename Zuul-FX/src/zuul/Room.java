@@ -13,7 +13,7 @@ import npc.NPC;
 public class Room {
 	private String name;
 	private String description;
-	private ObservableList<NPC> actorsInRoom = FXCollections.observableList(new ArrayList<NPC>());
+	private List<NPC> actorsInRoom = new ArrayList<NPC>();
 	private List<TakeableItem> takeableItems = new ArrayList<TakeableItem>();
 	private Map<String, String> exits;
 	// String representation of 'takeableItems'
@@ -35,16 +35,8 @@ public class Room {
 		return takeableItems;
 	}
 
-	public void setTakeableItems(ArrayList<TakeableItem> takeableItems) {
-		this.takeableItems = FXCollections.observableList(takeableItems);
-	}
-
-	public ObservableList<NPC> getActorsInRoom() {
+	public List<NPC> getActorsInRoom() {
 		return actorsInRoom;
-	}
-
-	public void setActorsInRoom(ArrayList<NPC> actorsInRoom) {
-		this.actorsInRoom = FXCollections.observableList(actorsInRoom);
 	}
 
 	public Map<String, String> getExits() {
@@ -91,7 +83,7 @@ public class Room {
 		takeableItems.remove(item);
 		itemNames.remove(item.getName());
 	}
-	
+
 	public ListProperty<String> getItemListProperty() {
 		return itemsListProperty;
 	}

@@ -15,7 +15,7 @@ public class LookOutput extends LookController implements ICommandOutput {
 
 	public void init(String[] inputArray) {
 		if (super.execute(inputArray)) {
-			IOHandler.output.println(description);
+			IOHandler.output.println("You are " + description);
 			IOHandler.output.println(" ");
 		}
 	}
