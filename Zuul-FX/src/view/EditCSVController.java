@@ -68,6 +68,8 @@ public class EditCSVController {
 
 	@FXML
 	public void submitCSV(ActionEvent event) {
+		// TODO: If there are errors do not allow to finish.
+		// TODO: Disable loadCSV after this.
 		GameController.initRooms(rooms, GameType.CUSTOM);
 		Stage stage = (Stage) ((Node) menuBar).getScene().getWindow();
 		stage.close();

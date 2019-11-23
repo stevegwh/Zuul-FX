@@ -26,6 +26,7 @@ import zuul.GameController;
 import zuul.GameType;
 import zuul.CommandHandler;
 
+// TODO: Rename to 'FXController'
 public class FXOutput {
 	private String csvPath;
 	private final int SCENE_WIDTH = 900;
@@ -120,9 +121,6 @@ public class FXOutput {
 
 	private void openFile(File file) {
 		csvPath = file.getPath();
-		// TODO: Would be good if initRooms returned a boolean so we can confirm if it
-		// loaded correctly or not
-//		GameController.initRooms(path);
 		Alert a = new Alert(AlertType.CONFIRMATION);
 		a.setContentText("File loaded successfully.");
 		a.showAndWait();
