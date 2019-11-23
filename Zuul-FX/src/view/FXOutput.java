@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import csvEditor.DialogView;
 import csvLoader.CSVEditorLoader;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
@@ -153,12 +154,6 @@ public class FXOutput {
 
 	}
 
-	public void printCharDialog(String ele) {
-		System.out.println(ele);
-		gameTextProperty.setValue(gameTextProperty.getValue() + ele);
-
-	}
-
 	public void printError(String error) {
 		Alert a = new Alert(AlertType.ERROR);
 		a.setContentText(error);
@@ -168,34 +163,10 @@ public class FXOutput {
 	public void setStage(Stage primaryStage) {
 		stage = primaryStage;
 	}
-	
-	// TODO: Make this a 'dialog' class
-	private void setCurrentNPC(NPC npc) {
-		currentNPC = npc;
-	}
-	
-	public static NPC getCurrentNPC() {
-		return currentNPC;
-	}
 
-	public void startDialog(NPC npc) {
-//		String newLine = System.getProperty("line.separator");
-//		gameTextProperty.setValue(gameTextProperty.getValue() + "You spoke to " + npc.getName());
-//		gameTextProperty.setValue(gameTextProperty.getValue() + newLine + newLine);
-		setCurrentNPC(npc);
-		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../view/npcDialog.fxml"));
-		try {
-			Parent parent = fxmlLoader.load();
-			Scene scene = new Scene(parent, 500, 300);
-			Stage stage = new Stage();
-			stage.initModality(Modality.APPLICATION_MODAL);
-			stage.setScene(scene);
-			stage.showAndWait();
-
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		
+	public void initDialogView(NPC npc) {
+		DialogView dialogView = new DialogView(npc);
+		dialogView.startDialog();
 	}
 
 	public void initEditCSVView() {
@@ -230,17 +201,16 @@ public class FXOutput {
 	public void onLoad() {
 		gameText.textProperty().bind(gameTextProperty);
 		setContextMenus();
-		// If the game text overflows ensures the scroll is positioned to the bottom for the new text to be visible.
+		// If the game text overflows ensures the scroll is positioned to the bottom for
+		// the new text to be visible.
 		gameTextProperty.addListener(new ChangeListener<String>() {
-		    @Override
-		    public void changed(ObservableValue<? extends String> observable,
-		            String oldValue, String newValue) {
-		        
+			@Override
+			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+
 				gameText.selectPositionCaret(gameText.getLength());
 				gameText.deselect();
-		    }
+			}
 		});
 	}
-
 
 }

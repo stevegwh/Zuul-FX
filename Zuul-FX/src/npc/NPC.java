@@ -44,7 +44,7 @@ public class NPC {
 	}
 
 	public void onTalk() {
-		IOHandler.output.startDialog(this);
+		IOHandler.output.initDialogView(this);
 	}
 
 	public String getRandomRoom() {
