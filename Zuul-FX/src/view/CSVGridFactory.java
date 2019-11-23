@@ -1,6 +1,6 @@
 package view;
 
-import csvLoader.CSVCell;
+import csvLoader.CSVEditorCell;
 import javafx.application.Platform;
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
@@ -11,7 +11,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 
 public class CSVGridFactory {
-	ObservableList<ObservableList<CSVCell>> rooms = EditCSVController.getRooms();
+	ObservableList<ObservableList<CSVEditorCell>> rooms = EditCSVController.getRooms();
 	private GridPane csvGridPane;
 
 	private int lastFocusedRow;
@@ -23,9 +23,9 @@ public class CSVGridFactory {
 	 * @param rooms2 ObservableList of all rows.
 	 * @return the longest row of the grid.
 	 */
-	private int findLongestArr(ObservableList<ObservableList<CSVCell>> rooms2) {
+	private int findLongestArr(ObservableList<ObservableList<CSVEditorCell>> rooms2) {
 		int longest = 0;
-		for (ObservableList<CSVCell> arr : rooms2) {
+		for (ObservableList<CSVEditorCell> arr : rooms2) {
 			if (arr.size() > longest)
 				longest = arr.size();
 		}
@@ -47,7 +47,7 @@ public class CSVGridFactory {
 		return result;
 	}
 	
-	private InvalidationListener getTextFieldListener(int row, int col, CSVCell element, TextField csvTextField) {
+	private InvalidationListener getTextFieldListener(int row, int col, CSVEditorCell element, TextField csvTextField) {
 		return new InvalidationListener() {
 				@Override
 				public void invalidated(Observable c) {
@@ -60,8 +60,8 @@ public class CSVGridFactory {
 							&& !rooms.get(row).get(col - 1).getProperty().getValue().isEmpty())) {
 						lastFocusedRow = row;
 						lastFocusedCol = col;
-						rooms.get(row).add(new CSVCell("", col - 1));
-						rooms.get(row).add(new CSVCell("", col));
+						rooms.get(row).add(new CSVEditorCell("", col - 1));
+						rooms.get(row).add(new CSVEditorCell("", col));
 
 					}
 					// Editing second from last cell
@@ -69,8 +69,8 @@ public class CSVGridFactory {
 							&& !rooms.get(row).get(col + 1).getProperty().getValue().isEmpty()) {
 						lastFocusedRow = row;
 						lastFocusedCol = col;
-						rooms.get(row).add(new CSVCell("", col));
-						rooms.get(row).add(new CSVCell("", col + 1));
+						rooms.get(row).add(new CSVEditorCell("", col));
+						rooms.get(row).add(new CSVEditorCell("", col + 1));
 					}
 
 					// Error checks user input letter by letter to see if it is correct formed.
@@ -102,7 +102,7 @@ public class CSVGridFactory {
 			for (int col = 0; col < COL_LENGTH; col++) {
 				TextField csvTextField = new TextField();
 				if (col < rooms.get(row).size()) {
-					CSVCell currentCSVCell = rooms.get(row).get(col);
+					CSVEditorCell currentCSVCell = rooms.get(row).get(col);
 					// Binding of the underlying ObservableList to the TextField's data
 					csvTextField.setText(currentCSVCell.getProperty().getValue());
 					csvTextField.textProperty().bindBidirectional(currentCSVCell.getProperty());

@@ -10,7 +10,7 @@ import javafx.beans.property.StringProperty;
 import javafx.scene.control.Tooltip;
 
 // TODO: Figure out a way to have this hold the TextView so that you can add the tooltips etc directly
-public class CSVCell {
+public class CSVEditorCell {
 	Header header;
 	private Tooltip tooltip;
 	private String style = "";
@@ -47,13 +47,13 @@ public class CSVCell {
 		return prop;
 	}
 
-	public CSVCell(String value, int idx) {
+	public CSVEditorCell(String value, int idx) {
 		HeaderFactory headerFactory = new HeaderFactory(idx);
 		header = headerFactory.getHeader();
 		if (header.getEnum().equals(HeaderEnum.ITEMNAME)) {
 			((ItemNameHeader) header).setItemPair(idx);
 		}
-		System.out.println("Given header of: " + header.getEnum());
+//		System.out.println("Given header of: " + header.getEnum());
 		getProperty().set(value);
 		tooltip = new Tooltip();
 	}

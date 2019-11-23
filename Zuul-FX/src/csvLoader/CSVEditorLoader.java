@@ -5,9 +5,16 @@ import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-// TODO: Confusing class name
-public class CSVEditor {
-	private Function<Object, Object> mapToItem = (line) -> {
+/**
+ * Loads the CSV into Lists for the CSVEditor to use.
+ * @author Steve
+ *
+ */
+public class CSVEditorLoader {
+	/**
+	 * Recipe to create the rows from the CSV file.
+	 */
+	private Function<Object, Object> getRow = (line) -> {
 		String[] p = ((String) line).split(", ");
 		List<String> list = new ArrayList<String>();
 		for (String i : p) {
@@ -22,10 +29,10 @@ public class CSVEditor {
 	}
 
 	@SuppressWarnings("unchecked")
-	public CSVEditor(String path) {
+	public CSVEditorLoader(String path) {
 		CSVParser csvParser = new CSVParser();
 
-		rooms = csvParser.loadCSV(mapToItem, path).stream().map(e -> (List<String>) e).collect(Collectors.toList());
+		rooms = csvParser.loadCSV(getRow, path).stream().map(e -> (List<String>) e).collect(Collectors.toList());
 
 	}
 

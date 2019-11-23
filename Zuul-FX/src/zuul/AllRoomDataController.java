@@ -6,7 +6,7 @@ import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-import csvLoader.CSVCell;
+import csvLoader.CSVEditorCell;
 import javafx.collections.ObservableList;
 import csvLoader.headers.HeaderEnum;
 import csvLoader.headers.ItemNameHeader;
@@ -20,10 +20,10 @@ import csvLoader.headers.DirectionHeader;
  */
 public class AllRoomDataController {
 	/**
-	 * Same process as parsing through the CSV file and converting to a List of
-	 * Lists, this function takes a List of Lists and forms Room objects from them.
+	 * Same process as parsing through the CSV file for the CSV editor by converting to a List of
+	 * Lists, this function takes a List of CSVEditorCells and forms Room objects from them.
 	 */
-	private Function<ObservableList<CSVCell>, Room> customMap = (line) -> {
+	private Function<ObservableList<CSVEditorCell>, Room> customMap = (line) -> {
 		Room room = new Room();
 
 		line.removeIf(e -> e.getProperty().getValue().isEmpty());
@@ -49,7 +49,7 @@ public class AllRoomDataController {
 
 		room.setExits(exits);
 
-		List<CSVCell> items = line.stream().filter(e -> e.getHeader().getEnum().equals(HeaderEnum.ITEMNAME))
+		List<CSVEditorCell> items = line.stream().filter(e -> e.getHeader().getEnum().equals(HeaderEnum.ITEMNAME))
 				.collect(Collectors.toList());
 		// Get's the index of its item weight pair.
 		items.forEach(e -> room.addTakeableItem(new TakeableItem(e.getProperty().getValue(),
@@ -59,6 +59,10 @@ public class AllRoomDataController {
 
 	};
 
+	/**
+	 * Forms rooms from the default CSV file. As the data has not been converted to CSVEditorCells we
+	 * just pass in the direct hard-coded index values of the CSV.
+	 */
 	private Function<List<String>, Room> defaultMap = (line) -> {
 		Room room = new Room();
 		room.setName(line.get(0));
@@ -102,16 +106,13 @@ public class AllRoomDataController {
 		return rooms.get(name);
 	}
 
-//	public AllRoomDataController(List<ObservableList<CSVCell>> csvData) {
-//		rooms = csvData.stream().map(mapToItem).collect(Collectors.toMap(e -> ((Room) e).getName(), e -> (Room) e));
-//	}
 	@SuppressWarnings("unchecked")
 	public AllRoomDataController(List<?> csvData, GameType game) {
 		if (game.equals(GameType.DEFAULT)) {
 			rooms = ((List<List<String>>) csvData).stream().map(defaultMap)
 					.collect(Collectors.toMap(e -> ((Room) e).getName(), e -> (Room) e));
 		} else if (game.equals(GameType.CUSTOM)) {
-			rooms = ((List<ObservableList<CSVCell>>) csvData).stream().map(customMap)
+			rooms = ((List<ObservableList<CSVEditorCell>>) csvData).stream().map(customMap)
 					.collect(Collectors.toMap(e -> ((Room) e).getName(), e -> (Room) e));
 		}
 

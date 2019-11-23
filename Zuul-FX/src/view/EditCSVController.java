@@ -1,17 +1,15 @@
 package view;
 
 import javafx.fxml.FXML;
-import csvLoader.CSVCell;
+import csvLoader.CSVEditorCell;
 import javafx.fxml.FXMLLoader;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Function;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
-import csvLoader.CSVEditor;
+import csvLoader.CSVEditorLoader;
 import csvLoader.headers.HeaderEnum;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
@@ -34,9 +32,9 @@ import zuul.GameController;
 import zuul.GameType;
 
 public class EditCSVController {
-	private CSVEditor csvEditor;
+	private CSVEditorLoader csvEditor;
 	private CSVGridFactory csvGrid;
-	private static ObservableList<ObservableList<CSVCell>> rooms = FXCollections.observableArrayList();
+	private static ObservableList<ObservableList<CSVEditorCell>> rooms = FXCollections.observableArrayList();
 
 	@FXML
 	private MenuBar menuBar;
@@ -47,7 +45,7 @@ public class EditCSVController {
 	@FXML
 	private ScrollPane csvContainer;
 
-	public static ObservableList<ObservableList<CSVCell>> getRooms() {
+	public static ObservableList<ObservableList<CSVEditorCell>> getRooms() {
 		return rooms;
 	}
 
@@ -83,8 +81,8 @@ public class EditCSVController {
 	public void removeAllWithoutExit() {
 		int amountRemoved = rooms.size();
 		// Get's list of rooms without exits
-		List<ObservableList<CSVCell>> toRemove = new ArrayList<ObservableList<CSVCell>>();
-		for (ObservableList<CSVCell> r : rooms) {
+		List<ObservableList<CSVEditorCell>> toRemove = new ArrayList<ObservableList<CSVEditorCell>>();
+		for (ObservableList<CSVEditorCell> r : rooms) {
 			if(r.stream()
 			.filter(e -> e.getHeader().getEnum().equals(HeaderEnum.DIRECTION))
 			.map(e-> e.getProperty().getValue())
@@ -104,7 +102,7 @@ public class EditCSVController {
 		int amountRemoved = rooms.size();
 
 		// Get's list of rooms without exits
-		List<ObservableList<CSVCell>> toRemove = rooms.stream().filter(r->
+		List<ObservableList<CSVEditorCell>> toRemove = rooms.stream().filter(r->
 			r.stream()
 			.filter(e -> !e.getProperty().getValue().isEmpty())
 			.filter(e -> e.getHeader().getEnum().equals(HeaderEnum.ITEMNAME) || e.getHeader().getEnum().equals(HeaderEnum.ITEMWEIGHT))
@@ -117,7 +115,7 @@ public class EditCSVController {
 				e -> e.stream()
 				.filter(f-> f.getHeader().getEnum().equals(HeaderEnum.NAME)).findFirst().orElse(null).getProperty().getValue()
 				).collect(Collectors.toList());
-		// Deferences all instances of the rooms staged to be removed.
+		// Deference all instances of the rooms staged to be removed.
 		// Does this before removing everything to avoid 'index out of bounds' exceptions.
 		rooms.forEach(r ->
 				r.stream()
@@ -135,36 +133,36 @@ public class EditCSVController {
 
 	private void buildObservableList(List<List<String>> roomData) {
 		for (List<String> room : roomData) {
-			ObservableList<CSVCell> row = FXCollections.observableArrayList();
+			ObservableList<CSVEditorCell> row = FXCollections.observableArrayList();
 
 			// Instantiates CSVCells with String and an index.
 			// The index is used to decide what csv header the String represents (Name,
 			// Description etc).
 			int i = 0;
 			for (String e : room) {
-				row.add(new CSVCell(e, i));
+				row.add(new CSVEditorCell(e, i));
 				i++;
 			}
 
 			// Add an extra two blank cells at the end.
-			row.add(new CSVCell("", i));
-			row.add(new CSVCell("", i + 1));
+			row.add(new CSVEditorCell("", i));
+			row.add(new CSVEditorCell("", i + 1));
 			rooms.add(row);
 		}
-		for (ObservableList<CSVCell> room : rooms) {
-			room.addListener((ListChangeListener<CSVCell>) c -> {
+		for (ObservableList<CSVEditorCell> room : rooms) {
+			room.addListener((ListChangeListener<CSVEditorCell>) c -> {
 				System.out.println("Row changed to : " + room);
 				csvGrid.drawGrid();
 			});
 		}
-		rooms.addListener((ListChangeListener<ObservableList<CSVCell>>) c -> {
+		rooms.addListener((ListChangeListener<ObservableList<CSVEditorCell>>) c -> {
 			System.out.println("Row changed to : " + rooms);
 			csvGrid.drawGrid();
 		});
 	}
 
 	public EditCSVController() {
-		csvEditor = new CSVEditor(IOHandler.output.getCSVPath());
+		csvEditor = new CSVEditorLoader(IOHandler.output.getCSVPath());
 		List<List<String>> roomData = csvEditor.getRoomData();
 		buildObservableList(roomData);
 		GridPane csvGridPane = new GridPane();

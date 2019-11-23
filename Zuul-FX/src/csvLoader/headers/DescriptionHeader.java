@@ -9,8 +9,8 @@ public class DescriptionHeader extends Header {
 
 	@Override
 	public String validateFieldText(String textFieldValue) {
-		if (!textFieldValue.matches("\\w+")) {
-			return "Field must be one word in length with no spaces.";
+		if (textFieldValue.isEmpty()) {
+			return "Field must not be blank.";
 		}
 		return null;
 	}

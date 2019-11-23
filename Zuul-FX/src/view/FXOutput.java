@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import csvLoader.CSVEditor;
+import csvLoader.CSVEditorLoader;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -133,7 +133,7 @@ public class FXOutput {
 		// TODO: Find out directory of this
 //		String path = "C:\\Users\\Steve\\git\\Zuul-FX\\Zuul-FX\\src\\csvLoader\\defaultRoomData.csv";
 		String path = "/home/forest/git/Zuul-FX/Zuul-FX/src/csvLoader/defaultRoomData.csv";
-		CSVEditor csvEditor = new CSVEditor(path);
+		CSVEditorLoader csvEditor = new CSVEditorLoader(path);
 		List<List<String>> roomData = csvEditor.getRoomData();
 		GameController.initRooms(roomData, GameType.DEFAULT);
 		startGame();

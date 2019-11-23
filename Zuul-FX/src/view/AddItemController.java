@@ -2,7 +2,7 @@ package view;
 
 import javafx.fxml.FXML;
 
-import csvLoader.CSVCell;
+import csvLoader.CSVEditorCell;
 import csvLoader.headers.ItemNameHeader;
 import csvLoader.headers.ItemWeightHeader;
 import javafx.collections.ObservableList;
@@ -32,8 +32,8 @@ public class AddItemController {
 
 		if (itemName.getText() != null && itemWeight.getText() != null && validNameValue && validWeightValue) {
 
-			ObservableList<ObservableList<CSVCell>> rooms = EditCSVController.getRooms();
-			for (ObservableList<CSVCell> room : rooms) {
+			ObservableList<ObservableList<CSVEditorCell>> rooms = EditCSVController.getRooms();
+			for (ObservableList<CSVEditorCell> room : rooms) {
 				// Adds
 				room.get(room.size() - 2).getProperty().setValue(itemName.getText());
 				room.get(room.size() - 1).getProperty().setValue(itemWeight.getText());

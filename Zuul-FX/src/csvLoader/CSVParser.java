@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
  *
  */
 public class CSVParser {
-	public List<Object> loadCSV(Function<Object, Object> mapToItem, String path) {
+	public List<Object> loadCSV(Function<Object, Object> makeRow, String path) {
 		File inputF = new File(path);
 
 		InputStream inputFS = null;
@@ -31,7 +31,7 @@ public class CSVParser {
 
 		BufferedReader br = new BufferedReader(new InputStreamReader(inputFS));
 
-		List<Object> records = br.lines().map(mapToItem).collect(Collectors.toList());
+		List<Object> records = br.lines().map(makeRow).collect(Collectors.toList());
 
 		try {
 			br.close();

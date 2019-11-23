@@ -5,7 +5,7 @@ import java.util.List;
 
 import command.commandView.LookOutput;
 import command.game.eventOutput.SingleOrMultiOutput;
-import csvLoader.CSVCell;
+import csvLoader.CSVEditorCell;
 import javafx.collections.ObservableList;
 import npc.AllNPCDataController;
 import npc.NPCController;

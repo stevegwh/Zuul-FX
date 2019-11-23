@@ -3,7 +3,7 @@ package csvLoader.headers;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import csvLoader.CSVCell;
+import csvLoader.CSVEditorCell;
 import javafx.collections.ObservableList;
 import view.EditCSVController;
 
@@ -34,7 +34,7 @@ public class DirectionHeader extends Header {
 
 	@Override
 	public String validateFieldText(String textFieldValue) {
-		ObservableList<ObservableList<CSVCell>> rooms = EditCSVController.getRooms();
+		ObservableList<ObservableList<CSVEditorCell>> rooms = EditCSVController.getRooms();
 		List<String> roomNames = rooms.stream().map(e -> e.get(0).getProperty().getValue())
 				.collect(Collectors.toList());
 
