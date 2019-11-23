@@ -102,27 +102,30 @@ public class EditCSVController {
 	public void removeAllWithoutItem() {
 		// Stores the room array before modification
 		int amountRemoved = rooms.size();
-		// Saves previous state of room for undo
 
-		// Finds all rooms that do not have any items (<= length 6)
-		List<ObservableList<CSVCell>> toRemove = rooms.stream().filter(e -> e.size() <= 8).collect(Collectors.toList());
-		// Stores the names of these rooms
-		List<CSVCell> names = toRemove.stream().map(e -> e.get(0)).collect(Collectors.toList());
+		// Get's list of rooms without exits
+		List<ObservableList<CSVCell>> toRemove = rooms.stream().filter(r->
+			r.stream()
+			.filter(e -> !e.getProperty().getValue().isEmpty())
+			.filter(e -> e.getHeader().getEnum().equals(HeaderEnum.ITEMNAME) || e.getHeader().getEnum().equals(HeaderEnum.ITEMWEIGHT))
+			.collect(Collectors.toList())
+			.size() == 0
+		).collect(Collectors.toCollection(FXCollections::observableArrayList));
 
+		// Get's all names of rooms staged for removal
+		List<String> names = toRemove.stream().map(
+				e -> e.stream()
+				.filter(f-> f.getHeader().getEnum().equals(HeaderEnum.NAME)).findFirst().orElse(null).getProperty().getValue()
+				).collect(Collectors.toList());
+		// Deferences all instances of the rooms staged to be removed.
+		// Does this before removing everything to avoid 'index out of bounds' exceptions.
+		rooms.forEach(r ->
+				r.stream()
+				.filter(e-> e.getHeader().getEnum().equals(HeaderEnum.DIRECTION))
+				.filter(e-> names.contains(e.getProperty().getValue()))
+				.forEach(e-> e.getProperty().setValue("null"))
+		);
 		rooms.removeAll(toRemove);
-
-		// Changes any reference to the room name in other rooms to 'null'
-		for (CSVCell name : names) {
-			for (ObservableList<CSVCell> room : rooms) {
-				// TODO: Range is hard coded
-				for (int i = 2; i <= 5; i++) {
-					if (room.get(i).getProperty().getValue().equals(name.getProperty().getValue())) {
-						room.set(i, new CSVCell("null", i));
-					}
-
-				}
-			}
-		}
 
 		Alert a = new Alert(AlertType.CONFIRMATION);
 		a.setContentText(
