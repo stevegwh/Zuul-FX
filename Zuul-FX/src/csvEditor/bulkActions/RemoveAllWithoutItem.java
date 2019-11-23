@@ -3,6 +3,7 @@ package csvEditor.bulkActions;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import csvEditor.BulkAction;
 import csvEditor.EditCSVController;
 import csvLoader.CSVEditorCell;
 import csvLoader.headers.HeaderEnum;
@@ -14,7 +15,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.MenuItem;
 
-public class RemoveAllWithoutItem {
+public class RemoveAllWithoutItem implements BulkAction {
 	private MenuItem menuItem;
 
 	public MenuItem getMenuItem() {

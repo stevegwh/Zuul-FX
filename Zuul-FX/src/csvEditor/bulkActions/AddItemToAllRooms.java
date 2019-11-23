@@ -1,6 +1,8 @@
 package csvEditor.bulkActions;
 
 import java.io.IOException;
+
+import csvEditor.BulkAction;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
@@ -10,7 +12,7 @@ import javafx.scene.control.MenuItem;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-public class AddItemToAllRooms {
+public class AddItemToAllRooms implements BulkAction {
 	private MenuItem menuItem;
 
 	public MenuItem getMenuItem() {

@@ -88,12 +88,8 @@ public class EditCSVController {
 	}
 	
 	private void loadBulkActions() {
-		RemoveAllWithoutItem removeAllWithoutItem = new RemoveAllWithoutItem();
-		RemoveAllWithoutExit removeAllWithoutExit = new RemoveAllWithoutExit();
-		AddItemToAllRooms addItemToAllRooms = new AddItemToAllRooms();
-		bulkActionMenu.getItems().add(removeAllWithoutItem.getMenuItem());
-		bulkActionMenu.getItems().add(removeAllWithoutExit.getMenuItem());
-		bulkActionMenu.getItems().add(addItemToAllRooms.getMenuItem());
+		BulkActionInstantiator bulkActionInstantiator = new BulkActionInstantiator();
+		bulkActionInstantiator.populateMenu(bulkActionMenu);
 	}
 
 	public EditCSVController() {
