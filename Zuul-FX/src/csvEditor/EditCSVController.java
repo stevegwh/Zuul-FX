@@ -2,35 +2,26 @@ package csvEditor;
 
 import javafx.fxml.FXML;
 import csvLoader.CSVEditorCell;
-import javafx.fxml.FXMLLoader;
-
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import csvLoader.CSVEditorLoader;
-import csvLoader.headers.HeaderEnum;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
 import view.IOHandler;
 import zuul.GameController;
 import zuul.GameType;
+import csvEditor.bulkActions.*;
 
 public class EditCSVController {
 	private CSVEditorLoader csvEditor;
@@ -40,6 +31,8 @@ public class EditCSVController {
 	@FXML
 	private MenuBar menuBar;
 	@FXML
+	private Menu bulkActionMenu;
+	@FXML
 	private MenuItem undoMenuItem;
 	@FXML
 	private VBox csvDataWrapper;
@@ -48,23 +41,6 @@ public class EditCSVController {
 
 	public static ObservableList<ObservableList<CSVEditorCell>> getRooms() {
 		return rooms;
-	}
-
-	/**
-	 * Shows the 'add item to all rooms' popup dialog window.
-	 */
-	public void addItemToAllRooms() {
-		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("addItemDialog.fxml"));
-		try {
-			Parent parent = fxmlLoader.load();
-			Scene scene = new Scene(parent, 300, 200);
-			Stage stage = new Stage();
-			stage.initModality(Modality.APPLICATION_MODAL);
-			stage.setScene(scene);
-			stage.showAndWait();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
 	}
 
 	@FXML
@@ -79,59 +55,6 @@ public class EditCSVController {
 	@FXML
 	public void saveCSV() {
 		// TODO: To be implemented
-	}
-
-	public void removeAllWithoutExit() {
-		int amountRemoved = rooms.size();
-		// Get's list of rooms without exits
-		List<ObservableList<CSVEditorCell>> toRemove = new ArrayList<ObservableList<CSVEditorCell>>();
-		for (ObservableList<CSVEditorCell> r : rooms) {
-			if(r.stream()
-			.filter(e -> e.getHeader().getEnum().equals(HeaderEnum.DIRECTION))
-			.map(e-> e.getProperty().getValue())
-			.allMatch(e-> e.equals("null"))) {
-				toRemove.add(r);
-			}
-		}
-		rooms.removeAll(toRemove);
-		
-		Alert a = new Alert(AlertType.CONFIRMATION);
-		a.setContentText(amountRemoved - rooms.size() + " room(s) removed.");
-		a.show();
-	}
-
-	public void removeAllWithoutItem() {
-		// Stores the room array before modification
-		int amountRemoved = rooms.size();
-
-		// Get's list of rooms without exits
-		List<ObservableList<CSVEditorCell>> toRemove = rooms.stream().filter(r->
-			r.stream()
-			.filter(e -> !e.getProperty().getValue().isEmpty())
-			.filter(e -> e.getHeader().getEnum().equals(HeaderEnum.ITEMNAME) || e.getHeader().getEnum().equals(HeaderEnum.ITEMWEIGHT))
-			.collect(Collectors.toList())
-			.size() == 0
-		).collect(Collectors.toCollection(FXCollections::observableArrayList));
-
-		// Get's all names of rooms staged for removal
-		List<String> names = toRemove.stream().map(
-				e -> e.stream()
-				.filter(f-> f.getHeader().getEnum().equals(HeaderEnum.NAME)).findFirst().orElse(null).getProperty().getValue()
-				).collect(Collectors.toList());
-		// Deference all instances of the rooms staged to be removed.
-		// Does this before removing everything to avoid 'index out of bounds' exceptions.
-		rooms.forEach(r ->
-				r.stream()
-				.filter(e-> e.getHeader().getEnum().equals(HeaderEnum.DIRECTION))
-				.filter(e-> names.contains(e.getProperty().getValue()))
-				.forEach(e-> e.getProperty().setValue("null"))
-		);
-		rooms.removeAll(toRemove);
-
-		Alert a = new Alert(AlertType.CONFIRMATION);
-		a.setContentText(
-				amountRemoved - rooms.size() + " room(s) removed. All references to removed rooms are now 'null'.");
-		a.show();
 	}
 
 	private void buildObservableList(List<List<String>> roomData) {
@@ -163,6 +86,15 @@ public class EditCSVController {
 			csvGrid.drawGrid();
 		});
 	}
+	
+	private void loadBulkActions() {
+		RemoveAllWithoutItem removeAllWithoutItem = new RemoveAllWithoutItem();
+		RemoveAllWithoutExit removeAllWithoutExit = new RemoveAllWithoutExit();
+		AddItemToAllRooms addItemToAllRooms = new AddItemToAllRooms();
+		bulkActionMenu.getItems().add(removeAllWithoutItem.getMenuItem());
+		bulkActionMenu.getItems().add(removeAllWithoutExit.getMenuItem());
+		bulkActionMenu.getItems().add(addItemToAllRooms.getMenuItem());
+	}
 
 	public EditCSVController() {
 		csvEditor = new CSVEditorLoader(IOHandler.output.getCSVPath());
@@ -172,6 +104,7 @@ public class EditCSVController {
 		csvGrid = new CSVGridFactory(csvGridPane);
 		Platform.runLater(() -> csvContainer.setContent(csvGridPane));
 		Platform.runLater(() -> csvGrid.drawGrid());
+		Platform.runLater(() -> loadBulkActions());
 	}
 
 }

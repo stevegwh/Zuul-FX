@@ -19,13 +19,7 @@
           </Menu>
           <Menu mnemonicParsing="false" text="Edit">
           </Menu>
-            <Menu mnemonicParsing="false" text="Bulk Actions">
-               <items>
-                  <MenuItem mnemonicParsing="false" onAction="#addItemToAllRooms" text="Add Item To All Rooms" />
-                  <MenuItem mnemonicParsing="false" onAction="#removeAllWithoutExit" text="Remove All Rooms w/o Exit" />
-                  <MenuItem mnemonicParsing="false" onAction="#removeAllWithoutItem" text="Remove All Rooms w/o Item" />
-               </items>
-            </Menu>
+            <Menu fx:id="bulkActionMenu" mnemonicParsing="false" text="Bulk Actions" />
           <Menu mnemonicParsing="false" text="Help">
             <items>
               <MenuItem mnemonicParsing="false" text="About" />

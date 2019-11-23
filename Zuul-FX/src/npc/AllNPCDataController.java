@@ -10,6 +10,9 @@ import csvLoader.CSVParser;
 
 public class AllNPCDataController {
 	private Map<String, NPC> npcs;
+	/**
+	 * Loads in the NPC from the CSV file
+	 */
 	private Function<Object, Object> mapToItem = (line) -> {
 		String[] p = ((String) line).split(", ");
 		NPC npc = new NPC();
@@ -18,7 +21,6 @@ public class AllNPCDataController {
 		npc.setValidItem(p[1]);
 		ArrayList<String> dialogOptions = new ArrayList<>();
 		ArrayList<String> dialogResponses = new ArrayList<>();
-		// TODO: Return error if there's no response
 		for (int i = 2; i < p.length; i += 2) {
 			dialogOptions.add(p[i]);
 			dialogResponses.add(p[i + 1]);
