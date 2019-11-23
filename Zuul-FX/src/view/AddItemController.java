@@ -3,6 +3,8 @@ package view;
 import javafx.fxml.FXML;
 
 import csvLoader.CSVCell;
+import csvLoader.headers.ItemNameHeader;
+import csvLoader.headers.ItemWeightHeader;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.scene.Node;
@@ -21,11 +23,18 @@ public class AddItemController {
 	 */
 	@FXML
 	public void addItem(ActionEvent event) {
+		ItemNameHeader itemNameHeader = new ItemNameHeader();
+		ItemWeightHeader itemWeightHeader = new ItemWeightHeader();
+		// Use the CSV editor's tooltip generator to validate input. validateFieldText
+		// returns null if no error found.
+		boolean validWeightValue = itemWeightHeader.validateFieldText(itemWeight.getText()) == null;
+		boolean validNameValue = itemNameHeader.validateFieldText(itemName.getText()) == null;
 
-		if (itemName.getText() != null && itemWeight.getText() != null && itemWeight.getText().matches("\\d+")
-				&& itemName.getText().matches("\\w+")) {
+		if (itemName.getText() != null && itemWeight.getText() != null && validNameValue && validWeightValue) {
+
 			ObservableList<ObservableList<CSVCell>> rooms = EditCSVController.getRooms();
 			for (ObservableList<CSVCell> room : rooms) {
+				// Adds
 				room.get(room.size() - 2).getProperty().setValue(itemName.getText());
 				room.get(room.size() - 1).getProperty().setValue(itemWeight.getText());
 			}

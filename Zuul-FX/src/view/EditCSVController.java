@@ -5,10 +5,14 @@ import csvLoader.CSVCell;
 import javafx.fxml.FXMLLoader;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Function;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import csvLoader.CSVEditor;
+import csvLoader.headers.HeaderEnum;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
@@ -76,17 +80,20 @@ public class EditCSVController {
 		// TODO: To be implemented
 	}
 
-	// TODO: Should also dereference rooms that point to it?
 	public void removeAllWithoutExit() {
 		int amountRemoved = rooms.size();
 		// Get's list of rooms without exits
-		List<ObservableList<CSVCell>> toRemove = rooms.stream()
-				.filter(e -> (e.get(2).getProperty().getValue().equals("null")
-						&& e.get(3).getProperty().getValue().equals("null")
-						&& e.get(4).getProperty().getValue().equals("null")
-						&& e.get(5).getProperty().getValue().equals("null")))
-				.collect(Collectors.toList());
+		List<ObservableList<CSVCell>> toRemove = new ArrayList<ObservableList<CSVCell>>();
+		for (ObservableList<CSVCell> r : rooms) {
+			if(r.stream()
+			.filter(e -> e.getHeader().getEnum().equals(HeaderEnum.DIRECTION))
+			.map(e-> e.getProperty().getValue())
+			.allMatch(e-> e.equals("null"))) {
+				toRemove.add(r);
+			}
+		}
 		rooms.removeAll(toRemove);
+		
 		Alert a = new Alert(AlertType.CONFIRMATION);
 		a.setContentText(amountRemoved - rooms.size() + " room(s) removed.");
 		a.show();
