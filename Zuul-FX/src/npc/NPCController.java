@@ -27,4 +27,8 @@ public class NPCController {
 		actors = npcData.getAllNPCS();
 		timer.schedule(task, 100, 5000);
 	}
+
+	public NPC getActor(String toTalk) {
+		return npcData.getNPC(toTalk);
+	}
 }

@@ -26,12 +26,14 @@ import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import npc.NPC;
 import zuul.GameController;
 import zuul.GameType;
 import zuul.CommandHandler;
 
 // TODO: Rename to 'FXController'
 public class FXOutput {
+	private static NPC currentNPC;
 	private String csvPath;
 	private final int SCENE_WIDTH = 900;
 	private final int SCENE_HEIGHT = 600;
@@ -166,6 +168,35 @@ public class FXOutput {
 	public void setStage(Stage primaryStage) {
 		stage = primaryStage;
 	}
+	
+	// TODO: Make this a 'dialog' class
+	private void setCurrentNPC(NPC npc) {
+		currentNPC = npc;
+	}
+	
+	public static NPC getCurrentNPC() {
+		return currentNPC;
+	}
+
+	public void startDialog(NPC npc) {
+//		String newLine = System.getProperty("line.separator");
+//		gameTextProperty.setValue(gameTextProperty.getValue() + "You spoke to " + npc.getName());
+//		gameTextProperty.setValue(gameTextProperty.getValue() + newLine + newLine);
+		setCurrentNPC(npc);
+		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../view/npcDialog.fxml"));
+		try {
+			Parent parent = fxmlLoader.load();
+			Scene scene = new Scene(parent, 500, 300);
+			Stage stage = new Stage();
+			stage.initModality(Modality.APPLICATION_MODAL);
+			stage.setScene(scene);
+			stage.showAndWait();
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+	}
 
 	public void initEditCSVView() {
 		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../csvEditor/editCSVView.fxml"));
@@ -188,6 +219,8 @@ public class FXOutput {
 		itemsInRoom.setCellFactory(itemsContextMenu.getContextMenu(commandHandler));
 		DropContextMenu dropContextMenu = new DropContextMenu();
 		inventory.setCellFactory(dropContextMenu.getContextMenu(commandHandler));
+		TalkContextMenu talkContextMenu = new TalkContextMenu();
+		actorsInRoom.setCellFactory(talkContextMenu.getContextMenu());
 	}
 
 	FXOutput() {
@@ -208,5 +241,6 @@ public class FXOutput {
 		    }
 		});
 	}
+
 
 }

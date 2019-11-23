@@ -11,7 +11,6 @@ import npc.AllNPCDataController;
 import npc.NPCController;
 
 public class GameController {
-//	private static URL defaultPath = GameController.class.getClassLoader().getResource("roomData.csv");
 	private static boolean singlePlayer = true;
 	private static AllRoomDataController roomData;
 	private static AllNPCDataController npcData;
@@ -28,9 +27,9 @@ public class GameController {
 		roomData.setNewCurrentRoom(roomName);
 	}
 
-//	public static NPCController getNPCContoller() {
-//		return npcController;
-//	}
+	public static NPCController getNPCContoller() {
+		return npcController;
+	}
 
 	/**
 	 * @return the currently active player.

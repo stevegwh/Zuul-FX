@@ -12,13 +12,17 @@ public class NPC {
 	private String name;
 	private String currentLocation = "pub";
 	private String validItem;
+	private String imagePath;
 	private ArrayList<String> dialogOptions;
 	private ArrayList<String> dialogResponses;
 
-	private String getUserDialogChoice() {
-//		String[] inputArray = IOHandler.input.getUserInput();
-//		return inputArray[0];
-		return "";
+	public String getImagePath() {
+		return imagePath;
+	}
+
+	public void setImagePath(String ipath) {
+		imagePath = ipath;
+		
 	}
 
 	public boolean onGive(String takeableItem) {
@@ -31,22 +35,16 @@ public class NPC {
 		}
 	}
 
-	public void printDialog() {
-		for (int i = 0, len = dialogOptions.size(); i < len; i++) {
-			String option = dialogOptions.get(i);
-			IOHandler.output.printCharDialog(Integer.toString(i + 1) + ": " + option);
-		}
+	public ArrayList<String> getDialogOptions() {
+		return dialogOptions;
+	}
+
+	public ArrayList<String> getDialogResponses() {
+		return dialogResponses;
 	}
 
 	public void onTalk() {
-		printDialog();
-		String userChoice = getUserDialogChoice();
-		if (userChoice.length() > 1 || userChoice.matches("d")) {
-			IOHandler.output.printError("Invalid Command");
-			return;
-		}
-		int idx = Integer.parseInt(userChoice) - 1;
-		IOHandler.output.printCharDialog((dialogResponses.get(idx)));
+		IOHandler.output.startDialog(this);
 	}
 
 	public String getRandomRoom() {
@@ -122,5 +120,7 @@ public class NPC {
 
 	public NPC() {
 	}
+
+
 
 }

@@ -19,9 +19,10 @@ public class AllNPCDataController {
 
 		npc.setName(p[0]);
 		npc.setValidItem(p[1]);
+		npc.setImagePath(p[2]);
 		ArrayList<String> dialogOptions = new ArrayList<>();
 		ArrayList<String> dialogResponses = new ArrayList<>();
-		for (int i = 2; i < p.length; i += 2) {
+		for (int i = 3; i < p.length; i += 2) {
 			dialogOptions.add(p[i]);
 			dialogResponses.add(p[i + 1]);
 		}
