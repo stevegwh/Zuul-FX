@@ -7,6 +7,12 @@ import java.util.List;
 
 import csvLoader.CSVEditorLoader;
 import javafx.application.Platform;
+import javafx.beans.property.ListProperty;
+import javafx.beans.property.SimpleListProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -36,6 +42,7 @@ public class FXOutput {
 
 	@FXML
 	private TextArea gameText;
+	public StringProperty gameTextProperty = new SimpleStringProperty("");
 	@FXML
 	private ListView<String> inventory, itemsInRoom, actorsInRoom;
 	@FXML
@@ -87,7 +94,7 @@ public class FXOutput {
 	public void goClicked(MouseEvent event) {
 		Button tmp = (Button) event.getSource();
 		String direction = tmp.getId();
-		gameText.setText("");
+		gameTextProperty.set("");
 		Platform.runLater(() -> commandHandler.handleCommand(new String[] { "Go", direction }));
 		Platform.runLater(() -> setDirectionButtons());
 		Platform.runLater(() -> updateView());
@@ -133,24 +140,22 @@ public class FXOutput {
 		startGame();
 	}
 
-	// TODO: Could you do this with binding instead of explicitly appending?
 	public void println(String ele) {
 		System.out.println(ele);
 		String newLine = System.getProperty("line.separator");
-		Platform.runLater(() -> gameText.appendText(ele));
-		Platform.runLater(() -> gameText.appendText(newLine));
-
+		gameTextProperty.setValue(gameTextProperty.getValue() + ele);
+		gameTextProperty.setValue(gameTextProperty.getValue() + newLine + newLine);
 	}
 
 	public void printf(String ele) {
 		System.out.println(ele);
-		Platform.runLater(() -> gameText.appendText(ele));
+		gameTextProperty.setValue(gameTextProperty.getValue() + ele);
 
 	}
 
 	public void printCharDialog(String ele) {
 		System.out.println(ele);
-		Platform.runLater(() -> gameText.appendText(ele));
+		gameTextProperty.setValue(gameTextProperty.getValue() + ele);
 
 	}
 
@@ -189,10 +194,12 @@ public class FXOutput {
 
 	FXOutput() {
 		commandHandler = new CommandHandler();
-		Platform.runLater(() -> setContextMenus());
+//		Platform.runLater(() -> setContextMenus());
 	}
 
 	public void onLoad() {
+		gameText.textProperty().bind(gameTextProperty);
+		setContextMenus();
 //		GameStartOutput welcome = new GameStartOutput();
 //		welcome.init(new String[] {});
 	}
