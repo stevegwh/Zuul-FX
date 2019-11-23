@@ -7,12 +7,10 @@ import java.util.List;
 
 import csvLoader.CSVEditorLoader;
 import javafx.application.Platform;
-import javafx.beans.property.ListProperty;
-import javafx.beans.property.SimpleListProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -194,14 +192,21 @@ public class FXOutput {
 
 	FXOutput() {
 		commandHandler = new CommandHandler();
-//		Platform.runLater(() -> setContextMenus());
 	}
 
 	public void onLoad() {
 		gameText.textProperty().bind(gameTextProperty);
 		setContextMenus();
-//		GameStartOutput welcome = new GameStartOutput();
-//		welcome.init(new String[] {});
+		// If the game text overflows ensures the scroll is positioned to the bottom for the new text to be visible.
+		gameTextProperty.addListener(new ChangeListener<String>() {
+		    @Override
+		    public void changed(ObservableValue<? extends String> observable,
+		            String oldValue, String newValue) {
+		        
+				gameText.selectPositionCaret(gameText.getLength());
+				gameText.deselect();
+		    }
+		});
 	}
 
 }

@@ -35,7 +35,7 @@
          <children>
             <HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="567.0" prefWidth="900.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
-                  <TextArea fx:id="gameText" disable="true" maxHeight="1.7976931348623157E308" prefHeight="500.0" prefWidth="726.0" style="-fx-opacity: 1;" HBox.hgrow="ALWAYS">
+                  <TextArea fx:id="gameText" editable="false" maxHeight="1.7976931348623157E308" prefHeight="500.0" prefWidth="726.0" style="-fx-opacity: 1;" wrapText="true" HBox.hgrow="ALWAYS">
                      <font>
                         <Font name="Segoe UI" size="13.0" />
                      </font>
