@@ -1,14 +1,14 @@
-package view;
+package csvEditor;
 
-import javafx.beans.binding.Bindings;
 import javafx.scene.control.ContextMenu;
+import javafx.beans.binding.Bindings;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.MenuItem;
 import javafx.util.Callback;
 import zuul.CommandHandler;
 
-public class DropContextMenu {
+public class ItemsContextMenu {
 
 	// Code adapted from:
 	// https://stackoverflow.com/questions/28264907/javafx-listview-contextmenu
@@ -17,10 +17,10 @@ public class DropContextMenu {
 			ListCell<String> cell = new ListCell<>();
 			ContextMenu contextMenu = new ContextMenu();
 			MenuItem editItem = new MenuItem();
-			editItem.textProperty().bind(Bindings.format("Drop \"%s\"", cell.itemProperty()));
+			editItem.textProperty().bind(Bindings.format("Take \"%s\"", cell.itemProperty()));
 			editItem.setOnAction(event -> {
-				String toDrop = cell.getItem();
-				commandHandler.handleCommand(new String[] { "Drop", toDrop });
+				String toTake = cell.getItem();
+				commandHandler.handleCommand(new String[] { "Take", toTake });
 			});
 			contextMenu.getItems().addAll(editItem);
 
@@ -36,5 +36,4 @@ public class DropContextMenu {
 			return cell;
 		};
 	}
-
 }

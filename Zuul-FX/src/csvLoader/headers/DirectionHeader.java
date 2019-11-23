@@ -3,9 +3,9 @@ package csvLoader.headers;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import csvEditor.EditCSVController;
 import csvLoader.CSVEditorCell;
 import javafx.collections.ObservableList;
-import view.EditCSVController;
 
 public class DirectionHeader extends Header {
 	private static final List<Integer> INDEX_RANGE = List.of(2, 3, 4, 5);

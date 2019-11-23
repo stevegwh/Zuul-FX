@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import csvEditor.DropContextMenu;
+import csvEditor.ItemsContextMenu;
 import csvLoader.CSVEditorLoader;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -42,7 +44,7 @@ public class FXOutput {
 	private Button buttonGoWest, buttonGoEast, buttonGoSouth, buttonGoNorth, buttonLook, buttonTake, buttonDrop,
 			buttonGive;
 	@FXML
-	private MenuItem menuItemStartCustomGame;
+	private MenuItem menuItemStartCustomGame, menuItemLoadCustomGame, menuItemStartDefaultGame;
 
 	public String getCSVPath() {
 		return csvPath;
@@ -128,12 +130,12 @@ public class FXOutput {
 	}
 
 	public void startDefaultGame() {
-		// TODO: Find out directory of this
-//		String path = "C:\\Users\\Steve\\git\\Zuul-FX\\Zuul-FX\\src\\csvLoader\\defaultRoomData.csv";
-		String path = "/home/forest/git/Zuul-FX/Zuul-FX/src/csvLoader/defaultRoomData.csv";
+		String path = "src/csvLoader/defaultRoomData.csv";
 		CSVEditorLoader csvEditor = new CSVEditorLoader(path);
 		List<List<String>> roomData = csvEditor.getRoomData();
 		GameController.initRooms(roomData, GameType.DEFAULT);
+		menuItemLoadCustomGame.setDisable(true);
+		menuItemStartDefaultGame.setDisable(true);
 		startGame();
 	}
 
@@ -169,7 +171,7 @@ public class FXOutput {
 	}
 
 	public void initEditCSVView() {
-		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("editCSVView.fxml"));
+		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../csvEditor/editCSVView.fxml"));
 		try {
 			Parent parent = fxmlLoader.load();
 			Scene scene = new Scene(parent, SCENE_WIDTH, SCENE_HEIGHT);

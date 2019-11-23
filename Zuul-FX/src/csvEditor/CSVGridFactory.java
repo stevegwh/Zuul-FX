@@ -1,4 +1,4 @@
-package view;
+package csvEditor;
 
 import csvLoader.CSVEditorCell;
 import javafx.application.Platform;

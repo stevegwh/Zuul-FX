@@ -1,4 +1,4 @@
-package view;
+package csvEditor;
 
 import javafx.fxml.FXML;
 
