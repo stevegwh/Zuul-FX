@@ -5,8 +5,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import csvEditor.DropContextMenu;
-import csvEditor.ItemsContextMenu;
 import csvLoader.CSVEditorLoader;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
@@ -41,8 +39,7 @@ public class FXOutput {
 	@FXML
 	private ListView<String> inventory, itemsInRoom, actorsInRoom;
 	@FXML
-	private Button buttonGoWest, buttonGoEast, buttonGoSouth, buttonGoNorth, buttonLook, buttonTake, buttonDrop,
-			buttonGive;
+	private Button buttonGoWest, buttonGoEast, buttonGoSouth, buttonGoNorth, buttonLook;
 	@FXML
 	private MenuItem menuItemStartCustomGame, menuItemLoadCustomGame, menuItemStartDefaultGame;
 
@@ -97,10 +94,7 @@ public class FXOutput {
 	}
 
 	private void enableAllButtons() {
-		Button[] buttons = { buttonLook, buttonGive };
-		for (Button btn : buttons) {
-			btn.setDisable(false);
-		}
+		buttonLook.setDisable(false);
 	}
 
 	public void startGame() {
