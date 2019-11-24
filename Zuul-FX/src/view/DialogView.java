@@ -1,4 +1,4 @@
-package csvEditor;
+package view;
 
 import java.io.IOException;
 
@@ -17,11 +17,12 @@ public class DialogView {
 	}
 
 	public void startDialog() {
-		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("../view/npcDialog.fxml"));
+		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("npcDialog.fxml"));
 		try {
 			Parent parent = fxmlLoader.load();
 			Scene scene = new Scene(parent, 500, 300);
 			Stage stage = new Stage();
+			stage.setResizable(false);
 			stage.initModality(Modality.APPLICATION_MODAL);
 			stage.setScene(scene);
 			stage.showAndWait();

@@ -20,11 +20,6 @@
           <Menu mnemonicParsing="false" text="Edit">
           </Menu>
             <Menu fx:id="bulkActionMenu" mnemonicParsing="false" text="Bulk Actions" />
-          <Menu mnemonicParsing="false" text="Help">
-            <items>
-              <MenuItem mnemonicParsing="false" text="About" />
-            </items>
-          </Menu>
         </menus>
       </MenuBar>
       <HBox prefHeight="623.0" prefWidth="800.0" VBox.vgrow="ALWAYS">

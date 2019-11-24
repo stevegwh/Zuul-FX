@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import csvEditor.DialogView;
 import csvLoader.CSVEditorLoader;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
