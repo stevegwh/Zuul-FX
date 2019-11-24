@@ -31,8 +31,6 @@ public class NPCDialogController {
 		return options.stream().map(e -> new Button(e)).collect(Collectors.toList());
 	}
 
-	// TODO: Refactor and change the dialog response to not be a button.
-	// TODO: Make sure the dialog window can't be resized.
 	private void onClick(ActionEvent event) {
 		ArrayList<String> responses = DialogView.getCurrentNPC().getDialogResponses();
 		Button btn = (Button) event.getSource();
@@ -40,6 +38,9 @@ public class NPCDialogController {
 		Button response = new Button(responses.get(Integer.parseInt(id.split("_")[1])));
 		npcDialogWrapper.getChildren().removeAll(npcDialogWrapper.getChildren());
 		Button close = new Button("Close Window");
+		response.setDisable(true);
+		response.setStyle("-fx-opacity: 1");
+		close.getStyleClass().add("response-button");
 		close.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
