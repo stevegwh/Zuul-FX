@@ -9,8 +9,8 @@ public class ItemNameHeader extends Header {
 
 	@Override
 	public String validateFieldText(String textFieldValue) {
-		if (!textFieldValue.matches("\\w+")) {
-			return "Field must be one word in length with no spaces.";
+		if (textFieldValue.isBlank()) {
+			return "Field mustn't be blank.";
 		}
 		return null;
 	}

@@ -5,8 +5,6 @@ import java.util.List;
 
 import command.commandView.LookOutput;
 import command.game.eventOutput.SingleOrMultiOutput;
-import csvLoader.CSVEditorCell;
-import javafx.collections.ObservableList;
 import npc.AllNPCDataController;
 import npc.NPCController;
 
@@ -17,12 +15,20 @@ public class GameController {
 	private static NPCController npcController;
 	private static Player currentPlayer;
 	private static ArrayList<Player> playerArr;
-	private final static String START_LOCATION = "entrance";
+	private static String startLocation;
 
 	public static Room getCurrentRoom() {
 		return roomData.getCurrentRoom();
 	}
-	
+
+	public static void setStartLocation(String location) {
+		startLocation = location;
+	}
+
+	public static String getStartLocation() {
+		return startLocation;
+	}
+
 	public static void setNewCurrentRoom(String roomName) {
 		roomData.setNewCurrentRoom(roomName);
 	}
@@ -70,7 +76,7 @@ public class GameController {
 	}
 
 	public static ArrayList<Player> getPlayerArr() {
-		if(playerArr == null) {
+		if (playerArr == null) {
 			System.err.println("playerArr has not been initalised yet.");
 			return null;
 		}
@@ -82,12 +88,12 @@ public class GameController {
 	 */
 	private static void setGameType() {
 		SingleOrMultiOutput setSingleplayer = new SingleOrMultiOutput();
-		setSingleplayer.init(new String[] { START_LOCATION });
+		setSingleplayer.init(new String[] { startLocation });
 		if (singlePlayer) {
-			currentPlayer = new Player(START_LOCATION);
+			currentPlayer = new Player(startLocation);
 		}
 	}
-	
+
 	public static void initRooms(List<?> rooms, GameType game) {
 		roomData = new AllRoomDataController(rooms, game);
 	}
@@ -95,7 +101,7 @@ public class GameController {
 	public static void start() {
 		npcData = new AllNPCDataController();
 		npcController = new NPCController();
-		currentPlayer = new Player("entrance");
+		currentPlayer = new Player(startLocation);
 		LookOutput look = new LookOutput();
 ////		setGameType();
 		npcController.init(npcData);

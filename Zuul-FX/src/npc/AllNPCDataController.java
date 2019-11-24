@@ -7,6 +7,8 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import csvLoader.CSVParser;
+import zuul.GameController;
+import zuul.Room;
 
 public class AllNPCDataController {
 	private Map<String, NPC> npcs;
@@ -27,6 +29,10 @@ public class AllNPCDataController {
 			dialogResponses.add(p[i + 1]);
 		}
 		npc.setDialog(dialogOptions, dialogResponses);
+		// Get's a location from the available rooms
+		Map<String, Room> rooms = GameController.getAllRoomDataController().getAllRooms();
+		List<String> list = new ArrayList<String>(rooms.keySet());
+		npc.setCurrentLocation(list.get(0));
 		return npc;
 	};
 

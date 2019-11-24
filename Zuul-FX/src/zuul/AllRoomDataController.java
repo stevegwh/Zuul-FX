@@ -20,8 +20,9 @@ import csvLoader.headers.DirectionHeader;
  */
 public class AllRoomDataController {
 	/**
-	 * Same process as parsing through the CSV file for the CSV editor by converting to a List of
-	 * Lists, this function takes a List of CSVEditorCells and forms Room objects from them.
+	 * Same process as parsing through the CSV file for the CSV editor by converting
+	 * to a List of Lists, this function takes a List of CSVEditorCells and forms
+	 * Room objects from them.
 	 */
 	private Function<ObservableList<CSVEditorCell>, Room> customMap = (line) -> {
 		Room room = new Room();
@@ -34,6 +35,9 @@ public class AllRoomDataController {
 			System.err.println("Unable to map the name from the following row: " + line);
 		}
 		room.setName(name);
+		if (GameController.getStartLocation() == null) {
+			GameController.setStartLocation(name);
+		}
 
 		String description = line.stream().filter(e -> e.getHeader().getEnum().equals(HeaderEnum.DESCRIPTION))
 				.map(csvCell -> csvCell.getProperty().getValue()).findFirst().orElse(null);
@@ -60,12 +64,15 @@ public class AllRoomDataController {
 	};
 
 	/**
-	 * Forms rooms from the default CSV file. As the data has not been converted to CSVEditorCells we
-	 * just pass in the direct hard-coded index values of the CSV.
+	 * Forms rooms from the default CSV file. As the data has not been converted to
+	 * CSVEditorCells we just pass in the direct hard-coded index values of the CSV.
 	 */
 	private Function<List<String>, Room> defaultMap = (line) -> {
 		Room room = new Room();
 		room.setName(line.get(0));
+		if (GameController.getStartLocation() == null) {
+			GameController.setStartLocation(line.get(0));
+		}
 		room.setDescription(line.get(1));
 		Map<String, String> exits = new HashMap<>();
 		if (!line.get(2).equals("null")) {
@@ -96,6 +103,10 @@ public class AllRoomDataController {
 
 	public void setNewCurrentRoom(String name) {
 		currentRoom = rooms.get(name);
+	}
+
+	public Map<String, Room> getAllRooms() {
+		return rooms;
 	}
 
 	public Room getCurrentRoom() {
