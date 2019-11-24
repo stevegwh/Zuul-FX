@@ -44,11 +44,31 @@ public class EditCSVController {
 
 	@FXML
 	public void submitCSV(ActionEvent event) {
-		// TODO: If there are errors do not allow to finish.
-		// TODO: Disable loadCSV after this.
-		GameController.initRooms(rooms, GameType.CUSTOM);
-		Stage stage = (Stage) ((Node) menuBar).getScene().getWindow();
-		stage.close();
+		boolean errorFound = false;
+		for (ObservableList<CSVEditorCell> r : rooms) {
+			// Get the last two elements first and check if they're both null
+			// Due to the CSV Editor adding extra cells when it detects both fields are
+			// filled it is impossible for the final two cells to contain data without
+			// it being an error.
+			if (!r.get(r.size() - 1).getProperty().getValue().isEmpty()
+					|| !r.get(r.size() - 2).getProperty().getValue().isEmpty()
+					|| !r.get(r.size() - 1).getProperty().getValue().isBlank()
+					|| !r.get(r.size() - 2).getProperty().getValue().isBlank()) {
+				errorFound = true;
+				break;
+			}
+			if (r.stream().filter(e -> r.indexOf(e) < r.size() - 2).anyMatch(e -> e.hasError())) {
+				errorFound = true;
+				break;
+			}
+		}
+		if (!errorFound) {
+			GameController.initRooms(rooms, GameType.CUSTOM);
+			Stage stage = (Stage) ((Node) menuBar).getScene().getWindow();
+			stage.close();
+		} else {
+			IOHandler.output.printError("Please correct mistakes before finishing.");
+		}
 	}
 
 	@FXML
@@ -85,7 +105,7 @@ public class EditCSVController {
 			csvGrid.drawGrid();
 		});
 	}
-	
+
 	private void loadBulkActions() {
 		BulkActionInstantiator bulkActionInstantiator = new BulkActionInstantiator();
 		bulkActionInstantiator.populateMenu(bulkActionMenu);

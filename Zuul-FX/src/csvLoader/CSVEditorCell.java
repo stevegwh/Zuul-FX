@@ -47,6 +47,10 @@ public class CSVEditorCell {
 		return prop;
 	}
 
+	public boolean hasError() {
+		return header.validateFieldText(prop.getValue()) != null;
+	}
+
 	public CSVEditorCell(String value, int idx) {
 		HeaderFactory headerFactory = new HeaderFactory(idx);
 		header = headerFactory.getHeader();
@@ -57,5 +61,6 @@ public class CSVEditorCell {
 		getProperty().set(value);
 		tooltip = new Tooltip();
 	}
+
 
 }
