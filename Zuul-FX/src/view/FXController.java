@@ -28,13 +28,15 @@ import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import npc.NPC;
+import view.ContextMenus.DropContextMenu;
+import view.ContextMenus.ItemsContextMenu;
+import view.ContextMenus.ActorContextMenu;
 import zuul.GameController;
 import zuul.GameType;
 import zuul.CommandHandler;
 
 // TODO: Rename to 'FXController'
-public class FXOutput {
-	private static NPC currentNPC;
+public class FXController {
 	private String csvPath;
 	private final int SCENE_WIDTH = 900;
 	private final int SCENE_HEIGHT = 600;
@@ -190,11 +192,11 @@ public class FXOutput {
 		itemsInRoom.setCellFactory(itemsContextMenu.getContextMenu(commandHandler));
 		DropContextMenu dropContextMenu = new DropContextMenu();
 		inventory.setCellFactory(dropContextMenu.getContextMenu(commandHandler));
-		TalkContextMenu talkContextMenu = new TalkContextMenu();
+		ActorContextMenu talkContextMenu = new ActorContextMenu();
 		actorsInRoom.setCellFactory(talkContextMenu.getContextMenu());
 	}
 
-	FXOutput() {
+	FXController() {
 		commandHandler = new CommandHandler();
 	}
 

@@ -61,4 +61,10 @@ public class InventoryModel {
 		setWeight(0);
 	}
 
+	public void removeItem(String item) {
+		TakeableItem toRemove = inventory.stream().filter(e-> e.getName().equals(item)).findFirst().orElse(null);
+		removeItem(toRemove);
+		
+	}
+
 }

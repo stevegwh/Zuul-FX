@@ -26,7 +26,13 @@ public class NPC {
 	}
 
 	public boolean onGive(String takeableItem) {
-		return true;
+		if (takeableItem.equals(validItem)) {
+			IOHandler.output.println(name + " says: Oh, thank you for the " + takeableItem);
+			GameController.getCurrentPlayer().getInvModel().removeItem(takeableItem);
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 	public void update() {

@@ -1,4 +1,4 @@
-package view;
+package view.ContextMenus;
 
 import javafx.scene.control.ContextMenu;
 import javafx.beans.binding.Bindings;

@@ -28,7 +28,6 @@ public class View extends Application {
 		});
 		primaryStage.show();
 		IOHandler.output.onLoad();
-//		IOHandler.output.init();
 	}
 
 }

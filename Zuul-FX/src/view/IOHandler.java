@@ -11,7 +11,7 @@ package view;
  *
  */
 public final class IOHandler {
-	private final static FXOutput obj = new FXOutput();
-	public final static FXOutput output = obj;
+	private final static FXController obj = new FXController();
+	public final static FXController output = obj;
 //	public static Input input = new ConsoleInput();
 }

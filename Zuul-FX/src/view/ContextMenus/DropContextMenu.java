@@ -1,4 +1,4 @@
-package view;
+package view.ContextMenus;
 
 import javafx.beans.binding.Bindings;
 import javafx.scene.control.ContextMenu;
@@ -6,21 +6,21 @@ import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.MenuItem;
 import javafx.util.Callback;
-import zuul.GameController;
+import zuul.CommandHandler;
 
-public class TalkContextMenu {
+public class DropContextMenu {
 
 	// Code adapted from:
 	// https://stackoverflow.com/questions/28264907/javafx-listview-contextmenu
-	public Callback<ListView<String>, ListCell<String>> getContextMenu() {
+	public Callback<ListView<String>, ListCell<String>> getContextMenu(CommandHandler commandHandler) {
 		return (lv) -> {
 			ListCell<String> cell = new ListCell<>();
 			ContextMenu contextMenu = new ContextMenu();
 			MenuItem editItem = new MenuItem();
-			editItem.textProperty().bind(Bindings.format("Talk to \"%s\"", cell.itemProperty()));
+			editItem.textProperty().bind(Bindings.format("Drop \"%s\"", cell.itemProperty()));
 			editItem.setOnAction(event -> {
-				String toTalk = cell.getItem();
-				GameController.getNPCContoller().getActor(toTalk).onTalk();;
+				String toDrop = cell.getItem();
+				commandHandler.handleCommand(new String[] { "Drop", toDrop });
 			});
 			contextMenu.getItems().addAll(editItem);
 
