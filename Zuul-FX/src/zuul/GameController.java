@@ -99,11 +99,10 @@ public class GameController {
 	}
 
 	public static void start() {
+		setGameType();
 		npcData = new AllNPCDataController();
 		npcController = new NPCController();
-		currentPlayer = new Player(startLocation);
 		LookOutput look = new LookOutput();
-////		setGameType();
 		npcController.init(npcData);
 		roomData.setNewCurrentRoom(getCurrentPlayer().getLocation());
 		look.init(new String[] {});

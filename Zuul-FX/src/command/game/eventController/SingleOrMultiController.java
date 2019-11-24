@@ -15,7 +15,6 @@ public class SingleOrMultiController extends CommandController {
 
 	@Override
 	protected String validateUserInput(String[] choiceArr) {
-		choice = choiceArr[0].toString();
 		if (choice.equals("1") && choiceArr.length <= 1) {
 			choice = "1";
 			return null;
@@ -28,6 +27,7 @@ public class SingleOrMultiController extends CommandController {
 
 	@Override
 	protected boolean execute(String[] inputArray) {
+		choice = inputArray[0].toString();
 		if (choice.equals("1")) {
 			GameController.setSingleplayer(true);
 			return true;

@@ -23,10 +23,9 @@ public class InitPlayersController extends CommandController {
 
 	@Override
 	protected boolean execute(String[] inputArray) {
-		String START_LOCATION = inputArray[0];
 		ArrayList<Player> playerArr = new ArrayList<Player>();
 		for (int i = 0; i < 2; i++) {
-			playerArr.add(new Player(START_LOCATION));
+			playerArr.add(new Player(GameController.getStartLocation()));
 		}
 		GameController.initPlayerArr(playerArr);
 		GameController.setCurrentPlayer(playerArr.get(0));
