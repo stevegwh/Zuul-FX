@@ -2,7 +2,12 @@ package csvEditor;
 
 import javafx.fxml.FXML;
 import csvLoader.CSVEditorCell;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import csvLoader.CSVEditorLoader;
 import javafx.application.Platform;
@@ -17,6 +22,8 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
+import javafx.stage.FileChooser;
+import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
 import view.IOHandler;
 import zuul.GameController;
@@ -42,8 +49,7 @@ public class EditCSVController {
 		return rooms;
 	}
 
-	@FXML
-	public void submitCSV(ActionEvent event) {
+	private boolean checkForErrors() {
 		boolean errorFound = false;
 		for (ObservableList<CSVEditorCell> r : rooms) {
 			// Get the last two elements first and check if they're both null
@@ -62,18 +68,83 @@ public class EditCSVController {
 				break;
 			}
 		}
-		if (!errorFound) {
+		if (errorFound) {
+			IOHandler.output.printError("Please correct mistakes before finishing.");
+		}
+		return errorFound;
+	}
+
+	@FXML
+	public void submitCSV(ActionEvent event) {
+		if (!checkForErrors()) {
 			GameController.initRooms(rooms, GameType.CUSTOM);
 			Stage stage = (Stage) ((Node) menuBar).getScene().getWindow();
 			stage.close();
-		} else {
-			IOHandler.output.printError("Please correct mistakes before finishing.");
 		}
 	}
 
 	@FXML
 	public void saveCSV() {
-		// TODO: To be implemented
+		if (checkForErrors()) {
+			return;
+		}
+		FileChooser fileChooser = new FileChooser();
+		ExtensionFilter filter = new ExtensionFilter("CSV", "*.csv", "*.csv");
+		fileChooser.setTitle("Select destination...");
+		fileChooser.getExtensionFilters().add(filter);
+		Stage stage = (Stage) csvContainer.getScene().getWindow();
+		File file = fileChooser.showSaveDialog(stage);
+		if (file != null) {
+			writeFile(file);
+		}
+	}
+
+	private String prepareCSVSave() {
+		String toReturn = "";
+		// Remove the additional empty cells and convert CSVEditorCell to string.
+		List<List<String>> arr = rooms.stream().map(r-> 
+		r.stream().filter(e-> !e.getProperty().getValue().isEmpty()).map(e-> e.getProperty().getValue()).collect(Collectors.toList())
+		).collect(Collectors.toList());
+		for (List<String> r : arr) {
+			int i = 0;
+			for (String cell : r) {
+				toReturn += cell + (i == r.size() - 1 ? "\n" : ", ");
+				i++;
+			}
+		}
+		return toReturn;
+	}
+
+	// Based on: https://www.mkyong.com/java/how-to-write-to-file-in-java-fileoutputstream-example/
+	private void writeFile(File file) {
+		FileOutputStream fop = null;
+		String content = prepareCSVSave();
+
+		try {
+			fop = new FileOutputStream(file);
+
+			if (!file.exists()) {
+				file.createNewFile();
+			}
+
+			byte[] contentInBytes = content.getBytes();
+
+			fop.write(contentInBytes);
+			fop.flush();
+			fop.close();
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (fop != null) {
+					fop.close();
+				}
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+
 	}
 
 	private void buildObservableList(List<List<String>> roomData) {

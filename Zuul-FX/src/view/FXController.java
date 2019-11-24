@@ -35,7 +35,6 @@ import zuul.GameController;
 import zuul.GameType;
 import zuul.CommandHandler;
 
-// TODO: Rename to 'FXController'
 public class FXController {
 	private String csvPath;
 	private final int SCENE_WIDTH = 900;

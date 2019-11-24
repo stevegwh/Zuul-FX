@@ -13,6 +13,7 @@
         <menus>
           <Menu mnemonicParsing="false" text="File">
             <items>
+                  <MenuItem mnemonicParsing="false" onAction="#saveCSV" text="Save CSV" />
                   <MenuItem mnemonicParsing="false" onAction="#submitCSV" text="Finish Editing" />
               <MenuItem mnemonicParsing="false" text="Close" />
             </items>
