@@ -180,6 +180,7 @@ public class FXController {
 			stage.setScene(scene);
 			stage.showAndWait();
 			menuItemStartCustomGame.setDisable(false);
+			menuItemLoadCustomGame.setDisable(true);
 
 		} catch (IOException e) {
 			e.printStackTrace();

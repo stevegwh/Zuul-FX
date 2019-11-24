@@ -102,9 +102,10 @@ public class EditCSVController {
 	private String prepareCSVSave() {
 		String toReturn = "";
 		// Remove the additional empty cells and convert CSVEditorCell to string.
-		List<List<String>> arr = rooms.stream().map(r-> 
-		r.stream().filter(e-> !e.getProperty().getValue().isEmpty()).map(e-> e.getProperty().getValue()).collect(Collectors.toList())
-		).collect(Collectors.toList());
+		List<List<String>> arr = rooms.stream()
+				.map(r -> r.stream().filter(e -> !e.getProperty().getValue().isEmpty())
+						.map(e -> e.getProperty().getValue()).collect(Collectors.toList()))
+				.collect(Collectors.toList());
 		for (List<String> r : arr) {
 			int i = 0;
 			for (String cell : r) {
@@ -115,7 +116,8 @@ public class EditCSVController {
 		return toReturn;
 	}
 
-	// Based on: https://www.mkyong.com/java/how-to-write-to-file-in-java-fileoutputstream-example/
+	// Based on:
+	// https://www.mkyong.com/java/how-to-write-to-file-in-java-fileoutputstream-example/
 	private void writeFile(File file) {
 		FileOutputStream fop = null;
 		String content = prepareCSVSave();

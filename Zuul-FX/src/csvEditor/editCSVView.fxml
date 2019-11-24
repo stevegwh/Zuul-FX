@@ -15,7 +15,6 @@
             <items>
                   <MenuItem mnemonicParsing="false" onAction="#saveCSV" text="Save CSV" />
                   <MenuItem mnemonicParsing="false" onAction="#submitCSV" text="Finish Editing" />
-              <MenuItem mnemonicParsing="false" text="Close" />
             </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Edit">
