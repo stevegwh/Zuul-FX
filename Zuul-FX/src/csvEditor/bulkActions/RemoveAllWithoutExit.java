@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import csvEditor.BulkAction;
+import csvEditor.CSVEditorCell;
 import csvEditor.EditCSVController;
-import csvLoader.CSVEditorCell;
 import csvLoader.headers.HeaderEnum;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -14,6 +14,14 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.MenuItem;
 
+/**
+ * Removes all rooms without exits from the CSV data. This does not write directly to
+ * the CSV file itself rather the matrix representation of the CSV file that was
+ * loaded earlier.
+ * 
+ * @author Steve
+ *
+ */
 public class RemoveAllWithoutExit implements BulkAction {
 	private MenuItem menuItem;
 

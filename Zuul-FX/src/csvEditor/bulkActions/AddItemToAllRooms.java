@@ -12,6 +12,14 @@ import javafx.scene.control.MenuItem;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+/**
+ * Adds an item to every row of the CSV data. This does not write directly to
+ * the CSV file itself rather the matrix representation of the CSV file that was
+ * loaded earlier.
+ * 
+ * @author Steve
+ *
+ */
 public class AddItemToAllRooms implements BulkAction {
 	private MenuItem menuItem;
 
@@ -32,7 +40,7 @@ public class AddItemToAllRooms implements BulkAction {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public AddItemToAllRooms() {
 		menuItem = new MenuItem("Add Item To All Rooms");
 		menuItem.setOnAction(new EventHandler<ActionEvent>() {
@@ -41,7 +49,7 @@ public class AddItemToAllRooms implements BulkAction {
 			public void handle(ActionEvent arg0) {
 				execute();
 			}
-			
+
 		});
 	}
 

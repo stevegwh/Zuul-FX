@@ -4,8 +4,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import csvEditor.BulkAction;
+import csvEditor.CSVEditorCell;
 import csvEditor.EditCSVController;
-import csvLoader.CSVEditorCell;
 import csvLoader.headers.HeaderEnum;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -15,6 +15,14 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.MenuItem;
 
+/**
+ * Removes all rooms without an item from the CSV data. This does not write directly to
+ * the CSV file itself rather the matrix representation of the CSV file that was
+ * loaded earlier. This will also remove all references to the room as it has now been removed.
+ * 
+ * @author Steve
+ *
+ */
 public class RemoveAllWithoutItem implements BulkAction {
 	private MenuItem menuItem;
 

@@ -1,6 +1,5 @@
 package csvEditor;
 
-import csvLoader.CSVEditorCell;
 import javafx.application.Platform;
 import javafx.beans.InvalidationListener;
 import javafx.beans.Observable;
@@ -32,10 +31,18 @@ public class CSVGridFactory {
 		return longest;
 	}
 
-	// Reference:
-	// https://www.programcreek.com/java-api-examples/?class=javafx.scene.layout.GridPane&method=getChildren
+	/**
+	 * Finds the node in the gridpane with the corresponding row/column index.
+	 * 
+	 * @param row
+	 * @param column
+	 * @param gridPane
+	 * @return The requested node
+	 */
 	@SuppressWarnings("static-access")
 	public Node getNodeByRowColumnIndex(final int row, final int column, GridPane gridPane) {
+		// Reference:
+		// https://www.programcreek.com/java-api-examples/?class=javafx.scene.layout.GridPane&method=getChildren
 		Node result = null;
 		ObservableList<Node> childrens = gridPane.getChildren();
 		for (Node node : childrens) {
@@ -46,39 +53,51 @@ public class CSVGridFactory {
 		}
 		return result;
 	}
-	
+
+	/**
+	 * Checks the validity of the text content of the cell every time the content is
+	 * changed. If there is an error then the tooltip and style of the cell will
+	 * change to reflect that. Also decides when it is necessary to add two extra
+	 * cells at the end of the row for the user.
+	 * 
+	 * @param row
+	 * @param col
+	 * @param element
+	 * @param csvTextField
+	 * @return
+	 */
 	private InvalidationListener getTextFieldListener(int row, int col, CSVEditorCell element, TextField csvTextField) {
 		return new InvalidationListener() {
-				@Override
-				public void invalidated(Observable c) {
-					// If both the last cell and the second to last (i.e. the item name + the item
-					// weight) are not empty then add two extra spaces at the end of the cell row
-					// for the user.
+			@Override
+			public void invalidated(Observable c) {
+				// If both the last cell and the second to last (i.e. the item name + the item
+				// weight) are not empty then add two extra spaces at the end of the cell row
+				// for the user.
 
-					// Editing last cell
-					if ((col == rooms.get(row).size() - 1
-							&& !rooms.get(row).get(col - 1).getProperty().getValue().isEmpty())) {
-						lastFocusedRow = row;
-						lastFocusedCol = col;
-						rooms.get(row).add(new CSVEditorCell("", col - 1));
-						rooms.get(row).add(new CSVEditorCell("", col));
+				// Editing last cell
+				if ((col == rooms.get(row).size() - 1
+						&& !rooms.get(row).get(col - 1).getProperty().getValue().isEmpty())) {
+					lastFocusedRow = row;
+					lastFocusedCol = col;
+					rooms.get(row).add(new CSVEditorCell("", col - 1));
+					rooms.get(row).add(new CSVEditorCell("", col));
 
-					}
-					// Editing second from last cell
-					if ((col == rooms.get(row).size() - 2)
-							&& !rooms.get(row).get(col + 1).getProperty().getValue().isEmpty()) {
-						lastFocusedRow = row;
-						lastFocusedCol = col;
-						rooms.get(row).add(new CSVEditorCell("", col));
-						rooms.get(row).add(new CSVEditorCell("", col + 1));
-					}
-
-					// Error checks user input letter by letter to see if it is correct formed.
-					Platform.runLater(() -> element.checkValidity());
-					Platform.runLater(() -> csvTextField.setTooltip(element.getTooltip()));
-					Platform.runLater(() -> csvTextField.setStyle(element.getStyle()));
 				}
-			};
+				// Editing second from last cell
+				if ((col == rooms.get(row).size() - 2)
+						&& !rooms.get(row).get(col + 1).getProperty().getValue().isEmpty()) {
+					lastFocusedRow = row;
+					lastFocusedCol = col;
+					rooms.get(row).add(new CSVEditorCell("", col));
+					rooms.get(row).add(new CSVEditorCell("", col + 1));
+				}
+
+				// Error checks user input letter by letter to see if it is correct formed.
+				Platform.runLater(() -> element.checkValidity());
+				Platform.runLater(() -> csvTextField.setTooltip(element.getTooltip()));
+				Platform.runLater(() -> csvTextField.setStyle(element.getStyle()));
+			}
+		};
 	}
 
 	/**
@@ -110,7 +129,8 @@ public class CSVGridFactory {
 					currentCSVCell.checkValidity();
 					csvTextField.setTooltip(currentCSVCell.getTooltip());
 					csvTextField.setStyle(currentCSVCell.getStyle());
-					csvTextField.textProperty().addListener(getTextFieldListener(row, col, currentCSVCell, csvTextField));
+					csvTextField.textProperty()
+							.addListener(getTextFieldListener(row, col, currentCSVCell, csvTextField));
 				} else if (col > rooms.get(row).size() - 1) {
 					// From this point on in the row 'dummy' TextFields are instantiated and set to
 					// disabled.

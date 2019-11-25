@@ -3,8 +3,8 @@ package csvLoader.headers;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import csvEditor.CSVEditorCell;
 import csvEditor.EditCSVController;
-import csvLoader.CSVEditorCell;
 import javafx.collections.ObservableList;
 
 public class DirectionHeader extends Header {

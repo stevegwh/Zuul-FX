@@ -6,7 +6,7 @@ import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-import csvLoader.CSVEditorCell;
+import csvEditor.CSVEditorCell;
 import javafx.collections.ObservableList;
 import csvLoader.headers.HeaderEnum;
 import csvLoader.headers.ItemNameHeader;

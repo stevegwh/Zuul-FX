@@ -1,0 +1,44 @@
+.background {
+    -fx-background-color: #1d1d1d;
+}
+
+.split-pane:horizontal > .split-pane-divider {
+    -fx-border-color: transparent #1d1d1d transparent #1d1d1d;
+    -fx-background-color: transparent, derive(#1d1d1d,20%);
+}
+
+.split-pane {
+    -fx-padding: 1 0 0 0;
+}
+
+.menu-bar {
+    -fx-background-color: derive(#21252b,0%);
+}
+
+.context-menu {
+    -fx-background-color: derive(#282c34,30%);
+}
+
+.menu-item .label {
+    -fx-text-fill: white;
+}
+
+.menu-bar .label {
+    -fx-font-size: 11pt;
+    -fx-font-family: "Tahoma", Helvetica, Arial, sans-serif;
+    -fx-text-fill: white;
+    -fx-opacity: 0.9;
+}
+
+.text-field {
+    -fx-font-size: 10pt;
+    -fx-font-family: "Tahoma", Arial, sans-serif;
+    -fx-text-fill: black;
+    -fx-background-color: derive(#F0F0F0,10%);
+    -fx-border-color: black;
+    -fx-border-width: 0.5px;
+}
+
+.list-view {
+  -fx-background-color: #f9f9f9;
+}

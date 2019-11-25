@@ -1,4 +1,4 @@
-package csvLoader;
+package csvEditor;
 
 import csvLoader.headers.Header;
 import csvLoader.headers.HeaderEnum;
@@ -10,6 +10,14 @@ import javafx.beans.property.StringProperty;
 import javafx.scene.control.Tooltip;
 
 // TODO: Figure out a way to have this hold the TextView so that you can add the tooltips etc directly
+/**
+ * Class for controlling the data of each 'cell' of the CSV editor. The cell
+ * itself is a regular TextField that gets injected with data from this class.
+ * Instantiated in the 'CSVGridFactory' class.
+ * 
+ * @author Steve
+ *
+ */
 public class CSVEditorCell {
 	Header header;
 	private Tooltip tooltip;
@@ -19,7 +27,7 @@ public class CSVEditorCell {
 	public void checkValidity() {
 		String tooltip = header.validateFieldText(prop.getValue());
 		if (tooltip != null) {
-			style = "-fx-background-color: orange;";
+			style = "-fx-background-color: #ad6d5d;";
 			setTooltipText(tooltip);
 		} else {
 			style = "";
@@ -61,6 +69,5 @@ public class CSVEditorCell {
 		getProperty().set(value);
 		tooltip = new Tooltip();
 	}
-
 
 }

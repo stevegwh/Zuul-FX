@@ -1,8 +1,6 @@
 package csvEditor;
 
 import javafx.fxml.FXML;
-
-import csvLoader.CSVEditorCell;
 import csvLoader.headers.ItemNameHeader;
 import csvLoader.headers.ItemWeightHeader;
 import javafx.collections.ObservableList;

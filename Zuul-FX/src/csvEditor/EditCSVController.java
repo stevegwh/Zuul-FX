@@ -1,7 +1,6 @@
 package csvEditor;
 
 import javafx.fxml.FXML;
-import csvLoader.CSVEditorCell;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -29,6 +28,13 @@ import view.IOHandler;
 import zuul.GameController;
 import zuul.GameType;
 
+/**
+ * Controller for the 'CSV editor' view. The view is a grid of TextViews that
+ * mimics - to a much more limited extent - the functionality of 'Excel'.
+ * 
+ * @author Steve
+ *
+ */
 public class EditCSVController {
 	private CSVEditorLoader csvEditor;
 	private CSVGridFactory csvGrid;
@@ -149,6 +155,13 @@ public class EditCSVController {
 
 	}
 
+	/**
+	 * Converts the raw List of List<String> data into a matrix of ObservableList
+	 * with various listeners that will be used to keep the grid up-to-date and
+	 * dynamic.
+	 * 
+	 * @param roomData
+	 */
 	private void buildObservableList(List<List<String>> roomData) {
 		for (List<String> room : roomData) {
 			ObservableList<CSVEditorCell> row = FXCollections.observableArrayList();
@@ -169,12 +182,12 @@ public class EditCSVController {
 		}
 		for (ObservableList<CSVEditorCell> room : rooms) {
 			room.addListener((ListChangeListener<CSVEditorCell>) c -> {
-				System.out.println("Row changed to : " + room);
+//				System.out.println("Row changed to : " + room);
 				csvGrid.drawGrid();
 			});
 		}
 		rooms.addListener((ListChangeListener<ObservableList<CSVEditorCell>>) c -> {
-			System.out.println("Row changed to : " + rooms);
+//			System.out.println("Row changed to : " + rooms);
 			csvGrid.drawGrid();
 		});
 	}
