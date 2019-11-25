@@ -79,13 +79,8 @@ public class FXController {
 	 * Binds the data of the game data's array and the view's ListView
 	 */
 	public void updateView() {
-		// Inventory only needs to be bound once.
-		if (!inventory.itemsProperty().isBound()) {
-			inventory.itemsProperty().bind(GameController.getCurrentPlayer().getInvModel().getInventoryListProperty());
-		}
-		// TODO: Could you do this without having the properties coupled?
-		itemsInRoom.itemsProperty().bind(GameController.getCurrentRoom().getItemListProperty());
-		actorsInRoom.itemsProperty().bind(GameController.getCurrentRoom().getActorListProperty());
+		itemsInRoom.setItems(GameController.getCurrentRoom().getItemNames());
+		actorsInRoom.setItems(GameController.getCurrentRoom().getActorNames());
 	}
 
 	public void lookClicked() {
@@ -107,6 +102,7 @@ public class FXController {
 
 	public void startGame() {
 		GameController.start();
+		inventory.setItems(GameController.getCurrentPlayer().getInvModel().getInventoryNames());
 		setDirectionButtons();
 		enableAllButtons();
 		updateView();

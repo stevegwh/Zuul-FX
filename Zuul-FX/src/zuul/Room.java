@@ -4,12 +4,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import javafx.beans.property.ListProperty;
-import javafx.beans.property.SimpleListProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import npc.NPC;
 
+/**
+ * 'Model' representation of the room. Responsible for adding and removing the
+ * various data associated with the room for the view to use. Items, actors etc.
+ * 
+ * @author forest
+ *
+ */
 public class Room {
 	private String name;
 	private String description;
@@ -19,9 +24,6 @@ public class Room {
 	// String representation of 'takeableItems'
 	private ObservableList<String> itemNames = FXCollections.observableList(new ArrayList<String>());
 	private ObservableList<String> actorNames = FXCollections.observableList(new ArrayList<String>());
-	// Necessary to bind data with view
-	private ListProperty<String> itemsListProperty = new SimpleListProperty<>(itemNames);
-	private ListProperty<String> actorsListProperty = new SimpleListProperty<>(actorNames);
 
 	public String getDescription() {
 		return description;
@@ -83,13 +85,13 @@ public class Room {
 		takeableItems.remove(item);
 		itemNames.remove(item.getName());
 	}
-
-	public ListProperty<String> getItemListProperty() {
-		return itemsListProperty;
+	
+	public ObservableList<String> getItemNames() {
+		return itemNames;
 	}
 
-	public ListProperty<String> getActorListProperty() {
-		return actorsListProperty;
+	public ObservableList<String> getActorNames() {
+		return actorNames;
 	}
 
 	public void addActor(NPC npc) {

@@ -49,7 +49,7 @@ public class ActorContextMenu {
 			// TODO: Set action event for when they click the item
 			EventHandler<WindowEvent> event = new EventHandler<WindowEvent>() { 
 				public void handle(WindowEvent e) { 
-					List<MenuItem> inventory = GameController.getCurrentPlayer().getInvModel().getInventoryListProperty().stream().map(f-> new MenuItem(f)).collect(Collectors.toList());
+					List<MenuItem> inventory = GameController.getCurrentPlayer().getInvModel().getInventoryNames().stream().map(f-> new MenuItem(f)).collect(Collectors.toList());
 					inventory.forEach(f-> f.setOnAction(itemAction));
 					giveMenu.getItems().removeAll(giveMenu.getItems());
 					giveMenu.getItems().addAll(inventory);

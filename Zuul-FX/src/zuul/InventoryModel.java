@@ -2,8 +2,6 @@ package zuul;
 
 import java.util.ArrayList;
 
-import javafx.beans.property.ListProperty;
-import javafx.beans.property.SimpleListProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -12,7 +10,6 @@ public class InventoryModel {
 	private final int WEIGHT_LIMIT = 10;
 	private ArrayList<TakeableItem> inventory = new ArrayList<>();
 	private ObservableList<String> inventoryNames = FXCollections.observableList(new ArrayList<String>());
-	private ListProperty<String> inventoryListProperty = new SimpleListProperty<>(inventoryNames);
 
 	public int getWeight() {
 		return totalWeight;
@@ -29,16 +26,16 @@ public class InventoryModel {
 
 	public void addItem(TakeableItem item) {
 		inventory.add(item);
-		inventoryListProperty.add(item.getName());
+		inventoryNames.add(item.getName());
 	}
 
 	public void removeItem(TakeableItem item) {
 		inventory.remove(item);
-		inventoryListProperty.remove(item.getName());
+		inventoryNames.remove(item.getName());
 	}
 	
-	public ListProperty<String> getInventoryListProperty() {
-		return inventoryListProperty;
+	public ObservableList<String> getInventoryNames() {
+		return inventoryNames;
 	}
 
 	public TakeableItem getItem(String itemName) {
