@@ -23,6 +23,7 @@ import javafx.stage.Stage;
 public class AddItemToAllRooms implements BulkAction {
 	private MenuItem menuItem;
 
+	@Override
 	public MenuItem getMenuItem() {
 		return menuItem;
 	}
@@ -42,7 +43,7 @@ public class AddItemToAllRooms implements BulkAction {
 	}
 
 	public AddItemToAllRooms() {
-		menuItem = new MenuItem("Add Item To All Rooms");
+		menuItem = new MenuItem("Add Item To All Rooms With Exit");
 		menuItem.setOnAction(new EventHandler<ActionEvent>() {
 
 			@Override

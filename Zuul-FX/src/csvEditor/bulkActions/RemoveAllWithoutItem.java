@@ -26,6 +26,7 @@ import javafx.scene.control.MenuItem;
 public class RemoveAllWithoutItem implements BulkAction {
 	private MenuItem menuItem;
 
+	@Override
 	public MenuItem getMenuItem() {
 		return menuItem;
 	}

@@ -1,6 +1,7 @@
 package csvEditor;
 
 import javafx.fxml.FXML;
+import csvLoader.headers.HeaderEnum;
 import csvLoader.headers.ItemNameHeader;
 import csvLoader.headers.ItemWeightHeader;
 import javafx.collections.ObservableList;
@@ -23,8 +24,8 @@ public class AddItemController {
 	public void addItem(ActionEvent event) {
 		ItemNameHeader itemNameHeader = new ItemNameHeader();
 		ItemWeightHeader itemWeightHeader = new ItemWeightHeader();
-		// Use the CSV editor's tooltip generator to validate input. validateFieldText
-		// returns null if no error found.
+		// Use the CSV editor's tooltip generator to validate the input the user has
+		// entered. validateFieldText returns null if no error found.
 		boolean validWeightValue = itemWeightHeader.validateFieldText(itemWeight.getText()) == null;
 		boolean validNameValue = itemNameHeader.validateFieldText(itemName.getText()) == null;
 
@@ -32,12 +33,17 @@ public class AddItemController {
 
 			ObservableList<ObservableList<CSVEditorCell>> rooms = EditCSVController.getRooms();
 			for (ObservableList<CSVEditorCell> room : rooms) {
-				// Adds
+				// Continue if room doesn't have exits.
+				if (room.stream().filter(e -> e.header.getEnum().equals(HeaderEnum.DIRECTION))
+						.allMatch(e -> e.getProperty().getValue().equals("null"))) {
+					continue;
+				}
+				// Adds item to all room with exits.
 				room.get(room.size() - 2).getProperty().setValue(itemName.getText());
 				room.get(room.size() - 1).getProperty().setValue(itemWeight.getText());
 			}
 			Alert a = new Alert(AlertType.CONFIRMATION);
-			a.setContentText("Added item to all rooms.");
+			a.setContentText("Added item to all rooms with exits.");
 			a.show();
 			closeStage(event);
 		} else {

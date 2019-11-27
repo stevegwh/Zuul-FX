@@ -12,7 +12,7 @@ import npc.NPC;
  * 'Model' representation of the room. Responsible for adding and removing the
  * various data associated with the room for the view to use. Items, actors etc.
  * 
- * @author forest
+ * @author Steve
  *
  */
 public class Room {

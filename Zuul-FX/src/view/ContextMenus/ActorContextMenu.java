@@ -28,6 +28,7 @@ public class ActorContextMenu {
 			ListCell<String> cell = new ListCell<>();
 			ContextMenu mainContextMenu = new ContextMenu();
 
+			// Talk option
 			MenuItem talkItem = new MenuItem();
 			talkItem.textProperty().bind(Bindings.format("Talk to \"%s\"", cell.itemProperty()));
 			talkItem.setOnAction(event -> {
@@ -35,21 +36,22 @@ public class ActorContextMenu {
 				GameController.getNPCContoller().getActor(toTalk).onTalk();;
 			});
 
+			// Give option
 			EventHandler<ActionEvent> itemAction = new EventHandler<ActionEvent>() { 
 				public void handle(ActionEvent e) {
 					String item = ((MenuItem) e.getSource()).getText();
+					// Call the 'give' command with the item name.
 					GiveOutput giveOutput = new GiveOutput();
 					giveOutput.init(new String[] {"Give", cell.getText(), item});
-
-//					GameController.getNPCContoller().getActor(cell.getText()).onGive(item);;
 				}
 			};
 
 			Menu giveMenu = new Menu("Give..");
-			// TODO: Set action event for when they click the item
-			EventHandler<WindowEvent> event = new EventHandler<WindowEvent>() { 
+			// Generates a list of items from the inventory and populates the 'Give' menu when the main context menu is opened.
+			EventHandler<WindowEvent> generateItemsList = new EventHandler<WindowEvent>() { 
 				public void handle(WindowEvent e) { 
 					List<MenuItem> inventory = GameController.getCurrentPlayer().getInvModel().getInventoryNames().stream().map(f-> new MenuItem(f)).collect(Collectors.toList());
+					// Attach an ActionEvent to each item.
 					inventory.forEach(f-> f.setOnAction(itemAction));
 					giveMenu.getItems().removeAll(giveMenu.getItems());
 					giveMenu.getItems().addAll(inventory);
@@ -57,7 +59,7 @@ public class ActorContextMenu {
 			}; 
 
 			mainContextMenu.getItems().addAll(talkItem, giveMenu);
-			mainContextMenu.setOnShown(event);
+			mainContextMenu.setOnShown(generateItemsList);
 
 			cell.textProperty().bind(cell.itemProperty());
 

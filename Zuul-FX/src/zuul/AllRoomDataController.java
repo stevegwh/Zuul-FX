@@ -117,6 +117,11 @@ public class AllRoomDataController {
 		return rooms.get(name);
 	}
 
+	/**
+	 * Loads either a default or custom game and maps their respective function to the list.
+	 * @param csvData the data which needs to be parsed.
+	 * @param game default/custom game.
+	 */
 	@SuppressWarnings("unchecked")
 	public AllRoomDataController(List<?> csvData, GameType game) {
 		if (game.equals(GameType.DEFAULT)) {
