@@ -23,8 +23,7 @@ public class GameController {
 	private static String startLocation;
 
 	/**
-	 * Returns the currently occupied room.
-	 * @return
+	 * @return the currently occupied room.
 	 */
 	public static Room getCurrentRoom() {
 		return roomData.getCurrentRoom();
@@ -32,15 +31,14 @@ public class GameController {
 
 	/**
 	 * Sets the starting location of the game.
-	 * @param location
+	 * @param location the name of the location.
 	 */
 	public static void setStartLocation(String location) {
 		startLocation = location;
 	}
 
 	/**
-	 * Gets the starting location of the game.
-	 * @return
+	 * @return the starting location of the game.
 	 */
 	public static String getStartLocation() {
 		return startLocation;
@@ -48,15 +46,14 @@ public class GameController {
 
 	/**
 	 * Changes the room the current player is in.
-	 * @param roomName
+	 * @param roomName the name of the room.
 	 */
 	public static void setNewCurrentRoom(String roomName) {
 		roomData.setNewCurrentRoom(roomName);
 	}
 
 	/**
-	 * Returns the controller responsible for the NPCs.
-	 * @return
+	 * @return the controller responsible for the NPCs.
 	 */
 	public static NPCController getNPCContoller() {
 		return npcController;
@@ -79,7 +76,7 @@ public class GameController {
 	/**
 	 * Sets whether the game is single player.
 	 * 
-	 * @param b
+	 * @param b true/false
 	 */
 	public static void setSingleplayer(boolean b) {
 		singlePlayer = b;
@@ -119,6 +116,12 @@ public class GameController {
 //		}
 //	}
 
+	/**
+	 * Passes in the gametype and the room list to be converted into
+	 * roomDat
+	 * @param rooms Either an ObservableList or a List
+	 * @param game Either GameType.DEFAULT or CUSTOM
+	 */
 	public static void initRooms(List<?> rooms, GameType game) {
 		roomData = new AllRoomDataController(rooms, game);
 	}
