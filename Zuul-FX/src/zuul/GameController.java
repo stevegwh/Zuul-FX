@@ -4,10 +4,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import command.commandView.LookOutput;
-import command.game.eventOutput.SingleOrMultiOutput;
+//import command.game.eventOutput.SingleOrMultiOutput;
 import npc.AllNPCDataController;
 import npc.NPCController;
 
+/**
+ * Main controller and router for all logic in the game
+ * @author Steve
+ *
+ */
 public class GameController {
 	private static boolean singlePlayer = true;
 	private static AllRoomDataController roomData;
@@ -17,22 +22,42 @@ public class GameController {
 	private static ArrayList<Player> playerArr;
 	private static String startLocation;
 
+	/**
+	 * Returns the currently occupied room.
+	 * @return
+	 */
 	public static Room getCurrentRoom() {
 		return roomData.getCurrentRoom();
 	}
 
+	/**
+	 * Sets the starting location of the game.
+	 * @param location
+	 */
 	public static void setStartLocation(String location) {
 		startLocation = location;
 	}
 
+	/**
+	 * Gets the starting location of the game.
+	 * @return
+	 */
 	public static String getStartLocation() {
 		return startLocation;
 	}
 
+	/**
+	 * Changes the room the current player is in.
+	 * @param roomName
+	 */
 	public static void setNewCurrentRoom(String roomName) {
 		roomData.setNewCurrentRoom(roomName);
 	}
 
+	/**
+	 * Returns the controller responsible for the NPCs.
+	 * @return
+	 */
 	public static NPCController getNPCContoller() {
 		return npcController;
 	}
@@ -86,13 +111,13 @@ public class GameController {
 	/**
 	 * Initialises the game as single or multi-player.
 	 */
-	private static void setGameType() {
-		SingleOrMultiOutput setSingleplayer = new SingleOrMultiOutput();
-		setSingleplayer.init(new String[] { startLocation });
-		if (singlePlayer) {
-			currentPlayer = new Player(startLocation);
-		}
-	}
+//	private static void setGameType() {
+//		SingleOrMultiOutput setSingleplayer = new SingleOrMultiOutput();
+//		setSingleplayer.init(new String[] { startLocation });
+//		if (singlePlayer) {
+//			currentPlayer = new Player(startLocation);
+//		}
+//	}
 
 	public static void initRooms(List<?> rooms, GameType game) {
 		roomData = new AllRoomDataController(rooms, game);

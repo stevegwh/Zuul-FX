@@ -8,6 +8,11 @@ import javafx.scene.control.MenuItem;
 import javafx.util.Callback;
 import zuul.CommandHandler;
 
+/**
+ * Creates the context menu for the 'take' command for the itemsInRoom ListView
+ * @author Steve
+ *
+ */
 public class ItemsContextMenu {
 
 	// Code adapted from:

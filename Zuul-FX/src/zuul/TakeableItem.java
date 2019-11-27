@@ -1,5 +1,10 @@
 package zuul;
 
+/**
+ * Class to represent any item the player can take/drop/give in the game.
+ * @author Steve
+ *
+ */
 public class TakeableItem {
 	private String name;
 	private int weight;

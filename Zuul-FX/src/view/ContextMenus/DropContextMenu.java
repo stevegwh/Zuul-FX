@@ -8,6 +8,11 @@ import javafx.scene.control.MenuItem;
 import javafx.util.Callback;
 import zuul.CommandHandler;
 
+/**
+ * Creates the context menu for the 'drop' command for the inventory ListView
+ * @author Steve
+ *
+ */
 public class DropContextMenu {
 
 	// Code adapted from:

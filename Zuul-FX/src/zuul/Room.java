@@ -86,10 +86,16 @@ public class Room {
 		itemNames.remove(item.getName());
 	}
 	
+	/**
+	 * @return the name (string) only of the items in the room.
+	 */
 	public ObservableList<String> getItemNames() {
 		return itemNames;
 	}
 
+	/**
+	 * @return the name (string) only of the actors in the room.
+	 */
 	public ObservableList<String> getActorNames() {
 		return actorNames;
 	}

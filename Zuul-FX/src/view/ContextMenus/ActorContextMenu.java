@@ -18,6 +18,11 @@ import javafx.stage.WindowEvent;
 import javafx.util.Callback;
 import zuul.GameController;
 
+/**
+ * Creates the context menu for the 'give' and 'talk' commands for the 'actorsInRoom' ListView
+ * @author Steve
+ *
+ */
 public class ActorContextMenu {
 	ListProperty<String> items = new SimpleListProperty<>();
 
