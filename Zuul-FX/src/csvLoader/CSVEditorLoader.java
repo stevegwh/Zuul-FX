@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
  */
 public class CSVEditorLoader {
 	/**
-	 * Recipe to create the rows from the CSV file.
+	 * "Recipe" to create the rows from the CSV file.
 	 */
 	private Function<Object, Object> getRow = (line) -> {
 		String[] p = ((String) line).split(", ");

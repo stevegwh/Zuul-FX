@@ -12,6 +12,11 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
+/**
+ * Controller for the 'Add Item To All Rooms w/ Exit' dialog view.
+ * @author Steve
+ *
+ */
 public class AddItemController {
 
 	@FXML

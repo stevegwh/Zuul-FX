@@ -18,6 +18,12 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import npc.NPC;
 
+/**
+ * Controller for the 'dialog view' when the player speaks to an NPC.
+ * 
+ * @author Steve
+ *
+ */
 public class NPCDialogController {
 
 	@FXML
@@ -27,16 +33,22 @@ public class NPCDialogController {
 		Platform.runLater(() -> onLoad());
 	}
 
+	@FXML
 	public List<Button> setDialogOptions(ArrayList<String> options) {
 		return options.stream().map(e -> new Button(e)).collect(Collectors.toList());
 	}
 
 	private void onClick(ActionEvent event) {
 		ArrayList<String> responses = DialogView.getCurrentNPC().getDialogResponses();
+		// Instantiate a button to get the ID of the option the user has clicked.
 		Button btn = (Button) event.getSource();
 		String id = btn.getId();
+		// Pass in the id in order to get the appropriate response.
 		Button response = new Button(responses.get(Integer.parseInt(id.split("_")[1])));
+		// Clear the view minus the NPC portrait.
 		npcDialogWrapper.getChildren().removeAll(npcDialogWrapper.getChildren());
+		// Generate the appropriate buttons to display the response to the user and a
+		// close option.
 		Button close = new Button("Close Window");
 		response.setDisable(true);
 		response.setStyle("-fx-opacity: 1");
@@ -51,10 +63,14 @@ public class NPCDialogController {
 		npcDialogWrapper.getChildren().add(close);
 	}
 
+	/**
+	 * Prepares the dialog window for the user
+	 */
 	private void onLoad() {
 		NPC npc = DialogView.getCurrentNPC();
 		List<Button> dialogOptions = setDialogOptions(npc.getDialogOptions());
 		int i = 0;
+		//Prepare the option buttons
 		for (Button option : dialogOptions) {
 			option.setMaxWidth(Double.MAX_VALUE);
 			option.setPrefHeight(40);
@@ -67,6 +83,7 @@ public class NPCDialogController {
 			});
 			i++;
 		}
+		// Get the character portrait image
 		FileInputStream inputstream = null;
 		try {
 			inputstream = new FileInputStream(npc.getImagePath());

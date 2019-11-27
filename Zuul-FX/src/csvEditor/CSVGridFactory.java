@@ -9,6 +9,14 @@ import javafx.scene.Node;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 
+/**
+ * Responsible for creating the grid for the 'Excel' style CSV editor. The grid
+ * is a two-dimensional array of CSVEditorCells that are represented as a
+ * GridPane of TextView objects.
+ * 
+ * @author Steve
+ *
+ */
 public class CSVGridFactory {
 	ObservableList<ObservableList<CSVEditorCell>> rooms = EditCSVController.getRooms();
 	private GridPane csvGridPane;

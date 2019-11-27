@@ -7,6 +7,13 @@ import java.util.List;
 
 import javafx.scene.control.Menu;
 
+/**
+ * Scans the 'bulkActions' directory and attempts to instantiate all via
+ * reflection and store them in the 'bulkActions' ArrayList.
+ * 
+ * @author Steve
+ *
+ */
 public class BulkActionInstantiator {
 	List<String> bulkActions = new ArrayList<>();
 
@@ -15,7 +22,8 @@ public class BulkActionInstantiator {
 		for (String bulkActionName : bulkActions) {
 			BulkAction bAction;
 			try {
-				bAction = (BulkAction) Class.forName("csvEditor.bulkActions." + bulkActionName).getConstructor().newInstance();
+				bAction = (BulkAction) Class.forName("csvEditor.bulkActions." + bulkActionName).getConstructor()
+						.newInstance();
 				bulkActionMenuBar.getItems().add(bAction.getMenuItem());
 			} catch (InstantiationException | IllegalAccessException | IllegalArgumentException
 					| InvocationTargetException | NoSuchMethodException | SecurityException
@@ -43,7 +51,7 @@ public class BulkActionInstantiator {
 			bulkActions.add(item);
 		}
 	}
-	
+
 	public BulkActionInstantiator() {
 		populateArr();
 	}

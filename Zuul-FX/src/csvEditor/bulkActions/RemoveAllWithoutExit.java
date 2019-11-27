@@ -32,10 +32,11 @@ public class RemoveAllWithoutExit implements BulkAction {
 
 	private void execute() {
 		ObservableList<ObservableList<CSVEditorCell>> rooms = EditCSVController.getRooms();
+		// Store the size of the array before removing any elements.
 		int amountRemoved = rooms.size();
-		// Get's list of rooms without exits
 		List<ObservableList<CSVEditorCell>> toRemove = new ArrayList<ObservableList<CSVEditorCell>>();
 		for (ObservableList<CSVEditorCell> r : rooms) {
+			// Gets list of rooms without exits
 			if(r.stream()
 			.filter(e -> e.getHeader().getEnum().equals(HeaderEnum.DIRECTION))
 			.map(e-> e.getProperty().getValue())

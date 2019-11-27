@@ -9,6 +9,11 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import npc.NPC;
 
+/**
+ * Loads the view for when the user speaks to an NPC.
+ * @author Steve
+ *
+ */
 public class DialogView {
 	static NPC currentNPC;
 
