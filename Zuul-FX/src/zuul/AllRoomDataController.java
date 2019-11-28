@@ -49,7 +49,6 @@ public class AllRoomDataController {
 		Map<String, String> exits = line.stream().filter(e -> e.getHeader().getEnum().equals(HeaderEnum.DIRECTION))
 				.filter(e -> !e.getProperty().getValue().equals("null")).collect(Collectors
 						.toMap(e -> ((DirectionHeader) e.getHeader()).getDirection(), e -> e.getProperty().getValue()));
-//		exits.entrySet().forEach(e -> System.out.println("K: " + e.getKey() + " V: " + e.getValue()));
 
 		room.setExits(exits);
 

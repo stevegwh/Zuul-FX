@@ -2,11 +2,15 @@ package zuul;
 
 import java.util.ArrayList;
 
+import csvLoader.headers.ItemWeightHeader;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 public class InventoryModel {
 	private int totalWeight;
+	public StringProperty totalWeightProp = new SimpleStringProperty("Total Weight: 0");
 	private final int WEIGHT_LIMIT = 10;
 	private ArrayList<TakeableItem> inventory = new ArrayList<>();
 	private ObservableList<String> inventoryNames = FXCollections.observableList(new ArrayList<String>());
@@ -17,10 +21,10 @@ public class InventoryModel {
 
 	public void setWeight(int weight) {
 		totalWeight += weight;
+		totalWeightProp.setValue("Total Weight: " + Integer.toString(totalWeight));
 	}
 
 	public ArrayList<TakeableItem> getInventory() {
-		// TODO: unsafe. Can be edited when you don't want it.
 		return inventory;
 	}
 
@@ -50,6 +54,10 @@ public class InventoryModel {
 		return item != null;
 	}
 
+	public StringProperty getInventoryWeight() {
+		return totalWeightProp;
+	}
+
 	public boolean overWeightLimit(int weight) {
 		return totalWeight + weight > WEIGHT_LIMIT;
 	}
@@ -63,5 +71,6 @@ public class InventoryModel {
 		removeItem(toRemove);
 		
 	}
+
 
 }

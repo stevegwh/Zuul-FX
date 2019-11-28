@@ -18,6 +18,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextArea;
@@ -40,7 +41,9 @@ public class FXController {
 	private final int SCENE_HEIGHT = 600;
 	private Stage stage;
 	private CommandHandler commandHandler;
-
+	
+	@FXML
+	private Label totalWeight;
 	@FXML
 	private TextArea gameText;
 	public StringProperty gameTextProperty = new SimpleStringProperty("");
@@ -103,6 +106,7 @@ public class FXController {
 	public void startGame() {
 		GameController.start();
 		inventory.setItems(GameController.getCurrentPlayer().getInvModel().getInventoryNames());
+		totalWeight.textProperty().bind(GameController.getCurrentPlayer().getInvModel().getInventoryWeight());
 		setDirectionButtons();
 		enableAllButtons();
 		updateView();

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
@@ -39,6 +40,7 @@
                      <children>
                         <TextField id="sentence-builder" alignment="CENTER" disable="true" layoutX="10.0" layoutY="475.0" prefHeight="0.0" prefWidth="900.0" style="-fx-opacity: 1;" text="Inventory" />
                         <ListView id="inventory" fx:id="inventory" prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS" />
+                        <Label fx:id="totalWeight" text="Total Weight: " />
                         <TextField id="sentence-builder" alignment="CENTER" disable="true" prefHeight="0.0" prefWidth="900.0" style="-fx-opacity: 1;" text="Items In Room" />
                         <ListView id="itemsInRoom" fx:id="itemsInRoom" prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS" />
                         <TextField id="sentence-builder" alignment="CENTER" disable="true" layoutX="10.0" layoutY="474.0" prefHeight="0.0" prefWidth="900.0" style="-fx-opacity: 1;" text="Actors In Room" />
