@@ -2,7 +2,6 @@ package zuul;
 
 import java.util.ArrayList;
 
-import csvLoader.headers.ItemWeightHeader;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
@@ -54,7 +53,7 @@ public class InventoryModel {
 		return item != null;
 	}
 
-	public StringProperty getInventoryWeight() {
+	public StringProperty getTotalWeightProp() {
 		return totalWeightProp;
 	}
 

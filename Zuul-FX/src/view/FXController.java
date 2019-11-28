@@ -106,7 +106,7 @@ public class FXController {
 	public void startGame() {
 		GameController.start();
 		inventory.setItems(GameController.getCurrentPlayer().getInvModel().getInventoryNames());
-		totalWeight.textProperty().bind(GameController.getCurrentPlayer().getInvModel().getInventoryWeight());
+		totalWeight.textProperty().bind(GameController.getCurrentPlayer().getInvModel().getTotalWeightProp());
 		setDirectionButtons();
 		enableAllButtons();
 		updateView();
