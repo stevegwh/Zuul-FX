@@ -1,7 +1,7 @@
 package csvLoader.headers;
 
 public class DescriptionHeader extends Header {
-	private static int INDEX = 1;
+	private final static int INDEX = 1;
 
 	public DescriptionHeader() {
 		super(HeaderEnum.DESCRIPTION);
