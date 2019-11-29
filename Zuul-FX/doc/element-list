@@ -1,1 +1,15 @@
+command
+command.commandController
+command.commandView
+command.game.eventController
+command.game.eventOutput
+csvEditor
+csvEditor.bulkActions
+csvLoader
+csvLoader.headers
+IO
+npc
 view
+view.ContextMenus
+zuul
+zuulutils

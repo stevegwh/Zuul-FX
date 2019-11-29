@@ -7,6 +7,7 @@ import command.game.eventOutput.AnnounceEntranceOutput;
 import view.IOHandler;
 import zuul.GameController;
 import zuul.Room;
+import zuul.TakeableItem;
 
 public class NPC {
 	private String name;
@@ -28,7 +29,9 @@ public class NPC {
 	public boolean onGive(String takeableItem) {
 		if (takeableItem.equals(validItem)) {
 			IOHandler.output.println(name + " says: Oh, thank you for the " + takeableItem);
-			GameController.getCurrentPlayer().getInvModel().removeItem(takeableItem);
+			TakeableItem item = GameController.getCurrentPlayer().getInvModel().getItem(takeableItem);
+			GameController.getCurrentPlayer().getInvModel().setWeight(-item.getWeight());
+			GameController.getCurrentPlayer().getInvModel().removeItem(item);
 			return true;
 		} else {
 			return false;

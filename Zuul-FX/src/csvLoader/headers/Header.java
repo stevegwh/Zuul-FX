@@ -6,7 +6,7 @@ package csvLoader.headers;
  * the list a certain header should appear in. For example, name could expect to
  * be at index 0, directions from 2-5 etc.
  * 
- * @author forest
+ * @author Steve
  *
  */
 public abstract class Header {
@@ -18,6 +18,8 @@ public abstract class Header {
 
 	/**
 	 * Validates the text the user inputs in the CSV editor.
+	 * @param textFieldValue the text the user is currently entering.
+	 * @return null if no error, error tooltip if so.
 	 */
 	public abstract String validateFieldText(String textFieldValue);
 

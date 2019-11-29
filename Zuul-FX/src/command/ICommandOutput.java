@@ -17,7 +17,7 @@ public interface ICommandOutput {
 	 * checking no error has been returned should call the super's execute() method.
 	 * After this the desired result can be output to the user.
 	 * 
-	 * @param inputArray
+	 * @param inputArray The array of user input.
 	 */
 	public void init(String[] inputArray);
 }

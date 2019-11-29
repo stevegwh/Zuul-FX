@@ -42,10 +42,10 @@ public class CSVGridFactory {
 	/**
 	 * Finds the node in the gridpane with the corresponding row/column index.
 	 * 
-	 * @param row
-	 * @param column
-	 * @param gridPane
-	 * @return The requested node
+	 * @param row The row of the grid.
+	 * @param column The column of the grid.
+	 * @param gridPane The parent grid.
+	 * @return The requested node.
 	 */
 	@SuppressWarnings("static-access")
 	public Node getNodeByRowColumnIndex(final int row, final int column, GridPane gridPane) {

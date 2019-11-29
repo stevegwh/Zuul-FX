@@ -14,7 +14,7 @@ public class InventoryModel {
 	private ArrayList<TakeableItem> inventory = new ArrayList<>();
 	private ObservableList<String> inventoryNames = FXCollections.observableList(new ArrayList<String>());
 
-	public int getWeight() {
+	public int getTotalWeight() {
 		return totalWeight;
 	}
 

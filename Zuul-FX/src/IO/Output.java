@@ -26,7 +26,7 @@ public interface Output {
 	/**
 	 * Prints specified string formatted for displaying errors.
 	 * 
-	 * @param ele The string you want to print.
+	 * @param error The error message you want to print
 	 */
 	public void printError(String error);
 }

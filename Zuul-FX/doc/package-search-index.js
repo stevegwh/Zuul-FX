@@ -1,1 +1,1 @@
-packageSearchIndex = [{"l":"All Packages","url":"allpackages-index.html"},{"l":"view"}]
+packageSearchIndex = [{"l":"All Packages","url":"allpackages-index.html"},{"l":"command"},{"l":"command.commandController"},{"l":"command.commandView"},{"l":"command.game.eventController"},{"l":"command.game.eventOutput"},{"l":"csvEditor"},{"l":"csvEditor.bulkActions"},{"l":"csvLoader"},{"l":"csvLoader.headers"},{"l":"IO"},{"l":"npc"},{"l":"view"},{"l":"view.ContextMenus"},{"l":"zuul"},{"l":"zuulutils"}]
