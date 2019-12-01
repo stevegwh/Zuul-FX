@@ -14,9 +14,9 @@ import zuul.TakeableItem;
  */
 public class InventoryController extends CommandController {
 	protected ArrayList<TakeableItem> inventory = new ArrayList<>();
-	private int COMMAND_LENGTH = 1;
 
 	protected String validateUserInput(String[] inputArray) {
+		int COMMAND_LENGTH = 1;
 		if (inputArray.length > COMMAND_LENGTH) {
 			return "To see your inventory please just type 'inventory'";
 		}

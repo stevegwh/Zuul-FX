@@ -100,8 +100,8 @@ public class CSVGridFactory {
 					rooms.get(row).add(new CSVEditorCell("", col + 1));
 				}
 
-				// Error checks user input letter by letter to see if it is correct formed.
-				Platform.runLater(() -> element.checkValidity());
+				// Error checks user input letter by letter to see if it is correctly formed.
+				Platform.runLater(element::checkValidity);
 				Platform.runLater(() -> csvTextField.setTooltip(element.getTooltip()));
 				Platform.runLater(() -> csvTextField.setStyle(element.getStyle()));
 			}

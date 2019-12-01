@@ -17,10 +17,10 @@ public class GoController extends CommandController {
 	protected String direction;
 	protected String nextRoom;
 	protected int turnsLeft;
-	private int COMMAND_LENGTH = 2;
 
 	@Override
 	public String validateUserInput(String[] inputArray) {
+		int COMMAND_LENGTH = 2;
 		if (inputArray.length > COMMAND_LENGTH) {
 			return "Invalid Command";
 		}

@@ -20,10 +20,10 @@ public class LookController extends CommandController {
 	protected String description;
 	protected ArrayList<NPC> actors;
 	protected ArrayList<TakeableItem> items;
-	private int COMMAND_LENGTH = 1;
 
 	@Override
 	public String validateUserInput(String[] inputArray) {
+		int COMMAND_LENGTH = 1;
 		if (inputArray.length > COMMAND_LENGTH) {
 			return "To look please just type 'look'";
 		}

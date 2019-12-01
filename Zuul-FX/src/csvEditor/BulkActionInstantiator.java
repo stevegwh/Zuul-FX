@@ -45,6 +45,7 @@ public class BulkActionInstantiator {
 	private void populateArr() {
 		File file = new File("src/csvEditor/bulkActions/");
 		String[] list = file.list();
+		assert list != null;
 		for (String item : list) {
 			String[] tmp = item.split(".java");
 			item = tmp[0];

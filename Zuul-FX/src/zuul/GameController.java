@@ -16,7 +16,6 @@ import npc.NPCController;
 public class GameController {
 	private static boolean singlePlayer = true;
 	private static AllRoomDataController roomData;
-	private static AllNPCDataController npcData;
 	private static NPCController npcController;
 	private static Player currentPlayer;
 	private static ArrayList<Player> playerArr;
@@ -127,7 +126,7 @@ public class GameController {
 	}
 
 	public static void start() {
-		npcData = new AllNPCDataController();
+		AllNPCDataController npcData = new AllNPCDataController();
 		npcController = new NPCController();
 		currentPlayer = new Player(startLocation);
 		LookOutput look = new LookOutput();

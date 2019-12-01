@@ -13,7 +13,6 @@ import command.CommandInstantiator;
  *
  */
 public class HelpController extends CommandController {
-	private int COMMAND_LENGTH = 1;
 	protected List<String> commands = new ArrayList<>();
 
 	@Override
@@ -25,6 +24,7 @@ public class HelpController extends CommandController {
 
 	@Override
 	protected String validateUserInput(String[] inputArray) {
+		int COMMAND_LENGTH = 1;
 		if (inputArray.length > COMMAND_LENGTH) {
 			return "To get help please just type 'help'";
 		}

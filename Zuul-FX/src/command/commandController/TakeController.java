@@ -14,11 +14,11 @@ import zuul.TakeableItem;
 public class TakeController extends CommandController {
 	protected String toTake;
 	protected TakeableItem item;
-	private int COMMAND_LENGTH = 2;
 	int weight;
 
 	@Override
 	protected String validateUserInput(String[] inputArray) {
+		int COMMAND_LENGTH = 2;
 		if (inputArray.length > COMMAND_LENGTH) {
 			return "Please type 'take' followed by the item.";
 		}
