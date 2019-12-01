@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
  * @author Steve
  *
  */
-public class CSVEditorLoader {
+public class CSVDataHandler {
 	/**
 	 * "Recipe" to create the rows from the CSV file.
 	 */
@@ -29,7 +29,7 @@ public class CSVEditorLoader {
 	}
 
 	@SuppressWarnings("unchecked")
-	public CSVEditorLoader(String path) {
+	public CSVDataHandler(String path) {
 		CSVParser csvParser = new CSVParser();
 
 		rooms = csvParser.loadCSV(getRow, path).stream().map(e -> (List<String>) e).collect(Collectors.toList());

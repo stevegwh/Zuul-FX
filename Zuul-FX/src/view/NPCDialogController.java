@@ -35,7 +35,7 @@ public class NPCDialogController {
 
 	@FXML
 	public List<Button> setDialogOptions(ArrayList<String> options) {
-		return options.stream().map(e -> new Button(e)).collect(Collectors.toList());
+		return options.stream().map(Button::new).collect(Collectors.toList());
 	}
 
 	private void onClick(ActionEvent event) {

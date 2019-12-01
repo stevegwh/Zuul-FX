@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import csvLoader.CSVEditorLoader;
+import csvLoader.CSVDataHandler;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
@@ -133,7 +133,7 @@ public class FXController {
 
 	public void startDefaultGame() {
 		String path = "src/csvLoader/defaultRoomData.csv";
-		CSVEditorLoader csvEditor = new CSVEditorLoader(path);
+		CSVDataHandler csvEditor = new CSVDataHandler(path);
 		List<List<String>> roomData = csvEditor.getRoomData();
 		GameController.initRooms(roomData, GameType.DEFAULT);
 		menuItemLoadCustomGame.setDisable(true);

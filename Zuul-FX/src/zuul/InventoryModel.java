@@ -9,7 +9,7 @@ import javafx.collections.ObservableList;
 
 public class InventoryModel {
 	private int totalWeight;
-	public StringProperty totalWeightProp = new SimpleStringProperty("Total Weight: 0");
+	private StringProperty totalWeightProp = new SimpleStringProperty("Total Weight: 0");
 	private final int WEIGHT_LIMIT = 10;
 	private ArrayList<TakeableItem> inventory = new ArrayList<>();
 	private ObservableList<String> inventoryNames = FXCollections.observableList(new ArrayList<String>());

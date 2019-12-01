@@ -15,7 +15,7 @@ import command.*;
  */
 public class CommandHandler {
 
-	HashMap<String, ICommandOutput> commands = new HashMap<>();
+	private HashMap<String, ICommandOutput> commands = new HashMap<>();
 
 	/**
 	 * Takes the first element of the inputArray and attempts to instantiate it.
@@ -23,14 +23,14 @@ public class CommandHandler {
 	 * @param inputArray the input produced by the user
 	 */
 	public void handleCommand(String[] inputArray) {
-		inputArray = Arrays.stream(inputArray).map(e -> e.toLowerCase()).toArray(String[]::new);
+		inputArray = Arrays.stream(inputArray).map(String::toLowerCase).toArray(String[]::new);
 		String commandName = inputArray[0];
 		if (!commands.containsKey(commandName)) {
 			CommandInstantiator instantiator = new CommandInstantiator();
-			Object command = instantiator.createInstance(commandName);
+			ICommandOutput command = instantiator.createInstance(commandName);
 			if (command != null) {
-				commands.put(commandName, (ICommandOutput) command);
-				((ICommandOutput) command).init(inputArray);
+				commands.put(commandName, command);
+				command.init(inputArray);
 			}
 		} else {
 			commands.get(commandName).init(inputArray);

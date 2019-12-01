@@ -17,11 +17,11 @@ import npc.NPC;
 public class DialogView {
 	static NPC currentNPC;
 
-	public static NPC getCurrentNPC() {
+	static NPC getCurrentNPC() {
 		return currentNPC;
 	}
 
-	public void startDialog() {
+	void startDialog() {
 		FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("npcDialog.fxml"));
 		try {
 			Parent parent = fxmlLoader.load();

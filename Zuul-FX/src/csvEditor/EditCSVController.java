@@ -8,7 +8,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import csvLoader.CSVEditorLoader;
+import csvLoader.CSVDataHandler;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
@@ -36,7 +36,7 @@ import zuul.GameType;
  *
  */
 public class EditCSVController {
-	private CSVEditorLoader csvEditor;
+	private CSVDataHandler csvEditor;
 	private CSVGridFactory csvGrid;
 	private static ObservableList<ObservableList<CSVEditorCell>> rooms = FXCollections.observableArrayList();
 
@@ -198,7 +198,7 @@ public class EditCSVController {
 	}
 
 	public EditCSVController() {
-		csvEditor = new CSVEditorLoader(IOHandler.output.getCSVPath());
+		csvEditor = new CSVDataHandler(IOHandler.output.getCSVPath());
 		List<List<String>> roomData = csvEditor.getRoomData();
 		buildObservableList(roomData);
 		GridPane csvGridPane = new GridPane();

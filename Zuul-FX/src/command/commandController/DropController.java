@@ -13,9 +13,9 @@ import zuul.TakeableItem;
  */
 public class DropController extends CommandController {
 	protected String toDrop;
-	private int COMMAND_LENGTH = 2;
 
 	protected String validateUserInput(String[] inputArray) {
+		int COMMAND_LENGTH = 2;
 		if (inputArray.length > COMMAND_LENGTH) {
 			return "Invalid Command";
 		}

@@ -76,9 +76,7 @@ public class Room {
 	}
 
 	public ArrayList<String> getAllDirections() {
-		ArrayList<String> list = new ArrayList<String>();
-		list.addAll(exits.keySet());
-		return list;
+		return new ArrayList<>(exits.keySet());
 	}
 
 	public void removeTakeableItem(TakeableItem item) {

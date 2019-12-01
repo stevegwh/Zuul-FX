@@ -6,7 +6,7 @@ package csvLoader.headers;
  *
  */
 public class HeaderFactory {
-	final int csvIndex;
+	private final int csvIndex;
 	
 	public Header getHeader() {
 		if(NameHeader.matchesIndexCondition(csvIndex)) {

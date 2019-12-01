@@ -21,7 +21,7 @@ public class NPC {
 		return imagePath;
 	}
 
-	public void setImagePath(String ipath) {
+	void setImagePath(String ipath) {
 		imagePath = ipath;
 		
 	}
@@ -56,7 +56,7 @@ public class NPC {
 		IOHandler.output.initDialogView(this);
 	}
 
-	public String getRandomRoom() {
+	private String getRandomRoom() {
 		Room currentRoom = GameController.getAllRoomDataController().getRoom(currentLocation);
 		ArrayList<String> exits = currentRoom.getAllDirections();
 		Random generator = new Random();
@@ -93,7 +93,7 @@ public class NPC {
 		return validItem;
 	}
 
-	public void setValidItem(String validItem) {
+	void setValidItem(String validItem) {
 		this.validItem = validItem;
 	}
 
@@ -118,11 +118,11 @@ public class NPC {
 	/**
 	 * @param newLocation The new location for the NPC.
 	 */
-	public void setCurrentLocation(String newLocation) {
+	void setCurrentLocation(String newLocation) {
 		currentLocation = newLocation;
 	}
 
-	public void setDialog(ArrayList<String> dialogOptions, ArrayList<String> dialogResponses) {
+	void setDialog(ArrayList<String> dialogOptions, ArrayList<String> dialogResponses) {
 		this.dialogOptions = dialogOptions;
 		this.dialogResponses = dialogResponses;
 	}

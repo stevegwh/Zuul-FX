@@ -31,7 +31,7 @@ public class AllRoomDataController {
 
 		String name = line.stream().filter(e -> e.getHeader().getEnum().equals(HeaderEnum.NAME))
 				.map(csvCell -> csvCell.getProperty().getValue()).findFirst().orElse(null);
-		if (name.equals(null)) {
+		if (name == null) {
 			System.err.println("Unable to map the name from the following row: " + line);
 		}
 		room.setName(name);
@@ -41,7 +41,7 @@ public class AllRoomDataController {
 
 		String description = line.stream().filter(e -> e.getHeader().getEnum().equals(HeaderEnum.DESCRIPTION))
 				.map(csvCell -> csvCell.getProperty().getValue()).findFirst().orElse(null);
-		if (description.equals(null)) {
+		if (description == null) {
 			System.err.println("Unable to map the description from the following row: " + line);
 		}
 		room.setDescription(description);
@@ -100,7 +100,7 @@ public class AllRoomDataController {
 	private Map<String, Room> rooms;
 	private Room currentRoom;
 
-	public void setNewCurrentRoom(String name) {
+	void setNewCurrentRoom(String name) {
 		currentRoom = rooms.get(name);
 	}
 
@@ -125,10 +125,10 @@ public class AllRoomDataController {
 	public AllRoomDataController(List<?> csvData, GameType game) {
 		if (game.equals(GameType.DEFAULT)) {
 			rooms = ((List<List<String>>) csvData).stream().map(defaultMap)
-					.collect(Collectors.toMap(e -> ((Room) e).getName(), e -> (Room) e));
+					.collect(Collectors.toMap(Room::getName, e -> e));
 		} else if (game.equals(GameType.CUSTOM)) {
 			rooms = ((List<ObservableList<CSVEditorCell>>) csvData).stream().map(customMap)
-					.collect(Collectors.toMap(e -> ((Room) e).getName(), e -> (Room) e));
+					.collect(Collectors.toMap(Room::getName, e -> e));
 		}
 
 	}
