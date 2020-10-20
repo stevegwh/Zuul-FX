@@ -1,3 +1,3 @@
-# A port of my previous console based implementation of 'zuul' to JavaFX.
+# A port of my previous console based implementation of 'Zuul-Console' to JavaFX.
 
-To build please put JavaFX11 in the class path.
+For a full, detailed and illustrated overview of the project please view the pdf in the root of this project.
